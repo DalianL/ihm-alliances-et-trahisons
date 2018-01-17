@@ -19,6 +19,10 @@ io.on('connection', function(socket) {
     });
   });
 
+  socket.on('update', function(msg){
+    console.log('updating game info');
+  });
+
 });
 
 http.listen(8000, function(){
