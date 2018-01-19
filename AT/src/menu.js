@@ -63,8 +63,20 @@ function buildGame() {
   addWidgetToScreen(planet4);
   addWidgetToScreen(planet5);
 
-  const stack = new LibraryStack(200, 150, 150, 'Territoire', '#2196f3', false, ['ImageElementWidget']);
+  const stack = new LibraryStack(0, 15, 590, 'PLAYER 1', 'blue', 'blue', false, ['ImageElementWidget']);
   addWidgetToScreen(stack);
+
+  const stack2 = new LibraryStack(780, 15, 340, 'PLAYER 2', 'red', 'red', false, ['ImageElementWidget']);
+  addWidgetToScreen(stack2);
+
+  const stack3 = new LibraryStack(650, 405, 280, 'PLAYER 2', 'red', 'red', false, ['ImageElementWidget']);
+  addWidgetToScreen(stack3);
+
+  const stack4 = new LibraryStack(1308, 413, 540, 'PLAYER 3', 'green', 'green', false, ['ImageElementWidget']);
+  addWidgetToScreen(stack4);
+
+  const stack5 = new LibraryStack(900, 850, 180, 'PLAYER 4', 'yellow', 'yellow', false, ['ImageElementWidget']);
+  addWidgetToScreen(stack5);
 }
 
 export default function buildMenu() {
