@@ -7,7 +7,7 @@
 import $ from 'jquery/dist/jquery.min';
 import ImageElementWidget from 'tuiomanager/widgets/ElementWidget/ImageElementWidget/ImageElementWidget';
 import LibraryStack from 'tuiomanager/widgets/Library/LibraryStack/LibraryStack';
-import TestWidget from './testWidget';
+import Planet from './planet';
 
 // Import ImageWidget
 // import VideoElementWidget from 'tuiomanager/widgets/ElementWidget/VideoElementWidget/VideoElementWidget';
@@ -291,10 +291,13 @@ function buildBackButton() {
 function buildGame() {
   RemoveWidgets();
   buildBackButton();
-
-  const testWidget = new TestWidget();
-
-  const imageWidget1 = new ImageElementWidget(10, 10, 640, 960, 10, 0.1, 'assets/image/rocket.png', 'B3', 'C9', '38', '6');
+  const imageWidget1 = new ImageElementWidget(200, 200, 640, 960, 10, 0.1, 'assets/image/rocket.png', 1000, 'B3', 'C9', '38', '6');
+  const planet1 = new Planet(10, 10, 545, 548, 0, 0, 'assets/image/planet1.jpg', 'B3', 'C9', '38', '6');
+  const planet2 = new Planet(800, 10, 545, 548, 0, 0, 'assets/image/planet2.jpg', 'B3', 'C9', '38', '6');
+  const planet3 = new Planet(800, 600, 437, 391, 0, 0, 'assets/image/planet3.jpg', 'B3', 'C9', '38', '6');
+  AddWidgetToScreen(planet1);
+  AddWidgetToScreen(planet2);
+  AddWidgetToScreen(planet3);
   AddWidgetToScreen(imageWidget1);
 
   const stack = new LibraryStack(200, 150, 150, 'Territoire', '#2196f3', false, ['ImageElementWidget']);
