@@ -1,3 +1,4 @@
+import $ from 'jquery/dist/jquery.min';
 import TUIOWidget from 'tuiomanager/core/TUIOWidget';
 
 /**
@@ -7,6 +8,21 @@ import TUIOWidget from 'tuiomanager/core/TUIOWidget';
  * @extends TUIOWidget
  */
 class SpaceshipWidget extends TUIOWidget {
+  constructor(x, y, width, height, imgSrc) {
+    super(x, y, width, height);
+
+    this._lastTouchesValues = {};
+    this._lastTagsValues = {};
+
+    this._domElem = $('<img>');
+    this._domElem.attr('src', imgSrc);
+    this._domElem.css('width', `${width}px`);
+    this._domElem.css('height', `${height}px`);
+    this._domElem.css('position', 'absolute');
+    this._domElem.css('left', `${x}px`);
+    this._domElem.css('top', `${y}px`);
+  }
+
   /**
    * Call after a TUIOTag creation.
    *
@@ -14,8 +30,8 @@ class SpaceshipWidget extends TUIOWidget {
    * @param {TUIOTag} tuioTag - A TUIOTag instance.
    */
   onTagCreation(tuioTag) {
-    // console.log(tuioTag);
     if (!this._isInStack) {
+      console.log('creating : ', tuioTag);
       super.onTagCreation(tuioTag);
       if (this.isTouched(tuioTag.x, tuioTag.y)) {
         this._lastTagsValues = {
@@ -35,6 +51,12 @@ class SpaceshipWidget extends TUIOWidget {
       }
     }
   }
+
+  onTagUpdate(tuioTag) {
+    // super.onTagUpdate();
+    console.log('updating ? ', tuioTag, this._isInStack);
+  }
+
 }
 
 export default SpaceshipWidget;
