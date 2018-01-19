@@ -7,11 +7,7 @@
 import $ from 'jquery/dist/jquery.min';
 import ImageElementWidget from 'tuiomanager/widgets/ElementWidget/ImageElementWidget/ImageElementWidget';
 import LibraryStack from 'tuiomanager/widgets/Library/LibraryStack/LibraryStack';
-<<<<<<< HEAD
-import SpaceshipWidget from './spaceshipWidget';
-=======
 import Planet from './planet';
->>>>>>> 730d399e2d21216082fea75b962ed164f5f96405
 
 // Import ImageWidget
 // import VideoElementWidget from 'tuiomanager/widgets/ElementWidget/VideoElementWidget/VideoElementWidget';
@@ -295,20 +291,17 @@ function buildBackButton() {
 function buildGame() {
   RemoveWidgets();
   buildBackButton();
-<<<<<<< HEAD
-
-  const spaceshipWidget = new SpaceshipWidget();
-
-  const imageWidget1 = new ImageElementWidget(10, 10, 640, 960, 10, 0.1, 'assets/image/rocket.png', 'B3', 'C9', '38', '6');
-=======
   const imageWidget1 = new ImageElementWidget(200, 200, 640, 960, 10, 0.1, 'assets/image/rocket.png', 1000, 'B3', 'C9', '38', '6');
-  const planet1 = new Planet(10, 10, 545, 548, 0, 0, 'assets/image/planet1.jpg', 'B3', 'C9', '38', '6');
-  const planet2 = new Planet(800, 10, 545, 548, 0, 0, 'assets/image/planet2.jpg', 'B3', 'C9', '38', '6');
-  const planet3 = new Planet(800, 600, 437, 391, 0, 0, 'assets/image/planet3.jpg', 'B3', 'C9', '38', '6');
+  const planet1 = new Planet(0, 0, 610, 1080, 0, 0, 'assets/image/planet1.jpg', 'B3', 'C9', '38', '6');
+  const planet2 = new Planet(600, 0, 613, 399, 0, 0, 'assets/image/planet2.jpg', 'B3', 'C9', '38', '6');
+  const planet3 = new Planet(500, 700, 764, 391, 0, 0, 'assets/image/planet3.jpg', 'B3', 'C9', '38', '6');
+  const planet4 = new Planet(1200, 0, 734, 1080, 0, 0, 'assets/image/planet4.jpg', 'B3', 'C9', '38', '6');
+  const planet5 = new Planet(600, 350, 720, 391, 0, 0, 'assets/image/planet5.jpg', 'B3', 'C9', '38', '6');
   AddWidgetToScreen(planet1);
   AddWidgetToScreen(planet2);
   AddWidgetToScreen(planet3);
->>>>>>> 730d399e2d21216082fea75b962ed164f5f96405
+  AddWidgetToScreen(planet4);
+  AddWidgetToScreen(planet5);
   AddWidgetToScreen(imageWidget1);
 
   const stack = new LibraryStack(200, 150, 150, 'Territoire', '#2196f3', false, ['ImageElementWidget']);
