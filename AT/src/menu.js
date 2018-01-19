@@ -7,6 +7,8 @@
 import $ from 'jquery/dist/jquery.min';
 import ImageElementWidget from 'tuiomanager/widgets/ElementWidget/ImageElementWidget/ImageElementWidget';
 import LibraryStack from 'tuiomanager/widgets/Library/LibraryStack/LibraryStack';
+import TestWidget from './testWidget';
+
 // Import ImageWidget
 // import VideoElementWidget from 'tuiomanager/widgets/ElementWidget/VideoElementWidget/VideoElementWidget';
 // import LibraryBar from 'tuiomanager/widgets/Library/LibraryBar/LibraryBar';
@@ -289,6 +291,9 @@ function buildBackButton() {
 function buildGame() {
   RemoveWidgets();
   buildBackButton();
+
+  const testWidget = new TestWidget();
+
   const imageWidget1 = new ImageElementWidget(10, 10, 640, 960, 10, 0.1, 'assets/image/rocket.png', 'B3', 'C9', '38', '6');
   AddWidgetToScreen(imageWidget1);
 
