@@ -1,6 +1,6 @@
 /**
- * @author Kevin Duglué
- * @author Rémy Kaloustian
+ * @author Loïc Dalian
+ * @author Matthieu Barzellino
  */
 
 // Import JQuery
@@ -8,7 +8,6 @@ import $ from 'jquery/dist/jquery.min';
 import LibraryStack from 'tuiomanager/widgets/Library/LibraryStack/LibraryStack';
 import SpaceshipWidget from './spaceshipWidget';
 import Planet from './planet';
-// import ImageElementWidget from 'tuiomanager/widgets/ElementWidget/ImageElementWidget/ImageElementWidget';
 
 // Import ImageWidget
 // import VideoElementWidget from 'tuiomanager/widgets/ElementWidget/VideoElementWidget/VideoElementWidget';
@@ -33,25 +32,18 @@ function removeWidgets() {
   widgets = [];
 }
 
-function buildBackButton() {
-  $('#example-container').append('<button id="back-button">Back</button>');
-  $('#back-button').on('click', () => {
-    removeWidgets();
-    /* eslint-disable no-use-before-define */
-    buildMenu();
-    /* eslint-enable no-use-before-define */
-  });
-}//  displayMenu()
+function createCanvas() {
+  const canv = document.createElement('canvas');
+}
 
 function buildGame() {
   removeWidgets();
-  buildBackButton();
 
-  const spaceWidget = new SpaceshipWidget(50, 50, 640, 960, 10, 0.1, 'assets/image/rocket.png', 1000, 'B3', 'C9', '38', '6');
+  createCanvas();
+
+  const spaceWidget = new SpaceshipWidget(240, 220, 640, 960, 10, 0.2, 'assets/image/rocket2.png', 1000, 'B3', 'C9', '38', '6');
   addWidgetToScreen(spaceWidget);
 
-  // const imageWidget1 = new ImageElementWidget(50, 50, 640, 960, 10, 0.1, 'assets/image/rocket.png', 1000, 'B3', 'C9', '38', '6');
-  // addWidgetToScreen(imageWidget1);
   const planet1 = new Planet(0, 0, 610, 1080, 0, 0, 'assets/image/planet1.jpg', 'B3', 'C9', '38', '6');
   const planet2 = new Planet(600, 0, 613, 399, 0, 0, 'assets/image/planet2.jpg', 'B3', 'C9', '38', '6');
   const planet3 = new Planet(500, 700, 764, 391, 0, 0, 'assets/image/planet3.jpg', 'B3', 'C9', '38', '6');
@@ -63,19 +55,19 @@ function buildGame() {
   addWidgetToScreen(planet4);
   addWidgetToScreen(planet5);
 
-  const stack = new LibraryStack(0, 15, 590, 'PLAYER 1', 'blue', 'blue', false, ['ImageElementWidget']);
+  const stack = new LibraryStack(0, 15, 590, '', 'blue', 'blue', false, ['ImageElementWidget']);
   addWidgetToScreen(stack);
 
-  const stack2 = new LibraryStack(780, 15, 340, 'PLAYER 2', 'red', 'red', false, ['ImageElementWidget']);
+  const stack2 = new LibraryStack(780, 15, 340, '', 'red', 'red', false, ['ImageElementWidget']);
   addWidgetToScreen(stack2);
 
-  const stack3 = new LibraryStack(650, 405, 280, 'PLAYER 2', 'red', 'red', false, ['ImageElementWidget']);
+  const stack3 = new LibraryStack(650, 405, 280, '', 'red', 'red', false, ['ImageElementWidget']);
   addWidgetToScreen(stack3);
 
-  const stack4 = new LibraryStack(1308, 413, 540, 'PLAYER 3', 'green', 'green', false, ['ImageElementWidget']);
+  const stack4 = new LibraryStack(1308, 413, 540, '', 'green', 'green', false, ['ImageElementWidget']);
   addWidgetToScreen(stack4);
 
-  const stack5 = new LibraryStack(900, 850, 180, 'PLAYER 4', 'yellow', 'yellow', false, ['ImageElementWidget']);
+  const stack5 = new LibraryStack(900, 850, 180, '', 'yellow', 'yellow', false, ['ImageElementWidget']);
   addWidgetToScreen(stack5);
 }
 
