@@ -6,8 +6,10 @@
 // Import JQuery
 import $ from 'jquery/dist/jquery.min';
 import LibraryStack from 'tuiomanager/widgets/Library/LibraryStack/LibraryStack';
+import { WINDOW_WIDTH, WINDOW_HEIGHT } from 'tuiomanager/core/constants';
 import SpaceshipWidget from './spaceshipWidget';
 import Planet from './planet';
+import Drawer from './drawer';
 
 // Import ImageWidget
 // import VideoElementWidget from 'tuiomanager/widgets/ElementWidget/VideoElementWidget/VideoElementWidget';
@@ -34,21 +36,27 @@ function removeWidgets() {
 
 function createCanvas() {
   const canv = document.createElement('canvas');
+  canv.id = 'trajectories';
+  canv.width = 1904;
+  canv.height = 1085;
+  $('#example-container').append(canv);
+  return canv;
 }
 
 function buildGame() {
   removeWidgets();
 
-  createCanvas();
+  const canv = createCanvas();
+  const drawer = new Drawer(canv, WINDOW_WIDTH, WINDOW_HEIGHT);
 
-  const spaceWidget = new SpaceshipWidget(240, 220, 640, 960, 10, 0.2, 'assets/image/rocket2.png', 1000, 'B3', 'C9', '38', '6');
+  const spaceWidget = new SpaceshipWidget(240, 220, 640, 960, 10, 0.2, 'assets/image/rocket2.png', drawer);
   addWidgetToScreen(spaceWidget);
 
-  const planet1 = new Planet(0, 0, 610, 1080, 0, 0, 'assets/image/planet1.jpg', 'B3', 'C9', '38', '6');
-  const planet2 = new Planet(600, 0, 613, 399, 0, 0, 'assets/image/planet2.jpg', 'B3', 'C9', '38', '6');
-  const planet3 = new Planet(500, 700, 764, 391, 0, 0, 'assets/image/planet3.jpg', 'B3', 'C9', '38', '6');
-  const planet4 = new Planet(1200, 0, 734, 1080, 0, 0, 'assets/image/planet4.jpg', 'B3', 'C9', '38', '6');
-  const planet5 = new Planet(600, 350, 720, 391, 0, 0, 'assets/image/planet5.jpg', 'B3', 'C9', '38', '6');
+  const planet1 = new Planet(0, 0, 610, 1080, 0, 0, 'assets/image/planet1.jpg');
+  const planet2 = new Planet(600, 0, 613, 399, 0, 0, 'assets/image/planet2.jpg');
+  const planet3 = new Planet(500, 700, 764, 391, 0, 0, 'assets/image/planet3.jpg');
+  const planet4 = new Planet(1200, 0, 734, 1080, 0, 0, 'assets/image/planet4.jpg');
+  const planet5 = new Planet(600, 350, 720, 391, 0, 0, 'assets/image/planet5.jpg');
   addWidgetToScreen(planet1);
   addWidgetToScreen(planet2);
   addWidgetToScreen(planet3);

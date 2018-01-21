@@ -1,7 +1,6 @@
 import $ from 'jquery/dist/jquery.min';
 
 import TUIOWidget from 'tuiomanager/core/TUIOWidget';
-// import { WINDOW_WIDTH, WINDOW_HEIGHT } from 'tuiomanager/core/constants';
 // import { radToDeg } from 'tuiomanager/core/helpers';
 
 /**
@@ -11,11 +10,13 @@ import TUIOWidget from 'tuiomanager/core/TUIOWidget';
  * @extends TUIOWidget
  */
 class SpaceshipWidget extends TUIOWidget {
-  constructor(x, y, width, height, initialRotation, initialScale, src) {
+  constructor(x, y, width, height, initialRotation, initialScale, src, drawer) {
     super(x, y, width, height, initialRotation);
     this.src = src;
     this.internX = x;
     this.internY = y;
+    this.width = width;
+    this.height = height;
     this._domElem = $('<img>');
     this._domElem.attr('src', src);
     this._domElem.css('width', `${this.width * initialScale}px`);
@@ -25,6 +26,7 @@ class SpaceshipWidget extends TUIOWidget {
     this._domElem.css('left', `${x}px`);
     this._domElem.css('top', `${y}px`);
     this._domElem.css('transform', `rotate(${initialRotation}deg)`);
+    this.drawer = drawer;
     this.idTagMove = 2;
     this.canMoveTangible = true;
     this.canDeleteTangible = true;
@@ -78,13 +80,13 @@ class SpaceshipWidget extends TUIOWidget {
         this._domElem.remove();
         this.deleteWidget();
       } else if (tuioTag.id === this.idTagMove && this.canMoveTangible) {
-        const lastTagValue = this._lastTagsValues[tuioTag.id];
-        const diffX = tuioTag.x - lastTagValue.x;
-        const diffY = tuioTag.y - lastTagValue.y;
-
-        const newX = this.internX + diffX;
-        const newY = this.internY + diffY;
-        this.moveTo(newX, newY);
+        // const lastTagValue = this._lastTagsValues[tuioTag.id];
+        // const diffX = tuioTag.x - lastTagValue.x;
+        // const diffY = tuioTag.y - lastTagValue.y;
+        // const newX = this.internX + diffX;
+        // const newY = this.internY + diffY;
+        // this.moveTo(newX, newY);
+        this.drawTrajectory(this.internX, this.internY, tuioTag.x, tuioTag.y);
 
         this._lastTagsValues = {
           ...this._lastTagsValues,
@@ -110,6 +112,10 @@ class SpaceshipWidget extends TUIOWidget {
   // onTagDeletion(tuioTagId) {
   //   console.log('deleted');
   // }
+
+  drawTrajectory(x1, y1, x2, y2) {
+    this.drawer.drawLine(x1, y1, x2, y2);
+  }
 
   /**
    * Move Widget.
