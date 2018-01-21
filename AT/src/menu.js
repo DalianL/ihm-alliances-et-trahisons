@@ -34,22 +34,12 @@ function removeWidgets() {
   widgets = [];
 }
 
-function createCanvas() {
-  const canv = document.createElement('canvas');
-  canv.id = 'trajectories';
-  canv.width = 1904;
-  canv.height = 1085;
-  $('#example-container').append(canv);
-  return canv;
-}
-
 function buildGame() {
   removeWidgets();
 
-  const canv = createCanvas();
-  const drawer = new Drawer(canv, WINDOW_WIDTH, WINDOW_HEIGHT);
+  const drawer = new Drawer(WINDOW_WIDTH, WINDOW_HEIGHT);
 
-  const spaceWidget = new SpaceshipWidget(240, 220, 640, 960, 10, 0.2, 'assets/image/rocket2.png', drawer);
+  const spaceWidget = new SpaceshipWidget(240, 220, 640, 960, 10, 0.2, 'assets/image/rocket.png', drawer);
   addWidgetToScreen(spaceWidget);
 
   const planet1 = new Planet(0, 0, 610, 1080, 0, 0, 'assets/image/planet1.jpg');

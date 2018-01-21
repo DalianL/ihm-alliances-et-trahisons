@@ -15,8 +15,6 @@ class SpaceshipWidget extends TUIOWidget {
     this.src = src;
     this.internX = x;
     this.internY = y;
-    this.width = width;
-    this.height = height;
     this._domElem = $('<img>');
     this._domElem.attr('src', src);
     this._domElem.css('width', `${this.width * initialScale}px`);
@@ -26,6 +24,10 @@ class SpaceshipWidget extends TUIOWidget {
     this._domElem.css('left', `${x}px`);
     this._domElem.css('top', `${y}px`);
     this._domElem.css('transform', `rotate(${initialRotation}deg)`);
+    this._width = this._domElem.width();
+    this._height = this._domElem.height();
+    this.initialX = x + (this._width / 2);
+    this.initialY = y + (this._height / 2);
     this.drawer = drawer;
     this.idTagMove = 2;
     this.canMoveTangible = true;
@@ -80,14 +82,16 @@ class SpaceshipWidget extends TUIOWidget {
         this._domElem.remove();
         this.deleteWidget();
       } else if (tuioTag.id === this.idTagMove && this.canMoveTangible) {
+        // Computing where to move
         // const lastTagValue = this._lastTagsValues[tuioTag.id];
         // const diffX = tuioTag.x - lastTagValue.x;
         // const diffY = tuioTag.y - lastTagValue.y;
         // const newX = this.internX + diffX;
         // const newY = this.internY + diffY;
         // this.moveTo(newX, newY);
-        this.drawTrajectory(this.internX, this.internY, tuioTag.x, tuioTag.y);
+        this.drawTrajectory(this.initialX, this.initialY, tuioTag.x, tuioTag.y);
 
+        // Saving the old positions
         this._lastTagsValues = {
           ...this._lastTagsValues,
           [tuioTag.id]: {
@@ -95,6 +99,8 @@ class SpaceshipWidget extends TUIOWidget {
             y: tuioTag.y,
           },
         };
+
+        // Saving the new positions
         this._x = this._domElem.position().left;
         this._y = this._domElem.position().top;
         this._width = this._domElem.width();

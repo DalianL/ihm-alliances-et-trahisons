@@ -1,3 +1,5 @@
+import $ from 'jquery/dist/jquery.min';
+
 // let drawer = null;
 
 class Drawer {
@@ -16,16 +18,20 @@ class Drawer {
   //   return new Drawer();
   // }
 
-  constructor(canv, w, h) {
-    this.canv = canv;
-    this.ctx = canv.getContext('2d');
+  constructor(w, h) {
+    this._domElem = $('<canvas>');
+    this._domElem.css('z-index', `${250}`);
+    this.ctx = this._domElem[0].getContext('2d');
+    this.ctx.canvas.width = w;
+    this.ctx.canvas.height = h;
     this.w = w;
     this.h = h;
+
+    $('#example-container').append(this._domElem);
   }
 
   drawLine(x1, y1, x2, y2) {
     console.log('drawing...');
-    this.canv.style.zIndex = 100;
     this.ctx.clearRect(0, 0, this.w, this.h);
     this.ctx.strokeStyle = 'red';
     this.ctx.lineWidth = 5;
@@ -34,6 +40,8 @@ class Drawer {
     this.ctx.lineTo(x2, y2);
     this.ctx.stroke();
   }
+
+  get domElem() { return this._domElem; }
 
 }
 
