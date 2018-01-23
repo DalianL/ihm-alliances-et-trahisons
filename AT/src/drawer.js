@@ -30,15 +30,29 @@ class Drawer {
     $('#example-container').append(this._domElem);
   }
 
+  prepareDrawer(imgSrc) {
+    this.backgr = new Image();
+
+    this.backgr.onload = () => {
+      this.ctx.drawImage(this.backgr, 0, 0, 1920, 1080);
+    };
+
+    this.backgr.src = imgSrc;
+  }
+
   drawLine(x1, y1, x2, y2) {
     console.log('drawing...');
     this.ctx.clearRect(0, 0, this.w, this.h);
-    this.ctx.strokeStyle = 'red';
+    this.ctx.drawImage(this.backgr, 0, 0, 1920, 1080);
+
+    this.ctx.save();
+    this.ctx.strokeStyle = 'blue';
     this.ctx.lineWidth = 5;
     this.ctx.beginPath();
     this.ctx.moveTo(x1, y1);
     this.ctx.lineTo(x2, y2);
     this.ctx.stroke();
+    this.ctx.restore();
   }
 
   get domElem() { return this._domElem; }
