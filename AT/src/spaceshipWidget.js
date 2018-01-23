@@ -13,8 +13,6 @@ class SpaceshipWidget extends TUIOWidget {
   constructor(x, y, width, height, initialRotation, initialScale, src, drawer) {
     super(x, y, width, height, initialRotation);
     this.src = src;
-    this.internX = x;
-    this.internY = y;
     this._domElem = $('<img>');
     this._domElem.attr('src', src);
     this._domElem.css('width', `${this.width * initialScale}px`);
@@ -29,10 +27,12 @@ class SpaceshipWidget extends TUIOWidget {
     this.initialX = x + (this._width / 2);
     this.initialY = y + (this._height / 2);
     this.drawer = drawer;
+    this.direction = {};
     this.idTagMove = 2;
     this.canMoveTangible = true;
     this.canDeleteTangible = true;
     this.hasDuplicate = false;
+    this.moving = 0;
   }
 
   /**
@@ -49,6 +49,7 @@ class SpaceshipWidget extends TUIOWidget {
    * @param {TUIOTag} tuioTag - A TUIOTag instance.
    */
   onTagCreation(tuioTag) {
+    console.log('Creating tag');
     if (!this._isInStack) {
       super.onTagCreation(tuioTag);
       if (this.isTouched(tuioTag.x, tuioTag.y)) {
@@ -57,15 +58,8 @@ class SpaceshipWidget extends TUIOWidget {
           [tuioTag.id]: {
             x: tuioTag.x,
             y: tuioTag.y,
-            angle: tuioTag.angle,
           },
         };
-        //  This will be used to save the last angle recorded and make a comparison in onTagUpdate
-        this._lastTagsValues.angle = 0;
-        //  Setting the scale only at the start
-        if (this._lastTagsValues.scale == null) {
-          this._lastTagsValues.scale = this.scale;
-        }
       }
     }
   }
@@ -77,6 +71,7 @@ class SpaceshipWidget extends TUIOWidget {
    * @param {TUIOTag} tuioTag - A TUIOTag instance.
    */
   onTagUpdate(tuioTag) {
+    console.log('Updating tag');
     if (typeof (this._lastTagsValues[tuioTag.id]) !== 'undefined') {
       if (tuioTag.id === this.idTagDelete && this.canDeleteTangible) {
         this._domElem.remove();
@@ -99,12 +94,6 @@ class SpaceshipWidget extends TUIOWidget {
             y: tuioTag.y,
           },
         };
-
-        // Saving the new positions
-        this._x = this._domElem.position().left;
-        this._y = this._domElem.position().top;
-        this._width = this._domElem.width();
-        this._height = this._domElem.height();
       }
     }
   }
@@ -115,12 +104,45 @@ class SpaceshipWidget extends TUIOWidget {
    * @method onTagDeletion
    * @param {number/string} tuioTagId - TUIOTag's id to delete.
    */
-  // onTagDeletion(tuioTagId) {
-  //   console.log('deleted');
-  // }
+  onTagDeletion(tuioTagId) {
+    if (super.tags[tuioTagId] !== undefined) {
+      this.direction.x = super.tags[tuioTagId].x;
+      this.direction.y = super.tags[tuioTagId].y;
+    }
+    this.startMoving();
+  }
+
+  startMoving() {
+    const dX = (this.direction.x - this.initialX) / 10.0;
+    const dY = (this.direction.y - this.initialY) / 10.0;
+    let countdown = 10;
+    // Trigger the spaceship movement
+    clearInterval(this.moving);
+    this.moving = setInterval(() => {
+      const newX = this._x + dX;
+      const newY = this._y + dY;
+      this.moveTo(newX, newY);
+      // console.log('moved to :', newX, newY);
+      // Saving the new positions
+      this._x = newX;
+      this._y = newY;
+      countdown -= 1;
+      if (countdown === 0) {
+        this.initialX = this._x;
+        this.initialY = this._y;
+        this.direction = {};
+        clearInterval(this.moving);
+        this.clearLines();
+      }
+    }, 1000 / 10);
+  }
 
   drawTrajectory(x1, y1, x2, y2) {
     this.drawer.drawLine(x1, y1, x2, y2);
+  }
+
+  clearLines() {
+    this.drawer.clearLines();
   }
 
   /**
@@ -132,8 +154,8 @@ class SpaceshipWidget extends TUIOWidget {
    * @param {number} angle - New ImageWidget's angle.
    */
   moveTo(x, y, angle = null) {
-    this.internX = x;
-    this.internY = y;
+    this._x = x;
+    this._y = y;
     this._domElem.css('left', `${x}px`);
     this._domElem.css('top', `${y}px`);
     if (angle !== null) {

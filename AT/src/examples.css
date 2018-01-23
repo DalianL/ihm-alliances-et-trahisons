@@ -6,8 +6,9 @@
 body
 {
   font-family: Proxima;
-  margin: 0px;
 }
+
+html, body {margin: 0; height: 100%; overflow: hidden}
 
 h1
 {

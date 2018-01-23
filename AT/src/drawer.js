@@ -41,7 +41,6 @@ class Drawer {
   }
 
   drawLine(x1, y1, x2, y2) {
-    console.log('drawing...');
     this.ctx.clearRect(0, 0, this.w, this.h);
     this.ctx.drawImage(this.backgr, 0, 0, 1920, 1080);
 
@@ -53,6 +52,11 @@ class Drawer {
     this.ctx.lineTo(x2, y2);
     this.ctx.stroke();
     this.ctx.restore();
+  }
+
+  clearLines() {
+    this.ctx.clearRect(0, 0, this.w, this.h);
+    this.ctx.drawImage(this.backgr, 0, 0, 1920, 1080);
   }
 
   get domElem() { return this._domElem; }
