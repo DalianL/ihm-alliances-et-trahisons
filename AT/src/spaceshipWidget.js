@@ -24,10 +24,9 @@ class SpaceshipWidget extends TUIOWidget {
     this._domElem.css('transform', `rotate(${initialRotation}deg)`);
     this._width = this._domElem.width();
     this._height = this._domElem.height();
-    this.initialX = x + (this._width / 2);
-    this.initialY = y + (this._height / 2);
+    this.centeredX = x + (this._width / 2);
+    this.centeredY = y + (this._height / 2);
     this.drawer = drawer;
-    this.direction = {};
     this.idTagMove = 2;
     this.canMoveTangible = true;
     this.canDeleteTangible = true;
@@ -49,8 +48,8 @@ class SpaceshipWidget extends TUIOWidget {
    * @param {TUIOTag} tuioTag - A TUIOTag instance.
    */
   onTagCreation(tuioTag) {
-    console.log('Creating tag');
     if (!this._isInStack) {
+      console.log('Creating tag');
       super.onTagCreation(tuioTag);
       if (this.isTouched(tuioTag.x, tuioTag.y)) {
         this._lastTagsValues = {
@@ -71,29 +70,13 @@ class SpaceshipWidget extends TUIOWidget {
    * @param {TUIOTag} tuioTag - A TUIOTag instance.
    */
   onTagUpdate(tuioTag) {
-    console.log('Updating tag');
     if (typeof (this._lastTagsValues[tuioTag.id]) !== 'undefined') {
       if (tuioTag.id === this.idTagDelete && this.canDeleteTangible) {
         this._domElem.remove();
         this.deleteWidget();
       } else if (tuioTag.id === this.idTagMove && this.canMoveTangible) {
-        // Computing where to move
-        // const lastTagValue = this._lastTagsValues[tuioTag.id];
-        // const diffX = tuioTag.x - lastTagValue.x;
-        // const diffY = tuioTag.y - lastTagValue.y;
-        // const newX = this.internX + diffX;
-        // const newY = this.internY + diffY;
-        // this.moveTo(newX, newY);
-        this.drawTrajectory(this.initialX, this.initialY, tuioTag.x, tuioTag.y);
-
-        // Saving the old positions
-        this._lastTagsValues = {
-          ...this._lastTagsValues,
-          [tuioTag.id]: {
-            x: tuioTag.x,
-            y: tuioTag.y,
-          },
-        };
+        console.log('Updating trajectory');
+        this.drawer.drawLine(this.centeredX, this.centeredY, tuioTag.x, tuioTag.y);
       }
     }
   }
@@ -106,43 +89,48 @@ class SpaceshipWidget extends TUIOWidget {
    */
   onTagDeletion(tuioTagId) {
     if (super.tags[tuioTagId] !== undefined) {
-      this.direction.x = super.tags[tuioTagId].x;
-      this.direction.y = super.tags[tuioTagId].y;
+      this.startMoving(super.tags[tuioTagId].x, super.tags[tuioTagId].y);
+      // super.onTagDeletion(tuioTagId);
     }
-    this.startMoving();
   }
 
-  startMoving() {
-    const dX = (this.direction.x - this.initialX) / 10.0;
-    const dY = (this.direction.y - this.initialY) / 10.0;
+  startMoving(dirX, dirY) {
+    const dX = (dirX - this.centeredX) / 10.0;
+    const dY = (dirY - this.centeredY) / 10.0;
     let countdown = 10;
     // Trigger the spaceship movement
     clearInterval(this.moving);
     this.moving = setInterval(() => {
-      const newX = this._x + dX;
-      const newY = this._y + dY;
-      this.moveTo(newX, newY);
-      // console.log('moved to :', newX, newY);
-      // Saving the new positions
-      this._x = newX;
-      this._y = newY;
+      this.updatePos(dX, dY);
       countdown -= 1;
       if (countdown === 0) {
-        this.initialX = this._x;
-        this.initialY = this._y;
-        this.direction = {};
         clearInterval(this.moving);
-        this.clearLines();
+        this.drawer.clearLines();
       }
     }, 1000 / 10);
   }
 
-  drawTrajectory(x1, y1, x2, y2) {
-    this.drawer.drawLine(x1, y1, x2, y2);
-  }
+  updatePos(dX, dY) {
+    // Computing where to move
+    // const lastTagValue = this._lastTagsValues[tuioTag.id];
+    // const diffX = tuioTag.x - lastTagValue.x;
+    // const diffY = tuioTag.y - lastTagValue.y;
+    // const newX = this.internX + diffX;
+    // const newY = this.internY + diffY;
+    // this.moveTo(newX, newY);
 
-  clearLines() {
-    this.drawer.clearLines();
+    // Saving the old positions
+    // this._lastTagsValues = {
+    //   ...this._lastTagsValues,
+    //   [tuioTag.id]: {
+    //     x: tuioTag.x,
+    //     y: tuioTag.y,
+    //   },
+    // };
+    const newX = this.x + dX;
+    const newY = this.y + dY;
+    this.moveTo(newX, newY);
+    // console.log('moved to :', newX, newY);
   }
 
   /**
@@ -154,8 +142,10 @@ class SpaceshipWidget extends TUIOWidget {
    * @param {number} angle - New ImageWidget's angle.
    */
   moveTo(x, y, angle = null) {
-    this._x = x;
-    this._y = y;
+    this.x = x;
+    this.y = y;
+    this.centeredX = x + (this._width / 2);
+    this.centeredY = y + (this._height / 2);
     this._domElem.css('left', `${x}px`);
     this._domElem.css('top', `${y}px`);
     if (angle !== null) {
