@@ -6,5 +6,5 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Demo/Hello.unity
+    path: Assets/Scenes/Hello.unity
     guid: 8160b424277008e4b98e0a716ab4bea4
