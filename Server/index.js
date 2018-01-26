@@ -32,15 +32,9 @@ io.on('connection', function(socket) {
   });
   socket.userId = userId++;
 
-  function test() {
-    console.log('sending');
-    return {userId: socket.userId};
-  }
-
   // "Connect" event
   console.log('a user connected, Player n°: ' + socket.userId);
-  socket.emit('connected', test());
-  console.log('Connected do  to Player n° ' + socket.userId);
+  socket.emit('connected', {userId: socket.userId});
   // "Connected" event
   socket.on('connected', function(message){
     message = JSON.parse(message);
@@ -142,7 +136,7 @@ io.on('connection', function(socket) {
   // Ex : socket.Emit ("conquer_planet", "{\"id_planet\": 0, \"id_player\": 0}");
   socket.on('conquer_planet', function(message){
     message = JSON.parse(message);
-    console.log('Conquer a planet for Player n°' + socket.userId);
+    console.log('Conquer a planet for Player n°' + message.id_player);
     // Remove planet
     for(var i = 0; i < planets.length; i++) {
         if(planets[i].id == message.id_planet) {

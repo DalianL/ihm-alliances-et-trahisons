@@ -113,10 +113,19 @@ class SpaceshipWidget extends TUIOWidget {
   }
 
   arrived() {
+    function isInBounds(libStack, x, y) {
+      if (x >= libStack.x && x <= (libStack.x + libStack.width) && y >= libStack.y && y <= (libStack.y + libStack.height)) {
+        return true;
+      }
+      return false;
+    }
+
+    /* eslint-disable no-underscore-dangle */
+
     if (!this.isInStack) {
       Object.keys(TUIOManager.getInstance()._widgets).forEach((widgetId) => {
         if (TUIOManager.getInstance()._widgets[widgetId].constructor.name === 'Planet') {
-          if (this.isInBounds(TUIOManager.getInstance()._widgets[widgetId], this.centeredX, this.centeredY) && !TUIOManager.getInstance()._widgets[widgetId].isDisabled) {
+          if (isInBounds(TUIOManager.getInstance()._widgets[widgetId], this.centeredX, this.centeredY) && !TUIOManager.getInstance()._widgets[widgetId].isDisabled) {
             // Rajouter autorisation de SpaceWidget sur Planet : && TUIOManager.getInstance()._widgets[widgetId].isAllowedElement(this)) {
             // this._isInStack= true;
             TUIOManager.getInstance()._widgets[widgetId].addElementWidget(this);
@@ -124,13 +133,8 @@ class SpaceshipWidget extends TUIOWidget {
         }
       });
     }
-  }
 
-  isInBounds(libStack, x, y) {
-    if (x >= libStack.x && x <= (libStack.x + libStack.width) && y >= libStack.y && y <= (libStack.y + libStack.height)) {
-      return true;
-    }
-    return false;
+    /* eslint-enable no-underscore-dangle */
   }
 
   updatePos(dX, dY) {
