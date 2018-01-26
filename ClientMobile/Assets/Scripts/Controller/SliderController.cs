@@ -65,8 +65,11 @@ public class SliderController : MonoBehaviour {
 			objectMid.GetComponent<Image> ().color = new Color32 (255,255,255,225);
 			objectMid.transform.Find("Number").GetComponent<Text>().color = new Color32 (0,0,0,225);
 			if (objectType == SlideObjectEnum.PLANET) {
-				objectMid.transform.Find ("Details").GetComponent<Text> ().color = new Color32 (0, 0, 0, 255);
-				objectMid.transform.Find ("Details").GetComponent<Text> ().text = "Details...";
+				objectMid.transform.Find ("Resources/KyberR/Text").GetComponent<Text>().text = Player.CurrentPlayer.Planets[this.pointor].Resources[ResourcesEnum.RED_CRYSTAL_KYBER].ToString();
+				objectMid.transform.Find ("Resources/KyberG/Text").GetComponent<Text>().text = Player.CurrentPlayer.Planets[this.pointor].Resources[ResourcesEnum.GREEN_CRYSTAL_KYBER].ToString();
+				objectMid.transform.Find ("Resources/KyberB/Text").GetComponent<Text>().text = Player.CurrentPlayer.Planets[this.pointor].Resources[ResourcesEnum.BLUE_CRYSTAL_KYBER].ToString();
+				objectMid.transform.Find ("Resources/KyberV/Text").GetComponent<Text>().text = Player.CurrentPlayer.Planets[this.pointor].Resources[ResourcesEnum.VIOLET_CRYSTAL_KYBER].ToString();
+				objectMid.transform.Find ("Resources").gameObject.SetActive (true);
 			} else if(objectType == SlideObjectEnum.FLEET) {
 				objectMid.transform.Find ("SubObject").GetComponent<Image> ().color = new Color32 (255, 0, 0, 255);
 				objectMid.transform.Find ("SubObject/Number").GetComponent<Text> ().color = new Color32 (0, 0, 0, 255);
@@ -76,7 +79,7 @@ public class SliderController : MonoBehaviour {
 			objectMid.GetComponent<Image> ().color = new Color32 (255,255,255,0);
 			objectMid.transform.Find("Number").GetComponent<Text>().color = new Color32 (0,0,0,0);
 			if (objectType == SlideObjectEnum.PLANET) {
-				objectMid.transform.Find ("Details").GetComponent<Text> ().color = new Color32 (0, 0, 0, 0);
+				objectMid.transform.Find ("Resources").gameObject.SetActive (false);
 			} else if(objectType == SlideObjectEnum.FLEET) {
 				objectMid.transform.Find ("SubObject").GetComponent<Image> ().color = new Color32 (255, 0, 0, 0);
 				objectMid.transform.Find ("SubObject/Number").GetComponent<Text> ().color = new Color32 (0, 0, 0, 0);
@@ -121,8 +124,6 @@ public class SliderController : MonoBehaviour {
 		switch (objectType) {
 		case SlideObjectEnum.FLEET:
 			return "Planète n°" + Player.CurrentPlayer.Fleets[pos].Id_planet;
-		//case SlideObjectEnum.PLANET:
-			//return "Planète n°" + Player.CurrentPlayer.Planets[pos].Name;
 		default:
 			return "Erreur";
 		}

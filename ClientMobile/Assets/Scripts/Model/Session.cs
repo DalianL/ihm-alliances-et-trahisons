@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using UnityEditor;
 using UnityEngine;
 
 namespace AssemblyCSharp

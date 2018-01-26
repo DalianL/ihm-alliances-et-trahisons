@@ -12,9 +12,11 @@ public class Network : MonoBehaviour {
 	//private string serverURL = "http://172.20.10.5:8000/";
 	public Socket socket = null;
 
+	public PanelManager panelManager;
+
 	public InputField inputURL;
 	public InputField inputPseudo;
-	private bool testInitialize = true;
+	//private bool testInitialize = true;
 
 	// Use this for initialization
 	void Start () {
@@ -57,7 +59,7 @@ public class Network : MonoBehaviour {
 
 				Session.initializeCurrentSession(node);
 
-				if(testInitialize) {
+				/*if(testInitialize) {
 					testInitialize = false;
 					socket.Emit ("add_planet", "{}");
 					socket.Emit ("add_planet", "{}");
@@ -76,7 +78,7 @@ public class Network : MonoBehaviour {
 					socket.Emit ("add_fleet", "{\"id_planet\": 0, \"id_player\": 0}");
 					socket.Emit ("add_fleet", "{\"id_planet\": 1, \"id_player\": 0}");
 					socket.Emit ("add_fleet", "{\"id_planet\": 2, \"id_player\": 0}");
-				}
+				}*/
 			});
 
 			socket.On ("update", (data) => {
@@ -87,6 +89,57 @@ public class Network : MonoBehaviour {
 			socket.On ("interact", (data) => {
 				Debug.Log("Data interact : " + data);
 			});
+
+			socket.On (Socket.EVENT_CONNECT_ERROR, () => {
+				Debug.Log("EVENT_CONNECT_ERROR");
+				this.panelManager.showError (true, "EVENT_CONNECT_ERROR");
+			});
+
+			socket.On (Socket.EVENT_CONNECT_TIMEOUT, () => {
+				Debug.Log("EVENT_CONNECT_TIMEOUT");
+				this.panelManager.showError (true, "EVENT_CONNECT_TIMEOUT");
+			});
+
+			socket.On (Socket.EVENT_DISCONNECT, () => {
+				Debug.Log("EVENT_DISCONNECT");
+				this.panelManager.showError (true, "EVENT_DISCONNECT");
+			});
+
+			socket.On (Socket.EVENT_ERROR, () => {
+				Debug.Log("EVENT_ERROR");
+				this.panelManager.showError (true, "EVENT_ERROR");
+			});
+
+			socket.On (Socket.EVENT_MESSAGE, () => {
+				Debug.Log("EVENT_MESSAGE");
+				this.panelManager.showError (true, "EVENT_MESSAGE");
+			});
+
+			socket.On (Socket.EVENT_RECONNECT, () => {
+				Debug.Log("EVENT_RECONNECT");
+				this.panelManager.showError (true, "EVENT_RECONNECT");
+			});
+
+			socket.On (Socket.EVENT_RECONNECTING, () => {
+				Debug.Log("EVENT_RECONNECTING");
+				this.panelManager.showError (true, "EVENT_RECONNECTING");
+			});
+
+			socket.On (Socket.EVENT_RECONNECT_ATTEMPT, () => {
+				Debug.Log("EVENT_RECONNECT_ATTEMPT");
+				this.panelManager.showError (true, "EVENT_RECONNECT_ATTEMPT");
+			});
+
+			socket.On (Socket.EVENT_RECONNECT_ERROR, () => {
+				Debug.Log("EVENT_RECONNECT_ERROR");
+				this.panelManager.showError (true, "EVENT_RECONNECT_ERROR");
+			});
+
+			socket.On (Socket.EVENT_RECONNECT_FAILED, () => {
+				Debug.Log("EVENT_RECONNECT_FAILED");
+				this.panelManager.showError (true, "EVENT_RECONNECT_FAILED");
+			});
+
 		}
 	}
 

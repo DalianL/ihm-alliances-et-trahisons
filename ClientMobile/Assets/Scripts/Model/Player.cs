@@ -1,5 +1,4 @@
 ﻿using System;
-using UnityEditor;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,9 +12,11 @@ namespace AssemblyCSharp
 	{
 		private int id;
 		private string pseudo;
+		private SpeciesEnum specie;
 		private ColorEnum color;
 		private List<Planet> planets;
 		private List<Fleet> fleets;
+		private Dictionary<ResourcesEnum, int> resources;
 
 		public int Id {
 			get {
@@ -35,6 +36,15 @@ namespace AssemblyCSharp
 			}
 		}
 
+		public SpeciesEnum Specie {
+			get {
+				return this.specie;
+			}
+			set {
+				this.specie = value;
+			}
+		}
+
 		public List<Planet> Planets {
 			get {
 				return this.planets;
@@ -50,6 +60,15 @@ namespace AssemblyCSharp
 			}
 			set {
 				this.fleets = value;
+			}
+		}
+
+		public Dictionary<ResourcesEnum, int> Resources {
+			get {
+				return this.resources;
+			}
+			set {
+				this.resources = value;
 			}
 		}
 
@@ -95,27 +114,39 @@ namespace AssemblyCSharp
 		{
 			this.id = id;
 			this.pseudo = pseudo;
+			this.specie = SpeciesEnum.NO_SPECIE;
 			this.color = color;
 			this.fleets = new List<Fleet> ();
 			this.planets = new List<Planet> ();
+			this.resources = new Dictionary<ResourcesEnum, int> ();
 		}
 
 		public Player (int id, string pseudo, string color)
 		{
 			this.id = id;
 			this.pseudo = pseudo;
+			this.specie = SpeciesEnum.NO_SPECIE;
 			this.color = ColorEnumHelper.ToEnum(color);
 			this.fleets = new List<Fleet> ();
 			this.planets = new List<Planet> ();
+			this.resources = new Dictionary<ResourcesEnum, int> ();
 		}
 
 		public Player (JObject node)
 		{
 			this.id = (int) node["id"];
 			this.pseudo = (string) node["pseudo"];
+			this.specie = (SpeciesEnum) ((int) node["specie"]);
 			this.color = (ColorEnum) ((int) node["color"]);
 			this.fleets = new List<Fleet> ();
 			this.planets = new List<Planet> ();
+
+			this.resources = new Dictionary<ResourcesEnum, int> ();
+			JArray nodeResources = (JArray) node ["resources"];
+			this.resources[ResourcesEnum.RED_CRYSTAL_KYBER] = (int) nodeResources[0];
+			this.resources[ResourcesEnum.GREEN_CRYSTAL_KYBER] = (int) nodeResources[1];
+			this.resources[ResourcesEnum.BLUE_CRYSTAL_KYBER] = (int) nodeResources[2];
+			this.resources[ResourcesEnum.VIOLET_CRYSTAL_KYBER] = (int) nodeResources[3];
 		}
 
 

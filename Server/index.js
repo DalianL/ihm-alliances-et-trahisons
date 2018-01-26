@@ -7,6 +7,8 @@ app.get('/', function(req, res){
 });
 
 var colors = ["RED", "YELLOW", "BLUE", "GREEN", "ORANGE", "VIOLET"];
+var species = ["WOOKIES", "JAWAS", "GUNGANS", "EWOKS"];
+var resources = ["RED_CRYSTAL_KYBER", "GREEN_CRYSTAL_KYBER", "BLUE_CRYSTAL_KYBER", "VIOLET_CRYSTAL_KYBER"];
 var users = [];
 var players = [];
 var fleets = [];
@@ -24,14 +26,21 @@ io.on('connection', function(socket) {
   players.push({
     id: userId,
     pseudo: userId,
-    color: userId % 6
+    specie: userId % 4,
+    color: userId % 6,
+    resources: [1,1,1,1]
   });
   socket.userId = userId++;
 
+  function test() {
+    console.log('sending');
+    return {userId: socket.userId};
+  }
+
   // "Connect" event
   console.log('a user connected, Player n°: ' + socket.userId);
-  socket.emit('connected', {userId: socket.userId});
-
+  socket.emit('connected', test());
+  console.log('Connected do  to Player n° ' + socket.userId);
   // "Connected" event
   socket.on('connected', function(message){
     message = JSON.parse(message);
@@ -44,6 +53,10 @@ io.on('connection', function(socket) {
     }
     // Update
     update_client();
+  });
+
+  socket.on('disconnect', function(message){
+      console.log('');
   });
 
   // "Interact" event
@@ -112,7 +125,13 @@ io.on('connection', function(socket) {
     planets.push({
       id: planetId,
       name: planetId,
-      id_player : -1
+      id_player : -1,
+      resources: [
+        Math.floor(Math.random() * 4),
+        Math.floor(Math.random() * 4),
+        Math.floor(Math.random() * 4),
+        Math.floor(Math.random() * 4)
+      ]
     });
     planetId++;
     // Update
@@ -128,7 +147,7 @@ io.on('connection', function(socket) {
     for(var i = 0; i < planets.length; i++) {
         if(planets[i].id == message.id_planet) {
             planets[i].id_player = message.id_player;
-        }
+                 }
     }
     // Update
     update_client();
