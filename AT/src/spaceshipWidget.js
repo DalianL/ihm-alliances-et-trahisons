@@ -1,5 +1,6 @@
 import $ from 'jquery/dist/jquery.min';
 
+import TUIOManager from 'tuiomanager/core/TUIOManager';
 import TUIOWidget from 'tuiomanager/core/TUIOWidget';
 // import { radToDeg } from 'tuiomanager/core/helpers';
 
@@ -88,7 +89,7 @@ class SpaceshipWidget extends TUIOWidget {
    * @param {number/string} tuioTagId - TUIOTag's id to delete.
    */
   onTagDeletion(tuioTagId) {
-    if (super.tags[tuioTagId] !== undefined) {
+    if (super.tags[tuioTagId] !== undefined && tuioTagId === this.idTagMove) {
       this.startMoving(super.tags[tuioTagId].x, super.tags[tuioTagId].y);
       // super.onTagDeletion(tuioTagId);
     }
@@ -106,8 +107,30 @@ class SpaceshipWidget extends TUIOWidget {
       if (countdown === 0) {
         clearInterval(this.moving);
         this.drawer.clearLines();
+        this.arrived();
       }
     }, 1000 / 10);
+  }
+
+  arrived() {
+    if (!this.isInStack) {
+      Object.keys(TUIOManager.getInstance()._widgets).forEach((widgetId) => {
+        if (TUIOManager.getInstance()._widgets[widgetId].constructor.name === 'Planet') {
+          if (this.isInBounds(TUIOManager.getInstance()._widgets[widgetId], this.centeredX, this.centeredY) && !TUIOManager.getInstance()._widgets[widgetId].isDisabled) {
+            // Rajouter autorisation de SpaceWidget sur Planet : && TUIOManager.getInstance()._widgets[widgetId].isAllowedElement(this)) {
+            // this._isInStack= true;
+            TUIOManager.getInstance()._widgets[widgetId].addElementWidget(this);
+          }
+        }
+      });
+    }
+  }
+
+  isInBounds(libStack, x, y) {
+    if (x >= libStack.x && x <= (libStack.x + libStack.width) && y >= libStack.y && y <= (libStack.y + libStack.height)) {
+      return true;
+    }
+    return false;
   }
 
   updatePos(dX, dY) {

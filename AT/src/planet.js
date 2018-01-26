@@ -1,24 +1,23 @@
-import TUIOWidget from 'tuiomanager/core/TUIOWidget';
-// Import JQuery
-import $ from 'jquery/dist/jquery.min';
+import LibraryStack from 'tuiomanager/widgets/Library/LibraryStack/LibraryStack';
+import Client from './client';
 
-class Planet extends TUIOWidget {
-  constructor(x, y, width, height, initialRotation, initialScale, src) {
-    super(x, y, width, height, initialRotation, initialScale);
-    this.src = src;
-    this._domElem = $('<img>');
-    this._domElem.attr('src', src);
-    this._domElem.css('width', `${this.width}px`);
-    this._domElem.css('height', `${this.height}px`);
-    this._domElem.css('position', 'absolute');
-    this._domElem.css('z-index', '0');
-    this._domElem.css('left', `${x}px`);
-    this._domElem.css('top', `${y}px`);
-    this._domElem.css('transform', `rotate(${initialRotation}deg)`);
-    this._domElem.css('transform-origin', `scale(${initialScale})`);
-    this.hasDuplicate = false;
-  } // constructor
+class Planet extends LibraryStack {
+  constructor(id, x, y, size, stackTitle, color, colorText, isFull, allowcontentsArray) {
+    super(x, y, size, stackTitle, color, colorText, isFull, allowcontentsArray);
+    this.id = id;
+    this.name = id;
+    this.domElem.css('z-index', 10);
+    this.client = new Client();
+  }
 
+  addElementWidget(widget) {
+    // Enlever super, override le zoom
+    super.addElementWidget(widget);
+    this.client.socket.emit('update', 'updating phone public/private data');
+    // if (this.isAllowedElement(widget)) {
+    //   this.client.socket.emit('update', 'updating phone public/private data');
+    // }
+  }
 
 }
 
