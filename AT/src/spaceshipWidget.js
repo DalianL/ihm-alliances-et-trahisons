@@ -11,9 +11,10 @@ import TUIOWidget from 'tuiomanager/core/TUIOWidget';
  * @extends TUIOWidget
  */
 class SpaceshipWidget extends TUIOWidget {
-  constructor(x, y, width, height, initialRotation, initialScale, src, drawer) {
+  constructor(playerId, x, y, width, height, initialRotation, initialScale, src, drawer, tag) {
     super(x, y, width, height, initialRotation);
     this.src = src;
+    this.playerId = playerId;
     this._domElem = $('<img>');
     this._domElem.attr('src', src);
     this._domElem.css('width', `${this.width * initialScale}px`);
@@ -28,7 +29,7 @@ class SpaceshipWidget extends TUIOWidget {
     this.centeredX = x + (this._width / 2);
     this.centeredY = y + (this._height / 2);
     this.drawer = drawer;
-    this.idTagMove = 2;
+    this.idTagMove = tag;
     this.canMoveTangible = true;
     this.canDeleteTangible = true;
     this.hasDuplicate = false;
@@ -77,7 +78,7 @@ class SpaceshipWidget extends TUIOWidget {
         this.deleteWidget();
       } else if (tuioTag.id === this.idTagMove && this.canMoveTangible) {
         console.log('Updating trajectory');
-        this.drawer.drawLine(this.centeredX, this.centeredY, tuioTag.x, tuioTag.y);
+        this.drawer.drawLine(this.playerId, this.centeredX, this.centeredY, tuioTag.x, tuioTag.y);
       }
     }
   }
@@ -106,7 +107,7 @@ class SpaceshipWidget extends TUIOWidget {
       countdown -= 1;
       if (countdown === 0) {
         clearInterval(this.moving);
-        this.drawer.clearLines();
+        this.drawer.clearLines(this.playerId);
         this.arrived();
       }
     }, 1000 / 10);

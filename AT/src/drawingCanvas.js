@@ -1,11 +1,12 @@
 import $ from 'jquery/dist/jquery.min';
 
 class DrawingCanvas {
-  constructor(w, h, z) {
+  constructor(w, h, z, color) {
     this._domElem = $('<canvas>');
     this._domElem.css('z-index', `${z}`);
     this._domElem.css('position', 'absolute');
     this.ctx = this._domElem[0].getContext('2d');
+    this.color = color;
     this.ctx.canvas.width = w;
     this.ctx.canvas.height = h;
     this.w = w;
@@ -26,7 +27,7 @@ class DrawingCanvas {
     this.ctx.clearRect(0, 0, this.w, this.h);
 
     this.ctx.save();
-    this.ctx.strokeStyle = 'blue';
+    this.ctx.strokeStyle = this.color;
     this.ctx.lineWidth = 5;
     this.ctx.beginPath();
     this.ctx.moveTo(x1, y1);

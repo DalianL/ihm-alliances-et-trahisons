@@ -67,16 +67,16 @@ function initPlanets() {
 }
 
 function initPlayers(drawer) {
-  const spaceWidget1 = new SpaceshipWidget(265, 220, 300, 300, 0, 0.15, 'assets/image/spaceship1.png', drawer);
+  const spaceWidget1 = new SpaceshipWidget(1, 265, 220, 300, 300, 0, 0.15, 'assets/image/spaceship1.png', drawer, 0);
   addWidgetToScreen(spaceWidget1);
 
-  const spaceWidget2 = new SpaceshipWidget(825, 160, 300, 300, 0, 0.15, 'assets/image/spaceship2.png', drawer);
+  const spaceWidget2 = new SpaceshipWidget(2, 825, 160, 300, 300, 0, 0.15, 'assets/image/spaceship2.png', drawer, 1);
   addWidgetToScreen(spaceWidget2);
 
-  const spaceWidget3 = new SpaceshipWidget(1270, 250, 300, 300, 0, 0.15, 'assets/image/spaceship3.png', drawer);
+  const spaceWidget3 = new SpaceshipWidget(3, 545, 850, 300, 300, 0, 0.15, 'assets/image/spaceship3.png', drawer, 2);
   addWidgetToScreen(spaceWidget3);
 
-  const spaceWidget4 = new SpaceshipWidget(545, 850, 300, 300, 0, 0.15, 'assets/image/spaceship4.png', drawer);
+  const spaceWidget4 = new SpaceshipWidget(4, 1270, 250, 300, 300, 0, 0.15, 'assets/image/spaceship4.png', drawer, 3);
   addWidgetToScreen(spaceWidget4);
 }
 
