@@ -6,9 +6,11 @@
 // Import JQuery
 import $ from 'jquery/dist/jquery.min';
 import { WINDOW_WIDTH, WINDOW_HEIGHT } from 'tuiomanager/core/constants';
+import QRCode from 'qrcode';
 import SpaceshipWidget from './spaceshipWidget';
 import Drawer from './drawer';
 import Planet from './planet';
+
 
 // Import ImageWidget
 // import VideoElementWidget from 'tuiomanager/widgets/ElementWidget/VideoElementWidget/VideoElementWidget';
@@ -74,12 +76,15 @@ function buildGame() {
 }
 
 export default function buildMenu() {
-  // $('#example-container').append('<h1> Alliances et Trahisons</h1>');
-  // $('#example-container').append('<button id="user-test" class="menu-button"> Lancer le jeu </button></br>');
+  $('#example-container').append('<h1> Alliances et Trahisons</h1>');
+  $('#example-container').append('<div align="center" style="margin:50px;"><canvas id="canvas"></canvas></div>');
+  QRCode.toCanvas(document.getElementById('canvas'), '192.168.2.1.2');
 
-  // $('#user-test').on('click', () => {
-  //   buildGame();
-  // });
+  $('#example-container').append('<button id="user-test" class="menu-button"> Lancer le jeu </button></br>');
+  
+  $('#user-test').on('click', () => {
+    buildGame();
+  });
 
-  buildGame();
+ // buildGame();
 }
