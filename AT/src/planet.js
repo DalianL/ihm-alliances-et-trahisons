@@ -6,7 +6,7 @@ class Planet extends LibraryStack {
     super(x, y, size, stackTitle, color, colorText, isFull, allowcontentsArray);
     this.id = id;
     this.name = id;
-    this.domElem.css('z-index', 10);
+    this.domElem.css('z-index', 150);
     this.client = new Client();
     this.client.socket.emit('add_planet', '{}');
   }

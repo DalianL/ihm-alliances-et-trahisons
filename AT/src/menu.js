@@ -11,7 +11,6 @@ import SpaceshipWidget from './spaceshipWidget';
 import Drawer from './drawer';
 import Planet from './planet';
 
-
 // Import ImageWidget
 // import VideoElementWidget from 'tuiomanager/widgets/ElementWidget/VideoElementWidget/VideoElementWidget';
 // import LibraryBar from 'tuiomanager/widgets/Library/LibraryBar/LibraryBar';
@@ -35,15 +34,7 @@ function removeWidgets() {
   widgets = [];
 }
 
-function buildGame() {
-  removeWidgets();
-
-  const drawer = new Drawer(WINDOW_WIDTH, WINDOW_HEIGHT);
-  drawer.prepareDrawer('assets/image/background.jpg');
-
-  const spaceWidget = new SpaceshipWidget(265, 220, 300, 300, 0, 0.15, 'assets/image/spaceship1.jpg', drawer);
-  addWidgetToScreen(spaceWidget);
-
+function initPlanets() {
   const planet1 = new Planet(1, 10, 23, 90, '', 'blue', 'blue', false, ['ImageElementWidget']);
   addWidgetToScreen(planet1);
 
@@ -75,16 +66,39 @@ function buildGame() {
   addWidgetToScreen(planet10);
 }
 
+function initPlayers(drawer) {
+  const spaceWidget1 = new SpaceshipWidget(265, 220, 300, 300, 0, 0.15, 'assets/image/spaceship1.png', drawer);
+  addWidgetToScreen(spaceWidget1);
+
+  const spaceWidget2 = new SpaceshipWidget(825, 160, 300, 300, 0, 0.15, 'assets/image/spaceship2.png', drawer);
+  addWidgetToScreen(spaceWidget2);
+
+  const spaceWidget3 = new SpaceshipWidget(1270, 250, 300, 300, 0, 0.15, 'assets/image/spaceship3.png', drawer);
+  addWidgetToScreen(spaceWidget3);
+
+  const spaceWidget4 = new SpaceshipWidget(545, 850, 300, 300, 0, 0.15, 'assets/image/spaceship4.png', drawer);
+  addWidgetToScreen(spaceWidget4);
+}
+
+function buildGame() {
+  removeWidgets();
+
+  const drawer = new Drawer(WINDOW_WIDTH, WINDOW_HEIGHT);
+  drawer.prepareDrawer('assets/image/background.jpg');
+
+  initPlayers(drawer);
+
+  initPlanets();
+}
+
 export default function buildMenu() {
   $('#example-container').append('<h1> Alliances et Trahisons</h1>');
   $('#example-container').append('<div align="center" style="margin:50px;"><canvas id="canvas"></canvas></div>');
-  QRCode.toCanvas(document.getElementById('canvas'), '192.168.2.1.2');
+  QRCode.toCanvas(document.getElementById('canvas'), '192.168.2.1');
 
   $('#example-container').append('<button id="user-test" class="menu-button"> Lancer le jeu </button></br>');
-  
+
   $('#user-test').on('click', () => {
     buildGame();
   });
-
- // buildGame();
 }
