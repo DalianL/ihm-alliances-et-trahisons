@@ -33,7 +33,8 @@ class SpaceshipWidget extends TUIOWidget {
     this.canMoveTangible = true;
     this.canDeleteTangible = true;
     this.hasDuplicate = false;
-    this.moving = 0;
+    this.movement = 0;
+    this.moving = false;
   }
 
   /**
@@ -50,10 +51,10 @@ class SpaceshipWidget extends TUIOWidget {
    * @param {TUIOTag} tuioTag - A TUIOTag instance.
    */
   onTagCreation(tuioTag) {
-    if (!this._isInStack) {
-      console.log('Creating tag');
-      super.onTagCreation(tuioTag);
+    if (!this._isInStack && tuioTag.id === this.playerId - 1) {
       if (this.isTouched(tuioTag.x, tuioTag.y)) {
+        super.onTagCreation(tuioTag);
+        console.log('Creating tag', tuioTag);
         this._lastTagsValues = {
           ...this._lastTagsValues,
           [tuioTag.id]: {
@@ -72,11 +73,8 @@ class SpaceshipWidget extends TUIOWidget {
    * @param {TUIOTag} tuioTag - A TUIOTag instance.
    */
   onTagUpdate(tuioTag) {
-    if (typeof (this._lastTagsValues[tuioTag.id]) !== 'undefined') {
-      if (tuioTag.id === this.idTagDelete && this.canDeleteTangible) {
-        this._domElem.remove();
-        this.deleteWidget();
-      } else if (tuioTag.id === this.idTagMove && this.canMoveTangible) {
+    if (typeof (this._lastTagsValues[tuioTag.id]) !== 'undefined' && tuioTag.id === this.playerId - 1) {
+      if (tuioTag.id === this.idTagMove && this.canMoveTangible) {
         console.log('Updating trajectory');
         this.drawer.drawLine(this.playerId, this.centeredX, this.centeredY, tuioTag.x, tuioTag.y);
       }
@@ -90,30 +88,32 @@ class SpaceshipWidget extends TUIOWidget {
    * @param {number/string} tuioTagId - TUIOTag's id to delete.
    */
   onTagDeletion(tuioTagId) {
-    if (super.tags[tuioTagId] !== undefined && tuioTagId === this.idTagMove) {
-      this.startMoving(super.tags[tuioTagId].x, super.tags[tuioTagId].y);
-      // super.onTagDeletion(tuioTagId);
+    if (super.tags[tuioTagId] !== undefined && tuioTagId === this.idTagMove && !this.moving && tuioTagId === this.playerId - 1) {
+      this.arrivalCheck(tuioTagId);
+      console.log('Deleting tag', tuioTagId);
+      super.onTagDeletion(tuioTagId);
     }
   }
 
-  startMoving(dirX, dirY) {
+  startMovement(dirX, dirY) {
+    this.moving = true;
     const dX = (dirX - this.centeredX) / 10.0;
     const dY = (dirY - this.centeredY) / 10.0;
     let countdown = 10;
     // Trigger the spaceship movement
-    clearInterval(this.moving);
-    this.moving = setInterval(() => {
+    clearInterval(this.movement);
+    this.movement = setInterval(() => {
       this.updatePos(dX, dY);
       countdown -= 1;
       if (countdown === 0) {
-        clearInterval(this.moving);
+        this.moving = false;
+        clearInterval(this.movement);
         this.drawer.clearLines(this.playerId);
-        this.arrived();
       }
     }, 1000 / 10);
   }
 
-  arrived() {
+  arrivalCheck(id) {
     function isInBounds(libStack, x, y) {
       if (x >= libStack.x && x <= (libStack.x + libStack.width) && y >= libStack.y && y <= (libStack.y + libStack.height)) {
         return true;
@@ -126,10 +126,15 @@ class SpaceshipWidget extends TUIOWidget {
     if (!this.isInStack) {
       Object.keys(TUIOManager.getInstance()._widgets).forEach((widgetId) => {
         if (TUIOManager.getInstance()._widgets[widgetId].constructor.name === 'Planet') {
-          if (isInBounds(TUIOManager.getInstance()._widgets[widgetId], this.centeredX, this.centeredY) && !TUIOManager.getInstance()._widgets[widgetId].isDisabled) {
-            // Rajouter autorisation de SpaceWidget sur Planet : && TUIOManager.getInstance()._widgets[widgetId].isAllowedElement(this)) {
+          const selectedWidget = TUIOManager.getInstance()._widgets[widgetId];
+          const selectedTag = TUIOManager.getInstance()._tags[id];
+          if (isInBounds(selectedWidget, selectedTag.x, selectedTag.y) && !selectedWidget.isDisabled) {
+            // Rajouter autorisation de SpaceWidget sur Planet ? && TUIOManager.getInstance()._widgets[widgetId].isAllowedElement(this)) {
             // this._isInStack= true;
-            TUIOManager.getInstance()._widgets[widgetId].addElementWidget(this);
+            this.startMovement(super.tags[id].x, super.tags[id].y);
+            selectedWidget.addElementWidget(this);
+          } else {
+            this.drawer.clearLines(this.playerId);
           }
         }
       });

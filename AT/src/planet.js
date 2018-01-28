@@ -19,7 +19,6 @@ class Planet extends LibraryStack {
     //   this.client.socket.emit('update', 'updating phone public/private data');
     // }
   }
-
 }
 
 export default Planet;
