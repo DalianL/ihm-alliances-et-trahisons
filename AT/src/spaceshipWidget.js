@@ -90,27 +90,28 @@ class SpaceshipWidget extends TUIOWidget {
   onTagDeletion(tuioTagId) {
     if (super.tags[tuioTagId] !== undefined && tuioTagId === this.idTagMove && !this.moving && tuioTagId === this.playerId - 1) {
       this.arrivalCheck(tuioTagId);
-      console.log('Deleting tag', tuioTagId);
+      // console.log('Deleting tag', tuioTagId);
       super.onTagDeletion(tuioTagId);
     }
   }
 
   startMovement(dirX, dirY) {
     this.moving = true;
-    const dX = (dirX - this.centeredX) / 10.0;
-    const dY = (dirY - this.centeredY) / 10.0;
-    let countdown = 10;
+    const dX = dirX - this.centeredX;
+    const dY = dirY - this.centeredY;
+    const dist = Math.sqrt((dX * dX) + (dY * dY));
+    let countdown = dist;
     // Trigger the spaceship movement
     clearInterval(this.movement);
     this.movement = setInterval(() => {
-      this.updatePos(dX, dY);
+      this.updatePos(dX / dist, dY / dist);
       countdown -= 1;
-      if (countdown === 0) {
+      if (countdown <= 0) {
         this.moving = false;
         clearInterval(this.movement);
         this.drawer.clearLines(this.playerId);
       }
-    }, 1000 / 10);
+    }, 1000 / 60);
   }
 
   arrivalCheck(id) {
