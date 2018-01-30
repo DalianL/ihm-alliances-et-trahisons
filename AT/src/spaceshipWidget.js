@@ -2,6 +2,7 @@ import $ from 'jquery/dist/jquery.min';
 
 import TUIOManager from 'tuiomanager/core/TUIOManager';
 import TUIOWidget from 'tuiomanager/core/TUIOWidget';
+import Utils from './utils';
 // import { radToDeg } from 'tuiomanager/core/helpers';
 
 /**
@@ -95,19 +96,22 @@ class SpaceshipWidget extends TUIOWidget {
     }
   }
 
-  startMovement(dirX, dirY) {
+  startMovement(dirX, dirY, callback) {
     this.moving = true;
     const dX = dirX - this.centeredX;
     const dY = dirY - this.centeredY;
     const dist = Math.sqrt((dX * dX) + (dY * dY));
-    let countdown = dist;
+    const multiplier = 1;
+    let countdown = dist * multiplier;
     // Trigger the spaceship movement
     clearInterval(this.movement);
     this.movement = setInterval(() => {
-      this.updatePos(dX / dist, dY / dist);
+      this.drawer.drawLine(this.playerId, this.centeredX, this.centeredY, dirX, dirY);
+      this.updatePos(dX / (dist * multiplier), dY / (dist * multiplier));
       countdown -= 1;
       if (countdown <= 0) {
         this.moving = false;
+        callback();
         clearInterval(this.movement);
         this.drawer.clearLines(this.playerId);
       }
@@ -115,13 +119,6 @@ class SpaceshipWidget extends TUIOWidget {
   }
 
   arrivalCheck(id) {
-    function isInBounds(libStack, x, y) {
-      if (x >= libStack.x && x <= (libStack.x + libStack.width) && y >= libStack.y && y <= (libStack.y + libStack.height)) {
-        return true;
-      }
-      return false;
-    }
-
     /* eslint-disable no-underscore-dangle */
 
     if (!this.isInStack) {
@@ -129,11 +126,10 @@ class SpaceshipWidget extends TUIOWidget {
         if (TUIOManager.getInstance()._widgets[widgetId].constructor.name === 'Planet') {
           const selectedWidget = TUIOManager.getInstance()._widgets[widgetId];
           const selectedTag = TUIOManager.getInstance()._tags[id];
-          if (isInBounds(selectedWidget, selectedTag.x, selectedTag.y) && !selectedWidget.isDisabled) {
+          if (Utils.isInBounds(selectedWidget, selectedTag.x, selectedTag.y) && !selectedWidget.isDisabled) {
             // Rajouter autorisation de SpaceWidget sur Planet ? && TUIOManager.getInstance()._widgets[widgetId].isAllowedElement(this)) {
             // this._isInStack= true;
-            this.startMovement(super.tags[id].x, super.tags[id].y);
-            selectedWidget.addElementWidget(this);
+            this.startMovement(super.tags[id].x, super.tags[id].y, () => { selectedWidget.addElementWidget(this); });
           } else {
             this.drawer.clearLines(this.playerId);
           }

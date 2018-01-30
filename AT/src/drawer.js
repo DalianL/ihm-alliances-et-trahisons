@@ -19,12 +19,12 @@ class Drawer {
   //   return new Drawer();
   // }
 
-  constructor(w, h) {
+  constructor(w, h, core) {
     this.background = new DrawingCanvas(w, h, 100);
-    this.canvas1 = new DrawingCanvas(w, h, 101, 'blue');
-    this.canvas2 = new DrawingCanvas(w, h, 101, 'red');
-    this.canvas3 = new DrawingCanvas(w, h, 101, 'yellow');
-    this.canvas4 = new DrawingCanvas(w, h, 101, 'green');
+    this.canvas1 = new DrawingCanvas(w, h, 101, core.playerColors[0]);
+    this.canvas2 = new DrawingCanvas(w, h, 101, core.playerColors[1]);
+    this.canvas3 = new DrawingCanvas(w, h, 101, core.playerColors[2]);
+    this.canvas4 = new DrawingCanvas(w, h, 101, core.playerColors[3]);
 
     $('#example-container').append(this.background._domElem); // eslint-disable-line
     $('#example-container').append(this.canvas1._domElem); // eslint-disable-line

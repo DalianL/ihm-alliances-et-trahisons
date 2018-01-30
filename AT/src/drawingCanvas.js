@@ -28,7 +28,7 @@ class DrawingCanvas {
 
     this.ctx.save();
     this.ctx.strokeStyle = this.color;
-    this.ctx.lineWidth = 5;
+    this.ctx.lineWidth = 3;
     this.ctx.beginPath();
     this.ctx.moveTo(x1, y1);
     this.ctx.lineTo(x2, y2);

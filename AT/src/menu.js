@@ -5,18 +5,9 @@
 
 // Import JQuery
 import $ from 'jquery/dist/jquery.min';
-import { WINDOW_WIDTH, WINDOW_HEIGHT } from 'tuiomanager/core/constants';
 import QRCode from 'qrcode';
-import SpaceshipWidget from './spaceshipWidget';
-import Drawer from './drawer';
 import Planet from './planet';
-
-// Import ImageWidget
-// import VideoElementWidget from 'tuiomanager/widgets/ElementWidget/VideoElementWidget/VideoElementWidget';
-// import LibraryBar from 'tuiomanager/widgets/Library/LibraryBar/LibraryBar';
-// import CircularMenu from 'tuiomanager/widgets/CircularMenu/CircularMenu';
-// import MenuItem from 'tuiomanager/widgets/CircularMenu/MenuItem';
-// import { buildNoobWork } from './dev-test';
+import GameCore from './gameCore';
 
 let widgets = [];
 
@@ -66,27 +57,27 @@ function initPlanets() {
   addWidgetToScreen(planet10);
 }
 
-function initPlayers(drawer) {
-  const spaceWidget1 = new SpaceshipWidget(1, 265, 220, 300, 300, 0, 0.15, 'assets/image/spaceship1.png', drawer, 0);
-  addWidgetToScreen(spaceWidget1);
+function initPlayers(core) {
+  core.createPlayer(1);
+  core.addSpaceship(1, 265, 220);
 
-  const spaceWidget2 = new SpaceshipWidget(2, 825, 160, 300, 300, 0, 0.15, 'assets/image/spaceship2.png', drawer, 1);
-  addWidgetToScreen(spaceWidget2);
+  core.createPlayer(2);
+  core.addSpaceship(2, 825, 160);
 
-  const spaceWidget3 = new SpaceshipWidget(3, 545, 850, 300, 300, 0, 0.15, 'assets/image/spaceship3.png', drawer, 2);
-  addWidgetToScreen(spaceWidget3);
+  core.createPlayer(3);
+  core.addSpaceship(3, 545, 850);
 
-  const spaceWidget4 = new SpaceshipWidget(4, 1270, 250, 300, 300, 0, 0.15, 'assets/image/spaceship4.png', drawer, 3);
-  addWidgetToScreen(spaceWidget4);
+  core.createPlayer(4);
+  core.addSpaceship(4, 1270, 250);
 }
 
 function buildGame() {
   removeWidgets();
 
-  const drawer = new Drawer(WINDOW_WIDTH, WINDOW_HEIGHT);
-  drawer.prepareDrawer('assets/image/background.jpg');
+  const core = new GameCore();
+  core.initMap();
 
-  initPlayers(drawer);
+  initPlayers(core);
 
   initPlanets();
 }
