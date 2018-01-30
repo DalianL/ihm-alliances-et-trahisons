@@ -39,9 +39,9 @@ function initPlanets(core) {
   core.addPlanet(-1, 11, 658, 385, 95);
   core.addPlanet(-1, 12, 1189, -20, 110);
   core.addPlanet(-1, 13, 1489, 86, 85);
-  core.addPlanet(-1, 13, 1520, 476, 70);
-  core.addPlanet(-1, 13, 1634, 226, 140);
-  core.addPlanet(-1, 13, 1744, 82, 60);
+  core.addPlanet(-1, 14, 1520, 476, 70);
+  core.addPlanet(-1, 15, 1634, 226, 140);
+  core.addPlanet(-1, 16, 1744, 82, 60);
 }
 
 function initPlayers(core) {

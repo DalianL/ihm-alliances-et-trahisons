@@ -19,6 +19,20 @@ class Planet extends LibraryStack {
       this.client.socket.emit('update', 'updating phone public/private data');
     }
   }
+
+  /**
+   * Call after a TUIOTag creation.
+   *
+   * @method onTagCreation
+   * @param {TUIOTag} tuioTag - A TUIOTag instance.
+   */
+  onTagCreation(tuioTag) {
+    if (tuioTag.id === this.showTag && this.isTouched(tuioTag.x, tuioTag.y)) {
+      // showTag must be the tag of the planet's player
+      // console.log('tagging planet');
+    }
+  }
+
 }
 
 export default Planet;
