@@ -26,17 +26,22 @@ function removeWidgets() {
 
 function initPlanets(core) {
   core.addPlanet(1, 1, 230, 185, 95);
-  core.addPlanet(2, 2, 766, 98, 135);
+  core.addPlanet(2, 2, 770, 102, 135);
   core.addPlanet(3, 3, 500, 810, 110);
   core.addPlanet(4, 4, 1225, 209, 110);
 
   core.addPlanet(-1, 5, 1710, 807, 100);
-  core.addPlanet(-1, 6, 930, 820, 220);
-  core.addPlanet(-1, 7, 10, 23, 90);
-  core.addPlanet(-1, 8, 235, 510, 62);
+  core.addPlanet(-1, 6, 930, 822, 220);
+  core.addPlanet(-1, 7, 12, 27, 90);
+  core.addPlanet(-1, 8, 234, 510, 65);
   core.addPlanet(-1, 9, -120, 830, 310);
   core.addPlanet(-1, 10, 1280, 590, 180);
   core.addPlanet(-1, 11, 658, 385, 95);
+  core.addPlanet(-1, 12, 1189, -20, 110);
+  core.addPlanet(-1, 13, 1489, 86, 85);
+  core.addPlanet(-1, 13, 1520, 476, 70);
+  core.addPlanet(-1, 13, 1634, 226, 140);
+  core.addPlanet(-1, 13, 1744, 82, 60);
 }
 
 function initPlayers(core) {
