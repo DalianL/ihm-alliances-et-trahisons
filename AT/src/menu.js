@@ -6,16 +6,15 @@
 // Import JQuery
 import $ from 'jquery/dist/jquery.min';
 import QRCode from 'qrcode';
-import Planet from './planet';
 import GameCore from './gameCore';
 
 let widgets = [];
 
-function addWidgetToScreen(widget) {
-//  $('#example-container').append(widget.domElem);
-  widget.addTo('#example-container');
-  widgets.push(widget);
-}// AddWidgetToScreen()
+// function addWidgetToScreen(widget) {
+// //  $('#example-container').append(widget.domElem);
+//   widget.addTo('#example-container');
+//   widgets.push(widget);
+// }// AddWidgetToScreen()
 
 function removeWidgets() {
   $('#example-container').empty();
@@ -25,36 +24,19 @@ function removeWidgets() {
   widgets = [];
 }
 
-function initPlanets() {
-  const planet1 = new Planet(1, 10, 23, 90, '', 'blue', 'blue', false, ['ImageElementWidget']);
-  addWidgetToScreen(planet1);
+function initPlanets(core) {
+  core.addPlanet(1, 1, 230, 185, 95);
+  core.addPlanet(2, 2, 766, 98, 135);
+  core.addPlanet(3, 3, 500, 810, 110);
+  core.addPlanet(4, 4, 1225, 209, 110);
 
-  const planet2 = new Planet(2, 766, 98, 135, '', 'red', 'red', false, ['ImageElementWidget']);
-  addWidgetToScreen(planet2);
-
-  const planet3 = new Planet(3, 658, 385, 95, '', 'red', 'red', false, ['ImageElementWidget']);
-  addWidgetToScreen(planet3);
-
-  const planet4 = new Planet(4, 1225, 209, 110, '', 'green', 'green', false, ['ImageElementWidget']);
-  addWidgetToScreen(planet4);
-
-  const planet5 = new Planet(5, 930, 820, 220, '', 'yellow', 'yellow', false, ['ImageElementWidget']);
-  addWidgetToScreen(planet5);
-
-  const planet6 = new Planet(6, 500, 810, 110, '', 'yellow', 'yellow', false, ['ImageElementWidget']);
-  addWidgetToScreen(planet6);
-
-  const planet7 = new Planet(7, 1710, 807, 100, '', 'blue', 'blue', false, ['ImageElementWidget']);
-  addWidgetToScreen(planet7);
-
-  const planet8 = new Planet(8, -120, 830, 310, '', 'blue', 'blue', false, ['ImageElementWidget']);
-  addWidgetToScreen(planet8);
-
-  const planet9 = new Planet(9, 235, 510, 62, '', 'blue', 'blue', false, ['ImageElementWidget']);
-  addWidgetToScreen(planet9);
-
-  const planet10 = new Planet(10, 1280, 590, 180, '', 'blue', 'blue', false, ['ImageElementWidget']);
-  addWidgetToScreen(planet10);
+  core.addPlanet(-1, 5, 1710, 807, 100);
+  core.addPlanet(-1, 6, 930, 820, 220);
+  core.addPlanet(-1, 7, 10, 23, 90);
+  core.addPlanet(-1, 8, 235, 510, 62);
+  core.addPlanet(-1, 9, -120, 830, 310);
+  core.addPlanet(-1, 10, 1280, 590, 180);
+  core.addPlanet(-1, 11, 658, 385, 95);
 }
 
 function initPlayers(core) {
@@ -79,7 +61,7 @@ function buildGame() {
 
   initPlayers(core);
 
-  initPlanets();
+  initPlanets(core);
 }
 
 export default function buildMenu() {

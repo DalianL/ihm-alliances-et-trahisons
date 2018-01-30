@@ -12,13 +12,12 @@ class Planet extends LibraryStack {
   }
 
   addElementWidget(widget) {
-    // Enlever super, override le zoom
-    super.addElementWidget(widget);
-    // console.log(widget);
-    this.client.socket.emit('update', 'updating phone public/private data');
-    // if (this.isAllowedElement(widget)) {
-    //   this.client.socket.emit('update', 'updating phone public/private data');
-    // }
+    if (this.isAllowedElement(widget)) {
+      // Enlever super, override le zoom
+      // super.addElementWidget(widget);
+      this.stackDiv.css('border', `solid 10px ${widget.color}`);
+      this.client.socket.emit('update', 'updating phone public/private data');
+    }
   }
 }
 
