@@ -1,7 +1,7 @@
 import $ from 'jquery/dist/jquery.min';
 
-import TUIOManager from 'tuiomanager/core/TUIOManager';
 import TUIOWidget from 'tuiomanager/core/TUIOWidget';
+import GameCore from './gameCore';
 import Utils from './utils';
 // import { radToDeg } from 'tuiomanager/core/helpers';
 
@@ -56,7 +56,7 @@ class SpaceshipWidget extends TUIOWidget {
     if (!this._isInStack && tuioTag.id === this.playerId - 1) {
       if (this.isTouched(tuioTag.x, tuioTag.y)) {
         super.onTagCreation(tuioTag);
-        console.log('Creating tag', tuioTag);
+        console.log('Creating tag');
         this._lastTagsValues = {
           ...this._lastTagsValues,
           [tuioTag.id]: {
@@ -79,6 +79,19 @@ class SpaceshipWidget extends TUIOWidget {
       if (tuioTag.id === this.idTagMove && this.canMoveTangible) {
         console.log('Updating trajectory');
         this.drawer.drawLine(this.playerId, this.centeredX, this.centeredY, tuioTag.x, tuioTag.y);
+        const scan = Utils.checkForPlanetBeneath(tuioTag.id);
+        let widget;
+        for (let i = 0; i < scan.length; i += 1) {
+          if (scan[i] !== undefined) {
+            widget = scan[i];
+            break;
+          }
+        }
+        if (widget !== undefined && widget.playerId !== this.playerId) {
+          GameCore.getInstance().menu.domElem.css('display', 'block');
+        } else {
+          GameCore.getInstance().menu.domElem.css('display', 'none');
+        }
       }
     }
   }
@@ -92,7 +105,6 @@ class SpaceshipWidget extends TUIOWidget {
   onTagDeletion(tuioTagId) {
     if (super.tags[tuioTagId] !== undefined && tuioTagId === this.idTagMove && !this.moving && tuioTagId === this.playerId - 1) {
       this.arrivalCheck(tuioTagId);
-      // console.log('Deleting tag', tuioTagId);
       super.onTagDeletion(tuioTagId);
     }
   }
@@ -120,25 +132,16 @@ class SpaceshipWidget extends TUIOWidget {
   }
 
   arrivalCheck(id) {
-    /* eslint-disable no-underscore-dangle */
-
     if (!this.isInStack) {
-      Object.keys(TUIOManager.getInstance()._widgets).forEach((widgetId) => {
-        if (TUIOManager.getInstance()._widgets[widgetId].constructor.name === 'Planet') {
-          const selectedWidget = TUIOManager.getInstance()._widgets[widgetId];
-          const selectedTag = TUIOManager.getInstance()._tags[id];
-          if (Utils.isInBounds(selectedWidget, selectedTag.x, selectedTag.y) && !selectedWidget.isDisabled) {
-            // Rajouter autorisation de SpaceWidget sur Planet ? && TUIOManager.getInstance()._widgets[widgetId].isAllowedElement(this)) {
-            // this._isInStack= true;
-            this.startMovement(super.tags[id].x, super.tags[id].y, () => { selectedWidget.addElementWidget(this); });
-          } else {
-            this.drawer.clearLines(this.playerId);
-          }
+      const scan = Utils.checkForPlanetBeneath(id);
+      scan.forEach((widget) => {
+        if (widget !== undefined) {
+          this.startMovement(super.tags[id].x, super.tags[id].y, () => { widget.addElementWidget(this); });
+        } else {
+          this.drawer.clearLines(this.playerId);
         }
       });
     }
-
-    /* eslint-enable no-underscore-dangle */
   }
 
   updatePos(dX, dY) {

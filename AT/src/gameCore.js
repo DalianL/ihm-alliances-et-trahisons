@@ -1,10 +1,10 @@
 import { WINDOW_WIDTH, WINDOW_HEIGHT } from 'tuiomanager/core/constants';
-import CircularMenu from 'tuiomanager/widgets/CircularMenu/CircularMenu';
 import MenuItem from 'tuiomanager/widgets/CircularMenu/MenuItem';
-import Player from './player';
-import SpaceshipWidget from './spaceshipWidget';
+import CircularMenuCustom from './circularMenuCustom';
 import Drawer from './drawer';
+import Player from './player';
 import Planet from './planet';
+import SpaceshipWidget from './spaceshipWidget';
 
 let gameCoreInstance = null;
 
@@ -31,11 +31,11 @@ class GameCore {
   addMenu() {
     const root = new MenuItem('root', '#0F0', '#0FF', false);
 
-    const create = new MenuItem('Create', '#FFF', '#000', false);
-    create.setTouchCallback(() => {
+    const attack = new MenuItem('Attack', '#FFF', '#000', false);
+    attack.setTouchCallback(() => {
       // console.log('Created spaceship');
     });
-    root.addChild(create);
+    root.addChild(attack);
 
     // const target = new MenuItem('Target', '#FFF', '#000', false);
     // target.setTouchCallback(() => {
@@ -43,8 +43,8 @@ class GameCore {
     // });
     // root.addChild(target);
 
-    this.menu = new CircularMenu(0, root, true);
-    // this.menu.addTo('#example-container');
+    this.menu = new CircularMenuCustom(0, root);
+    this.menu.addTo('#example-container');
   }
 
   initMap() {
