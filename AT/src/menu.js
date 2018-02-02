@@ -47,7 +47,7 @@ export default function buildMenu() {
 
   $('#example-container').append('<h1> Alliances et Trahisons</h1>');
   $('#example-container').append('<div align="center" style="margin:50px;"><canvas id="canvas"></canvas></div>');
-  QRCode.toCanvas(document.getElementById('canvas'), '192.168.2.1');
+  QRCode.toCanvas(document.getElementById('canvas'), 'localhost');
 
   $('#example-container').append('<button id="user-test" class="menu-button"> Lancer le jeu </button></br>');
 
