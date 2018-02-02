@@ -14,24 +14,22 @@ class Planet extends LibraryStack {
   }
 
   addElementWidget(widget) {
-    let elementToAdd;
+    // let elementToAdd;
     if (this.isAllowedElement(widget)) {
       // Enlever super, override le zoom
-      //super.addElementWidget(widget);
+      // super.addElementWidget(widget);
       this.stackDiv.css('border', `solid 10px ${widget.color}`);
       this.playerId = widget.playerId;
       this.client.socket.emit('update', 'updating phone public/private data');
 
-      elementToAdd = widget;
-      elementToAdd._domElem.css('transform', 'rotate(360deg)');
-      console.log(this);
+      // elementToAdd = widget;
+      // elementToAdd._domElem.css('transform', 'rotate(360deg)');
 
-      // Left top
-      console.log(this.width)
-      let newX = this.x + (this.width / 2);
-      let newY = this.y;
+      // // Left top
+      // let newX = this.x + (this.width / 2);
+      // let newY = this.y;
 
-      widget.moveTo(newX,newY);
+      // widget.moveTo(newX,newY);
     }
   }
 }
