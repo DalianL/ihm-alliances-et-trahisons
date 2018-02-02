@@ -6,6 +6,7 @@ using AssemblyCSharp;
 
 public class LoginController : PanelController {
 
+	public Network network;
 	public Button quitButton;
 	public Button QRCodeButton;
 	public Button loginButton;
@@ -38,8 +39,9 @@ public class LoginController : PanelController {
 
 	public void login() {
 		if (this.ip.text == "")
-			this.panelManager.showError (true, "Attention ! Vous devez d'abords scanner le QR Code.");
+			this.panelManager.showError (true, "Attention !\nL'adresse IP n'a pas été saisie.");
 		else {
+			this.network.connect ();
 			this.QR_CodePanel.SetActive (false);
 			this.panelManager.showScreen (PanelEnum.MATCHMAKING);
 		}

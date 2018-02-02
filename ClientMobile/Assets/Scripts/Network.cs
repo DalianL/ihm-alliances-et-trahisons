@@ -27,29 +27,33 @@ public class Network : MonoBehaviour {
 	void Update () {
 	}
 
-	public void connect () {
+	public bool connect () {
 		if (this.inputPseudo.text != "" && this.inputURL.text != "") {
 			serverURL = "http://" + inputURL.text + ":8000/";
-			DoOpen ();
+			return DoOpen ();
 		}
+		return false;
 	}
 
-	public void connect (string str) {
+	public bool connect (string str) {
 		if (this.inputPseudo.text != "" && str != "") {
 			serverURL = "http://" + str + ":8000/";
-			DoOpen ();
+			return DoOpen ();
 		}
+		return false;
 	}
 
 	public void disconnect() {
 		DoClose ();
 	}
 
-	private void DoOpen() {
+	private bool DoOpen() {
+		bool allGood = false;
 		if (socket == null) {
 			socket = IO.Socket (serverURL);
 			socket.On (Socket.EVENT_CONNECT, () => {
 				Debug.Log("OK");
+				allGood = true;
 			});
 
 			socket.On ("connected", (data) => {
@@ -151,6 +155,7 @@ public class Network : MonoBehaviour {
 			});
 
 		}
+		return allGood;
 	}
 
 	private void DoClose() {
