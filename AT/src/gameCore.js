@@ -5,6 +5,7 @@ import Drawer from './drawer';
 import Player from './player';
 import Planet from './planet';
 import SpaceshipWidget from './spaceshipWidget';
+import Client from './client';
 
 let gameCoreInstance = null;
 
@@ -19,6 +20,7 @@ class GameCore {
     this.playerColors = ['blue', 'red', 'yellow', 'green'];
     this.playerImgs = ['assets/image/spaceship1.png', 'assets/image/spaceship2.png', 'assets/image/spaceship3.png', 'assets/image/spaceship4.png'];
     this.drawer = new Drawer(WINDOW_WIDTH, WINDOW_HEIGHT, this);
+    this.client = new Client();
 
     gameCoreInstance = this;
     return gameCoreInstance;
@@ -72,6 +74,12 @@ class GameCore {
 
     this.planets.push(newPlanet);
     newPlanet.addTo('#example-container');
+  }
+
+  addFleet() { // id, playerId, planetId) {
+    if (this.player !== undefined) {
+      // console.log(id, playerId, planetId);
+    }
   }
 }
 

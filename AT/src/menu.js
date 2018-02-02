@@ -58,10 +58,9 @@ function initPlayers(core) {
   core.addSpaceship(4, 1270, 250);
 }
 
-function buildGame() {
+function buildGame(core) {
   removeWidgets();
 
-  const core = new GameCore();
   core.initMap();
 
   initPlayers(core);
@@ -72,6 +71,8 @@ function buildGame() {
 }
 
 export default function buildMenu() {
+  const core = new GameCore();
+
   $('#example-container').append('<h1> Alliances et Trahisons</h1>');
   $('#example-container').append('<div align="center" style="margin:50px;"><canvas id="canvas"></canvas></div>');
   QRCode.toCanvas(document.getElementById('canvas'), '192.168.2.1');
@@ -79,6 +80,6 @@ export default function buildMenu() {
   $('#example-container').append('<button id="user-test" class="menu-button"> Lancer le jeu </button></br>');
 
   $('#user-test').on('click', () => {
-    buildGame();
+    buildGame(core);
   });
 }

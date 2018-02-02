@@ -25,15 +25,15 @@ class Drawer {
     this.canvas2 = new DrawingCanvas(w, h, 101, core.playerColors[1]);
     this.canvas3 = new DrawingCanvas(w, h, 101, core.playerColors[2]);
     this.canvas4 = new DrawingCanvas(w, h, 101, core.playerColors[3]);
+  }
 
+  prepareDrawer(imgSrc) {
     $('#example-container').append(this.background._domElem); // eslint-disable-line
     $('#example-container').append(this.canvas1._domElem); // eslint-disable-line
     $('#example-container').append(this.canvas2._domElem); // eslint-disable-line
     $('#example-container').append(this.canvas3._domElem); // eslint-disable-line
     $('#example-container').append(this.canvas4._domElem); // eslint-disable-line
-  }
 
-  prepareDrawer(imgSrc) {
     this.background.loadBackground(imgSrc);
   }
 
