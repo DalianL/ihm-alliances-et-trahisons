@@ -6,7 +6,7 @@ app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
 
-var colors = ["RED", "YELLOW", "BLUE", "GREEN", "ORANGE", "VIOLET"];
+var colors = ["RED", "BROWN", "BLUE", "GREEN", "ORANGE", "VIOLET"];
 var species = ["WOOKIES", "JAWAS", "GUNGANS", "EWOKS"];
 var resources = ["RED_CRYSTAL_KYBER", "GREEN_CRYSTAL_KYBER", "BLUE_CRYSTAL_KYBER", "VIOLET_CRYSTAL_KYBER"];
 var users = [];
@@ -17,6 +17,7 @@ var planets = [];
 var userId = 0;
 var fleetId = 0;
 var planetId = 0;
+var timeCurrentTurn = 0;
 
 io.on('connection', function(socket) {
   // Adress of user
@@ -28,29 +29,39 @@ io.on('connection', function(socket) {
     pseudo: userId,
     specie: userId % 4,
     color: userId % 6,
-    resources: [1,1,1,1]
+    resources: [2,2,2,2]
   });
   socket.userId = userId++;
 
   // "Connect" event
   console.log('a user connected, Player n°: ' + socket.userId);
-  socket.emit('connected', {userId: socket.userId});
+
+  if(userId <= 5) {
+    socket.emit('connected', {userId: socket.userId});
+  }
+
+  if(userId == 1) {
+    console.log("Play");
+    play();
+  }
+
   // "Connected" event
   socket.on('connected', function(message){
     message = JSON.parse(message);
     console.log(message.Pseudo + ' is pseudo of Player n°' + message.Id);
-    // Move fleet
     for(var i = 0; i < players.length; i++) {
         if(players[i].id == message.Id) {
             players[i].pseudo = message.Pseudo;
+            // Update Table
+            io.to(users[0].id).emit('create_player', players[i]);
         }
     }
-    // Update
+    // Update Client
     update_client();
   });
 
   socket.on('disconnect', function(message){
-      console.log('');
+      console.log('Disconnect');
   });
 
   // "Interact" event
@@ -69,6 +80,13 @@ io.on('connection', function(socket) {
   socket.on('add_fleet', function(message){
     message = JSON.parse(message);
     console.log('Add a fleet to Player n°' + message.id_player);
+    // Update Table
+    io.to(users[0].id).emit('create_fleet', {
+      id: fleetId,
+      name: fleetId,
+      id_planet : message.id_planet,
+      id_player : message.id_player
+    });
     // Add fleet
     fleets.push({
       id: fleetId,
@@ -77,8 +95,12 @@ io.on('connection', function(socket) {
       id_player : message.id_player
     });
     fleetId++;
-    // Update
+    // Remove resources of player
+    for(var i = 0; i < players[message.id_player].resources.length; i++)
+        players[message.id_player].resources[i]--;
+    // Update Client
     update_client();
+    fleetId++;
   });
 
   // "Move_fleet" event
@@ -121,10 +143,10 @@ io.on('connection', function(socket) {
       name: planetId,
       id_player : -1,
       resources: [
-        Math.floor(Math.random() * 4),
-        Math.floor(Math.random() * 4),
-        Math.floor(Math.random() * 4),
-        Math.floor(Math.random() * 4)
+        Math.floor(Math.random() * 3),
+        Math.floor(Math.random() * 3),
+        Math.floor(Math.random() * 3),
+        Math.floor(Math.random() * 3)
       ]
     });
     planetId++;
@@ -173,10 +195,41 @@ io.on('connection', function(socket) {
               players: players,
               fleets: fleets,
               planets: planets,
-              userId: i
+              userId: i,
+              time: timeCurrentTurn
           });
       }
   };
+
+  function play() {
+      for(var i = 0; i < users.length; i++) {
+          io.to(users[i].id).emit('play', {});
+      }
+
+      var date = new Date();
+      timeCurrentTurn = date.getTime() + ((120 + 11 )* 1000);
+      setTimeout(function() {
+        timeCurrentTurn = date.getTime() + (120 * 1000);
+        update_resources();
+        setInterval(update_resources, 120 * 1000);
+      }, (120 + 11) * 1000);
+
+  };
+
+  function update_resources() {
+    console.log('Update resources');
+      for(var i = 0; i < planets.length; i++) {
+          if(planets[i].id_player != -1) {
+             players[planets[i].id_player].resources[0] += planets[i].resources[0];
+             players[planets[i].id_player].resources[1] += planets[i].resources[1];
+             players[planets[i].id_player].resources[2] += planets[i].resources[2];
+             players[planets[i].id_player].resources[3] += planets[i].resources[3];
+          }
+      }
+      var date = new Date();
+      timeCurrentTurn = date.getTime() + (120 * 1000);
+      update_client();
+  }
 
 });
 

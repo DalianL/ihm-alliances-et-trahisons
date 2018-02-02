@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using AssemblyCSharp;
+using System;
 
 public class PanelManager : MonoBehaviour {
 
@@ -12,6 +13,8 @@ public class PanelManager : MonoBehaviour {
 	public PanelView panel_Game;
 	public PanelView panel_Map;
 	public PopupView panel_Error;
+
+	public GameObject time;
 
 	private PanelEnum currentPanel;
 	private PanelEnum lastPanel;
@@ -24,6 +27,18 @@ public class PanelManager : MonoBehaviour {
 	}
 
 	void Update() {
+		if (Session.IsInitializedCurrentSession && keepTime()) {
+			if (Session.CurrentSession.Time != 0) {
+				long timer = (long) ((Session.CurrentSession.Time/1000) - DateTime.UtcNow.Subtract (new DateTime (1970, 1, 1)).TotalSeconds);
+				this.time.GetComponent<Text>().text = "0" + timer / 60 + ":" + ((timer % 60 < 10) ? "0" : "") + timer % 60 + "\n"
+				+ "Prochaine extraction";
+			} else {
+				this.time.GetComponent<Text>().text = "02:00\nProchaine extraction";
+			}
+			this.time.SetActive (true);
+		} else {
+			this.time.SetActive (false);
+		}
 	}
 
 	public void showScreen(PanelEnum panel) {
@@ -35,6 +50,13 @@ public class PanelManager : MonoBehaviour {
 
 		this.lastPanel = currentPanel;
 		this.currentPanel = panel;
+	}
+
+	private bool keepTime() {
+		if (this.currentPanel == PanelEnum.LOGIN || this.currentPanel == PanelEnum.MATCHMAKING)
+			return false;
+		else
+			return true;
 	}
 
 	private void showLogin(bool show) {

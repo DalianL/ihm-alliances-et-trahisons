@@ -10,6 +10,7 @@ namespace AssemblyCSharp
 	public class Session
 	{
 		private int id;
+		private long time;
 		private List<Player> players;
 		private List<Planet> planets;
 		private List<Fleet> fleets;
@@ -38,6 +39,15 @@ namespace AssemblyCSharp
 			}
 			set {
 				this.fleets = value;
+			}
+		}
+
+		public long Time {
+			get {
+				return this.time;
+			}
+			set {
+				this.time = value;
 			}
 		}
 
@@ -75,6 +85,8 @@ namespace AssemblyCSharp
 			this.players = new List<Player> ();
 			this.planets = new List<Planet> ();
 			this.fleets = new List<Fleet> ();
+			this.id = 0;
+			this.time = 0;
 
 			JArray tmpPlayers = (JArray) node ["players"];
 			for(int i = 0; i < tmpPlayers.Count; i++) {
@@ -95,8 +107,10 @@ namespace AssemblyCSharp
 				if(fleet.Id_player != -1)
 					getPlayerById (fleet.Id_player).Fleets.Add (fleet);
 			}
-
+			this.time = (long) node ["time"];
 			Player.initializeCurrentPlayer (getPlayerById ((int) node ["userId"]));
+
+			Debug.Log ("Session OK");
 		}
 
 
@@ -120,13 +134,13 @@ namespace AssemblyCSharp
 		}
 
 		public static void initializeCurrentSession(Session s) {
-			Session.isInitializedCurrentSession = true;
 			Session.currentSession = s;
+			Session.isInitializedCurrentSession = true;
 		}
 
 		public static void initializeCurrentSession(JObject node) {
-			Session.isInitializedCurrentSession = true;
 			Session.currentSession = new Session(node);
+			Session.isInitializedCurrentSession = true;
 		}
 	}
 }

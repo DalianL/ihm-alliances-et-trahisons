@@ -41,7 +41,7 @@ public class LoginController : PanelController {
 			this.panelManager.showError (true, "Attention ! Vous devez d'abords scanner le QR Code.");
 		else {
 			this.QR_CodePanel.SetActive (false);
-			this.panelManager.showScreen (PanelEnum.GAME);
+			this.panelManager.showScreen (PanelEnum.MATCHMAKING);
 		}
 	}
 }

@@ -7,7 +7,7 @@ namespace AssemblyCSharp
 	public enum ColorEnum
 	{
 		RED,
-		YELLOW,
+		BROWN,
 		BLUE,
 		GREEN,
 		ORANGE,
@@ -23,8 +23,8 @@ namespace AssemblyCSharp
 			{
 			case ColorEnum.RED:
 				return new Color32(255,0,0,255);
-			case ColorEnum.YELLOW :
-				return new Color32(255,255,0,255);
+			case ColorEnum.BROWN :
+				return new Color32(96,66,42,255);
 			case ColorEnum.BLUE :
 				return new Color32(0,0,255,255);
 			case ColorEnum.GREEN:
@@ -44,8 +44,8 @@ namespace AssemblyCSharp
 			{
 			case ColorEnum.RED:
 				return "RED";
-			case ColorEnum.YELLOW :
-				return "YELLOW";
+			case ColorEnum.BROWN :
+				return "BROWN";
 			case ColorEnum.BLUE :
 				return "BLUE";
 			case ColorEnum.GREEN:
@@ -67,8 +67,8 @@ namespace AssemblyCSharp
 			{
 			case "RED" :
 				return ColorEnum.RED;
-			case "YELLOW" :
-				return ColorEnum.YELLOW;
+			case "BROWN" :
+				return ColorEnum.BROWN;
 			case "BLUE" :
 				return ColorEnum.BLUE;
 			case "GREEN" :

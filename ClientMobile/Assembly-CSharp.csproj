@@ -51,11 +51,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\Controller\GameController.cs" />
-     <Compile Include="Assets\Scripts\Controller\LoginController.cs" />
-     <Compile Include="Assets\Scripts\Controller\PanelController.cs" />
-     <Compile Include="Assets\Scripts\Controller\PopupController.cs" />
-     <Compile Include="Assets\Scripts\Controller\ProfilController.cs" />
+     <Compile Include="Assets\Scripts\Controller\Panel\GameController.cs" />
+     <Compile Include="Assets\Scripts\Controller\Panel\LoginController.cs" />
+     <Compile Include="Assets\Scripts\Controller\Panel\MatchMakingController.cs" />
+     <Compile Include="Assets\Scripts\Controller\Panel\PanelController.cs" />
+     <Compile Include="Assets\Scripts\Controller\Panel\PopupController.cs" />
+     <Compile Include="Assets\Scripts\Controller\Panel\ProfilController.cs" />
+     <Compile Include="Assets\Scripts\Controller\PlayerController.cs" />
      <Compile Include="Assets\Scripts\Controller\SliderController.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\JsonMessage.cs" />

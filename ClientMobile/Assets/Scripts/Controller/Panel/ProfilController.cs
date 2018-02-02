@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using AssemblyCSharp;
+using System;
 
 public class ProfilController : PanelController {
 
@@ -10,6 +11,8 @@ public class ProfilController : PanelController {
 	public Image avatar;
 	public Image color;
 	public Text pseudo;
+	public GameObject planets;
+	public GameObject fleets;
 	public GameObject resources;
 
 	public List<Sprite> images = new List<Sprite>();
@@ -18,6 +21,9 @@ public class ProfilController : PanelController {
 		if (!this.initialized) {
 			this.initialized = true;
 		}
+
+		this.planets.SetActive (true);
+		this.fleets.SetActive (false);
 
 		this.color.color = Player.CurrentPlayer.getColor();
 		this.avatar.sprite = images [SpeciesEnumHelper.ToInt(Player.CurrentPlayer.Specie)];
@@ -39,5 +45,14 @@ public class ProfilController : PanelController {
 		this.panelManager.showScreen (PanelEnum.GAME);
 	}
 
+	public void showPlanets() {
+		this.planets.SetActive (true);
+		this.fleets.SetActive (false);
+	}
+
+	public void showFleets() {
+		this.planets.SetActive (false);
+		this.fleets.SetActive (true);
+	}
 
 }

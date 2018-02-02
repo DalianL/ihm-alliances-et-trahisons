@@ -6,7 +6,9 @@ using UnityEngine.UI;
 
 public class SliderController : MonoBehaviour {
 
+	public PanelManager panelManager;
 	public SlideObjectEnum objectType;
+	public Network network;
 
 	public GameObject objectRight;
 	public GameObject objectLeft;
@@ -14,7 +16,6 @@ public class SliderController : MonoBehaviour {
 
 	private int pointor;
 
-	// Use this for initialization
 	void Start () {
 		this.pointor = 0;
 	}
@@ -23,67 +24,46 @@ public class SliderController : MonoBehaviour {
 	void Update () {
 		// RIGHT
 		if (this.pointor < lengthOfObjectsList () - 1) {
-			objectRight.transform.Find("Number").GetComponent<Text>().text = getObjectName (this.pointor + 1);
-			objectRight.GetComponentInChildren<Image> ().color = new Color32 (255,255,255,225);
-			objectRight.transform.Find("Number").GetComponent<Text>().color = new Color32 (0,0,0,225);
+			// Image planet or fleet
+			//objectRight.transform.Find("Number").GetComponent<Text>().text = getObjectName (this.pointor + 1);
 			if(objectType == SlideObjectEnum.FLEET) {
-				objectRight.transform.Find ("SubObject").GetComponent<Image> ().color = new Color32 (255, 0, 0, 255);
-				objectRight.transform.Find ("SubObject/Number").GetComponent<Text> ().color = new Color32 (0, 0, 0, 255);
-				objectRight.transform.Find ("SubObject/Number").GetComponent<Text> ().text = getObjectInfos(this.pointor + 1);
+				// Image planet for fleet
+				//objectRight.transform.Find ("SubObject/Number").GetComponent<Text> ().text = getObjectInfos(this.pointor + 1);
 			}
+			objectRight.SetActive (true);
 		} else {
-			objectRight.GetComponentInChildren<Image> ().color = new Color32 (255,255,255,0);
-			objectRight.transform.Find("Number").GetComponent<Text>().color = new Color32 (0,0,0,0);
-			if(objectType == SlideObjectEnum.FLEET) {
-				objectRight.transform.Find ("SubObject").GetComponent<Image> ().color = new Color32 (255, 0, 0, 0);
-				objectRight.transform.Find ("SubObject/Number").GetComponent<Text> ().color = new Color32 (0, 0, 0, 0);
-			}
+			objectRight.SetActive (false);
 		}
 
 		// LEFT
 		if (this.pointor > 0) {
-			objectLeft.transform.Find("Number").GetComponent<Text>().text = getObjectName (this.pointor - 1);
-			objectLeft.GetComponentInChildren<Image> ().color = new Color32 (255,255,255,225);
-			objectLeft.transform.Find("Number").GetComponent<Text>().color = new Color32 (0,0,0,225);
+			// Image planet or fleet
+			//objectLeft.transform.Find("Number").GetComponent<Text>().text = getObjectName (this.pointor - 1);
 			if(objectType == SlideObjectEnum.FLEET) {
-				objectLeft.transform.Find ("SubObject").GetComponent<Image> ().color = new Color32 (255, 0, 0, 255);
-				objectLeft.transform.Find ("SubObject/Number").GetComponent<Text> ().color = new Color32 (0, 0, 0, 255);
-				objectLeft.transform.Find ("SubObject/Number").GetComponent<Text> ().text = getObjectInfos(this.pointor - 1);
+				// Image planet for fleet
+				//objectLeft.transform.Find ("SubObject/Number").GetComponent<Text> ().text = getObjectInfos(this.pointor - 1);
 			}
+			objectLeft.SetActive (true);
 		} else {
-			objectLeft.GetComponentInChildren<Image> ().color = new Color32 (255,255,255,0);
-			objectLeft.transform.Find("Number").GetComponent<Text>().color = new Color32 (0,0,0,0);
-			if(objectType == SlideObjectEnum.FLEET) {
-				objectLeft.transform.Find ("SubObject").GetComponent<Image> ().color = new Color32 (255, 0, 0, 0);
-				objectLeft.transform.Find ("SubObject/Number").GetComponent<Text> ().color = new Color32 (0, 0, 0, 0);
-			}
+			objectLeft.SetActive (false);
 		}
 
 		// MID
 		if (0 != lengthOfObjectsList()) {
-			objectMid.transform.Find("Number").GetComponent<Text>().text = getObjectName (this.pointor);
-			objectMid.GetComponent<Image> ().color = new Color32 (255,255,255,225);
-			objectMid.transform.Find("Number").GetComponent<Text>().color = new Color32 (0,0,0,225);
+			objectMid.transform.Find("Name").GetComponent<Text>().text = getObjectName (this.pointor);
 			if (objectType == SlideObjectEnum.PLANET) {
 				objectMid.transform.Find ("Resources/KyberR/Text").GetComponent<Text>().text = Player.CurrentPlayer.Planets[this.pointor].Resources[ResourcesEnum.RED_CRYSTAL_KYBER].ToString();
 				objectMid.transform.Find ("Resources/KyberG/Text").GetComponent<Text>().text = Player.CurrentPlayer.Planets[this.pointor].Resources[ResourcesEnum.GREEN_CRYSTAL_KYBER].ToString();
 				objectMid.transform.Find ("Resources/KyberB/Text").GetComponent<Text>().text = Player.CurrentPlayer.Planets[this.pointor].Resources[ResourcesEnum.BLUE_CRYSTAL_KYBER].ToString();
 				objectMid.transform.Find ("Resources/KyberV/Text").GetComponent<Text>().text = Player.CurrentPlayer.Planets[this.pointor].Resources[ResourcesEnum.VIOLET_CRYSTAL_KYBER].ToString();
-				objectMid.transform.Find ("Resources").gameObject.SetActive (true);
 			} else if(objectType == SlideObjectEnum.FLEET) {
-				objectMid.transform.Find ("SubObject").GetComponent<Image> ().color = new Color32 (255, 0, 0, 255);
-				objectMid.transform.Find ("SubObject/Number").GetComponent<Text> ().color = new Color32 (0, 0, 0, 255);
-				objectMid.transform.Find ("SubObject/Number").GetComponent<Text> ().text = getObjectInfos(this.pointor);
+				objectMid.transform.Find ("Description").GetComponent<Text> ().text = "En orbite autour de la planète : " + getObjectInfos(this.pointor);
+				// Image planet for fleet
+				//objectMid.transform.Find ("SubObject/Number").GetComponent<Text> ().text = getObjectInfos(this.pointor);
 			}
+			objectMid.SetActive (true);
 		} else {
-			objectMid.GetComponent<Image> ().color = new Color32 (255,255,255,0);
-			objectMid.transform.Find("Number").GetComponent<Text>().color = new Color32 (0,0,0,0);
-			if (objectType == SlideObjectEnum.PLANET) {
-				objectMid.transform.Find ("Resources").gameObject.SetActive (false);
-			} else if(objectType == SlideObjectEnum.FLEET) {
-				objectMid.transform.Find ("SubObject").GetComponent<Image> ().color = new Color32 (255, 0, 0, 0);
-				objectMid.transform.Find ("SubObject/Number").GetComponent<Text> ().color = new Color32 (0, 0, 0, 0);
-			}
+			objectMid.SetActive (false);
 		}
 	}
 
@@ -128,4 +108,13 @@ public class SliderController : MonoBehaviour {
 			return "Erreur";
 		}
 	}
+
+	public void addFleet() {
+		if (Player.CurrentPlayer.canPaid ()) {
+			this.network.addFleet (Player.CurrentPlayer.Planets [this.pointor].Id);
+		} else {
+			this.panelManager.showError (true, "Attention ! Vous n'avez pas assez de ressources pour créer une nouvelle flotte.");
+		}
+	}
+
 }

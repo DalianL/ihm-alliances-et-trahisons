@@ -149,6 +149,20 @@ namespace AssemblyCSharp
 			this.resources[ResourcesEnum.VIOLET_CRYSTAL_KYBER] = (int) nodeResources[3];
 		}
 
+		public bool canPaid () {
+			foreach (ResourcesEnum resource in Enum.GetValues(typeof(ResourcesEnum))) {
+				if(ResourcesEnum.NO_RESOURCE != resource) {
+					if (this.resources [resource] < 1)
+						return false;
+				}
+			}
+			foreach (ResourcesEnum resource in Enum.GetValues(typeof(ResourcesEnum))) {
+				if(ResourcesEnum.NO_RESOURCE != resource)
+					this.resources [resource] -= 1;
+			}
+			return true;
+		}
+
 
 		private static Player currentPlayer;
 		private static bool isInitializedCurrentPlayer = false;
@@ -170,18 +184,19 @@ namespace AssemblyCSharp
 		}
 
 		public static void initializeCurrentPlayer(Player p) {
-			Player.isInitializedCurrentPlayer = true;
 			Player.currentPlayer = p;
+			Debug.Log ("Player OK");
+			Player.isInitializedCurrentPlayer = true;
 		}
 
 		public static void initializeCurrentPlayer(int id, string pseudo, string color) {
-			Player.isInitializedCurrentPlayer = true;
 			Player.currentPlayer = new Player(id, pseudo, color);
+			Player.isInitializedCurrentPlayer = true;
 		}
 
 		public static void initializeCurrentPlayer(JObject node) {
-			Player.isInitializedCurrentPlayer = true;
 			Player.currentPlayer = new Player(node);
+			Player.isInitializedCurrentPlayer = true;
 		}
 	}
 }

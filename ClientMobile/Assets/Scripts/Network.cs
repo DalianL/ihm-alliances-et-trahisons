@@ -13,10 +13,11 @@ public class Network : MonoBehaviour {
 	public Socket socket = null;
 
 	public PanelManager panelManager;
+	public MatchMakingController controller;
 
 	public InputField inputURL;
 	public InputField inputPseudo;
-	//private bool testInitialize = true;
+	private bool testInitialize = true;
 
 	// Use this for initialization
 	void Start () {
@@ -53,13 +54,19 @@ public class Network : MonoBehaviour {
 				socket.Emit ("connected", JsonConvert.SerializeObject(Player.CurrentPlayer));
 			});
 
+			socket.On ("play", (data) => {
+				Debug.Log("Data play : " + data);
+
+				this.controller.isBegin = true;
+			});
+
 			socket.On ("update_client", (data) => {
 				Debug.Log("Data update_client : " + data);
 				JObject node = JObject.Parse(data.ToString());
 
 				Session.initializeCurrentSession(node);
 
-				/*if(testInitialize) {
+				if(testInitialize) {
 					testInitialize = false;
 					socket.Emit ("add_planet", "{}");
 					socket.Emit ("add_planet", "{}");
@@ -74,11 +81,11 @@ public class Network : MonoBehaviour {
 					socket.Emit ("conquer_planet", "{\"id_planet\": 2, \"id_player\": 0}");
 					socket.Emit ("conquer_planet", "{\"id_planet\": 3, \"id_player\": 0}");
 					socket.Emit ("conquer_planet", "{\"id_planet\": 4, \"id_player\": 0}");
-					socket.Emit ("add_fleet", "{\"id_planet\": 0, \"id_player\": 0}");
+					/*socket.Emit ("add_fleet", "{\"id_planet\": 0, \"id_player\": 0}");
 					socket.Emit ("add_fleet", "{\"id_planet\": 0, \"id_player\": 0}");
 					socket.Emit ("add_fleet", "{\"id_planet\": 1, \"id_player\": 0}");
-					socket.Emit ("add_fleet", "{\"id_planet\": 2, \"id_player\": 0}");
-				}*/
+					socket.Emit ("add_fleet", "{\"id_planet\": 2, \"id_player\": 0}");*/
+				}
 			});
 
 			socket.On ("update", (data) => {
@@ -148,5 +155,9 @@ public class Network : MonoBehaviour {
 			socket.Disconnect ();
 			socket = null;
 		}
+	}
+
+	public void addFleet(int id_planet) {
+		socket.Emit ("add_fleet", "{\"id_planet\": " + id_planet + ", \"id_player\": " + Player.CurrentPlayer.Id + "}");
 	}
 }
