@@ -89,7 +89,7 @@ namespace AssemblyCSharp
 			this.time = 0;
 
 			JArray tmpPlayers = (JArray) node ["players"];
-			for(int i = 0; i < tmpPlayers.Count; i++) {
+			for(int i = 1; i < tmpPlayers.Count; i++) {
 				Player player = new Player ((JObject)tmpPlayers [i]);
 				this.players.Add (player);
 			}

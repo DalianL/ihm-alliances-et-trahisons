@@ -34,6 +34,13 @@ public class Network : MonoBehaviour {
 		}
 	}
 
+	public void connect (string str) {
+		if (this.inputPseudo.text != "" && str != "") {
+			serverURL = "http://" + str + ":8000/";
+			DoOpen ();
+		}
+	}
+
 	public void disconnect() {
 		DoClose ();
 	}
