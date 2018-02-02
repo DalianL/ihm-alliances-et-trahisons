@@ -68,7 +68,7 @@ public class Network : MonoBehaviour {
 
 				if(testInitialize) {
 					testInitialize = false;
-					socket.Emit ("add_planet", "{}");
+					/*socket.Emit ("add_planet", "{}");
 					socket.Emit ("add_planet", "{}");
 					socket.Emit ("add_planet", "{}");
 					socket.Emit ("add_planet", "{}");
@@ -80,11 +80,7 @@ public class Network : MonoBehaviour {
 					socket.Emit ("conquer_planet", "{\"id_planet\": 1, \"id_player\": 0}");
 					socket.Emit ("conquer_planet", "{\"id_planet\": 2, \"id_player\": 0}");
 					socket.Emit ("conquer_planet", "{\"id_planet\": 3, \"id_player\": 0}");
-					socket.Emit ("conquer_planet", "{\"id_planet\": 4, \"id_player\": 0}");
-					/*socket.Emit ("add_fleet", "{\"id_planet\": 0, \"id_player\": 0}");
-					socket.Emit ("add_fleet", "{\"id_planet\": 0, \"id_player\": 0}");
-					socket.Emit ("add_fleet", "{\"id_planet\": 1, \"id_player\": 0}");
-					socket.Emit ("add_fleet", "{\"id_planet\": 2, \"id_player\": 0}");*/
+					socket.Emit ("conquer_planet", "{\"id_planet\": 4, \"id_player\": 0}");*/
 				}
 			});
 
