@@ -44,10 +44,11 @@ function listenForLobbyCompletion(core) {
 
 export default function buildMenu() {
   const core = new GameCore();
+  core.initFirstPlanets();
 
   $('#example-container').append('<h1> Alliances et Trahisons</h1>');
   $('#example-container').append('<div align="center" style="margin:50px;"><canvas id="canvas"></canvas></div>');
-  QRCode.toCanvas(document.getElementById('canvas'), 'localhost');
+  QRCode.toCanvas(document.getElementById('canvas'), '172.20.10.5');
 
   $('#example-container').append('<button id="user-test" class="menu-button"> Lancer le jeu </button></br>');
 

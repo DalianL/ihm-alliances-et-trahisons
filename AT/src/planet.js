@@ -10,7 +10,6 @@ class Planet extends LibraryStack {
     this.domElem.css('z-index', 150);
     this.stackDiv.css('border-radius', '300px');
     this.client = new Client();
-    this.client.socket.emit('add_planet', '{}');
     this.menu = undefined;
   }
 

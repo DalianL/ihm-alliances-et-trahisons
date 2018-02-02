@@ -67,6 +67,12 @@ class GameCore {
     this.addSpaceship(4, 1270, 250);
   }
 
+  initFirstPlanets() {
+    for (let i = 0; i < 16; i += 1) {
+      this.client.socket.emit('add_planet', '{}');
+    }
+  }
+
   initPlanets() {
     this.addPlanet(1, 1, 230, 185, 95);
     this.addPlanet(2, 2, 770, 102, 135);

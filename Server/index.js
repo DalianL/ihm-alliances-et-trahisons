@@ -29,7 +29,7 @@ io.on('connection', function(socket) {
     pseudo: userId,
     specie: userId % 4,
     color: userId % 6,
-    resources: [1,1,1,1]
+    resources: [2,2,2,2]
   });
   socket.userId = userId++;
 
@@ -100,7 +100,6 @@ io.on('connection', function(socket) {
         players[message.id_player].resources[i]--;
     // Update Client
     update_client();
-    fleetId++;
   });
 
   // "Move_fleet" event
