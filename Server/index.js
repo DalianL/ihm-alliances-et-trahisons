@@ -40,7 +40,7 @@ io.on('connection', function(socket) {
     socket.emit('connected', {userId: socket.userId});
   }
 
-  if(userId == 1) {
+  if(userId == 2) {
     console.log("Play");
     play();
   }
