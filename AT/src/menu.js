@@ -5,25 +5,16 @@
 
 // Import JQuery
 import $ from 'jquery/dist/jquery.min';
-import { WINDOW_WIDTH, WINDOW_HEIGHT } from 'tuiomanager/core/constants';
-import SpaceshipWidget from './spaceshipWidget';
-import Drawer from './drawer';
-import Planet from './planet';
-
-// Import ImageWidget
-// import VideoElementWidget from 'tuiomanager/widgets/ElementWidget/VideoElementWidget/VideoElementWidget';
-// import LibraryBar from 'tuiomanager/widgets/Library/LibraryBar/LibraryBar';
-// import CircularMenu from 'tuiomanager/widgets/CircularMenu/CircularMenu';
-// import MenuItem from 'tuiomanager/widgets/CircularMenu/MenuItem';
-// import { buildNoobWork } from './dev-test';
+import QRCode from 'qrcode';
+import GameCore from './gameCore';
 
 let widgets = [];
 
-function addWidgetToScreen(widget) {
-//  $('#example-container').append(widget.domElem);
-  widget.addTo('#example-container');
-  widgets.push(widget);
-}// AddWidgetToScreen()
+// function addWidgetToScreen(widget) {
+// //  $('#example-container').append(widget.domElem);
+//   widget.addTo('#example-container');
+//   widgets.push(widget);
+// }// AddWidgetToScreen()
 
 function removeWidgets() {
   $('#example-container').empty();
@@ -33,53 +24,61 @@ function removeWidgets() {
   widgets = [];
 }
 
+function initPlanets(core) {
+  core.addPlanet(1, 1, 230, 185, 95);
+  core.addPlanet(2, 2, 770, 102, 135);
+  core.addPlanet(3, 3, 500, 810, 110);
+  core.addPlanet(4, 4, 1225, 209, 110);
+
+  core.addPlanet(5, -1, 1710, 807, 100);
+  core.addPlanet(6, -1, 930, 822, 220);
+  core.addPlanet(7, -1, 12, 27, 90);
+  core.addPlanet(8, -1, 234, 510, 65);
+  core.addPlanet(9, -1, -120, 830, 310);
+  core.addPlanet(10, -1, 1280, 590, 180);
+  core.addPlanet(11, -1, 658, 385, 95);
+  core.addPlanet(12, -1, 1189, -20, 110);
+  core.addPlanet(13, -1, 1489, 86, 85);
+  core.addPlanet(14, -1, 1520, 476, 70);
+  core.addPlanet(15, -1, 1634, 226, 140);
+  core.addPlanet(16, -1, 1744, 82, 60);
+}
+
+function initPlayers(core) {
+  core.createPlayer(1);
+  core.addSpaceship(1, 265, 220);
+
+  core.createPlayer(2);
+  core.addSpaceship(2, 825, 160);
+
+  core.createPlayer(3);
+  core.addSpaceship(3, 545, 850);
+
+  core.createPlayer(4);
+  core.addSpaceship(4, 1270, 250);
+}
+
 function buildGame() {
   removeWidgets();
 
-  const drawer = new Drawer(WINDOW_WIDTH, WINDOW_HEIGHT);
-  drawer.prepareDrawer('assets/image/background.jpg');
+  const core = new GameCore();
+  core.initMap();
 
-  const spaceWidget = new SpaceshipWidget(265, 220, 300, 300, 0, 0.15, 'assets/image/spaceship1.jpg', drawer);
-  addWidgetToScreen(spaceWidget);
+  initPlayers(core);
 
-  const planet1 = new Planet(1, 10, 23, 90, '', 'blue', 'blue', false, ['ImageElementWidget']);
-  addWidgetToScreen(planet1);
+  initPlanets(core);
 
-  const planet2 = new Planet(2, 766, 98, 135, '', 'red', 'red', false, ['ImageElementWidget']);
-  addWidgetToScreen(planet2);
-
-  const planet3 = new Planet(3, 658, 385, 95, '', 'red', 'red', false, ['ImageElementWidget']);
-  addWidgetToScreen(planet3);
-
-  const planet4 = new Planet(4, 1225, 209, 110, '', 'green', 'green', false, ['ImageElementWidget']);
-  addWidgetToScreen(planet4);
-
-  const planet5 = new Planet(5, 930, 820, 220, '', 'yellow', 'yellow', false, ['ImageElementWidget']);
-  addWidgetToScreen(planet5);
-
-  const planet6 = new Planet(6, 500, 810, 110, '', 'yellow', 'yellow', false, ['ImageElementWidget']);
-  addWidgetToScreen(planet6);
-
-  const planet7 = new Planet(7, 1710, 807, 100, '', 'blue', 'blue', false, ['ImageElementWidget']);
-  addWidgetToScreen(planet7);
-
-  const planet8 = new Planet(8, -120, 830, 310, '', 'blue', 'blue', false, ['ImageElementWidget']);
-  addWidgetToScreen(planet8);
-
-  const planet9 = new Planet(9, 235, 510, 62, '', 'blue', 'blue', false, ['ImageElementWidget']);
-  addWidgetToScreen(planet9);
-
-  const planet10 = new Planet(10, 1280, 590, 180, '', 'blue', 'blue', false, ['ImageElementWidget']);
-  addWidgetToScreen(planet10);
+  core.addMenu();
 }
 
 export default function buildMenu() {
-  // $('#example-container').append('<h1> Alliances et Trahisons</h1>');
-  // $('#example-container').append('<button id="user-test" class="menu-button"> Lancer le jeu </button></br>');
+  $('#example-container').append('<h1> Alliances et Trahisons</h1>');
+  $('#example-container').append('<div align="center" style="margin:50px;"><canvas id="canvas"></canvas></div>');
+  QRCode.toCanvas(document.getElementById('canvas'), '192.168.2.1');
 
-  // $('#user-test').on('click', () => {
-  //   buildGame();
-  // });
+  $('#example-container').append('<button id="user-test" class="menu-button"> Lancer le jeu </button></br>');
 
-  buildGame();
+  $('#user-test').on('click', () => {
+    buildGame();
+  });
 }

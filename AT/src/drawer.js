@@ -1,4 +1,5 @@
 import $ from 'jquery/dist/jquery.min';
+import DrawingCanvas from './drawingCanvas';
 
 // let drawer = null;
 
@@ -18,45 +19,58 @@ class Drawer {
   //   return new Drawer();
   // }
 
-  constructor(w, h) {
-    this._domElem = $('<canvas>');
-    this._domElem.css('z-index', `${250}`);
-    this.ctx = this._domElem[0].getContext('2d');
-    this.ctx.canvas.width = w;
-    this.ctx.canvas.height = h;
-    this.w = w;
-    this.h = h;
+  constructor(w, h, core) {
+    this.background = new DrawingCanvas(w, h, 100);
+    this.canvas1 = new DrawingCanvas(w, h, 101, core.playerColors[0]);
+    this.canvas2 = new DrawingCanvas(w, h, 101, core.playerColors[1]);
+    this.canvas3 = new DrawingCanvas(w, h, 101, core.playerColors[2]);
+    this.canvas4 = new DrawingCanvas(w, h, 101, core.playerColors[3]);
 
-    $('#example-container').append(this._domElem);
+    $('#example-container').append(this.background._domElem); // eslint-disable-line
+    $('#example-container').append(this.canvas1._domElem); // eslint-disable-line
+    $('#example-container').append(this.canvas2._domElem); // eslint-disable-line
+    $('#example-container').append(this.canvas3._domElem); // eslint-disable-line
+    $('#example-container').append(this.canvas4._domElem); // eslint-disable-line
   }
 
   prepareDrawer(imgSrc) {
-    this.backgr = new Image();
-
-    this.backgr.onload = () => {
-      this.ctx.drawImage(this.backgr, 0, 0, 1920, 1080);
-    };
-
-    this.backgr.src = imgSrc;
+    this.background.loadBackground(imgSrc);
   }
 
-  drawLine(x1, y1, x2, y2) {
-    this.ctx.clearRect(0, 0, this.w, this.h);
-    this.ctx.drawImage(this.backgr, 0, 0, 1920, 1080);
-
-    this.ctx.save();
-    this.ctx.strokeStyle = 'blue';
-    this.ctx.lineWidth = 5;
-    this.ctx.beginPath();
-    this.ctx.moveTo(x1, y1);
-    this.ctx.lineTo(x2, y2);
-    this.ctx.stroke();
-    this.ctx.restore();
+  drawLine(playerId, x1, y1, x2, y2) {
+    switch (playerId) {
+      case 1:
+        this.canvas1.drawLine(x1, y1, x2, y2);
+        break;
+      case 2:
+        this.canvas2.drawLine(x1, y1, x2, y2);
+        break;
+      case 3:
+        this.canvas3.drawLine(x1, y1, x2, y2);
+        break;
+      case 4:
+        this.canvas4.drawLine(x1, y1, x2, y2);
+        break;
+      default: break;
+    }
   }
 
-  clearLines() {
-    this.ctx.clearRect(0, 0, this.w, this.h);
-    this.ctx.drawImage(this.backgr, 0, 0, 1920, 1080);
+  clearLines(playerId) {
+    switch (playerId) {
+      case 1:
+        this.canvas1.clearLines();
+        break;
+      case 2:
+        this.canvas2.clearLines();
+        break;
+      case 3:
+        this.canvas3.clearLines();
+        break;
+      case 4:
+        this.canvas4.clearLines();
+        break;
+      default: break;
+    }
   }
 
   get domElem() { return this._domElem; }
