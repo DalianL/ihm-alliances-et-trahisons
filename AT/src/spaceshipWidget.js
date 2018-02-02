@@ -176,8 +176,8 @@ class SpaceshipWidget extends TUIOWidget {
    * @param {number} angle - New ImageWidget's angle.
    */
   moveTo(x, y, angle = null) {
-    this.x = x;
-    this.y = y;
+    this._x = x;
+    this._y = y;
     this.centeredX = x + (this._width / 2);
     this.centeredY = y + (this._height / 2);
     this._domElem.css('left', `${x}px`);
