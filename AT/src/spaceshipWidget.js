@@ -12,10 +12,11 @@ import Utils from './utils';
  * @extends TUIOWidget
  */
 class SpaceshipWidget extends TUIOWidget {
-  constructor(playerId, x, y, width, height, initialRotation, color, src, drawer) {
+  constructor(id, playerId, x, y, width, height, initialRotation, color, src, drawer) {
     super(x, y, width, height, initialRotation);
     this.src = src;
     this.color = color;
+    this.shipId = id;
     this.playerId = playerId;
     this._domElem = $('<img>');
     this._domElem.attr('src', src);

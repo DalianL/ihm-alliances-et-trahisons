@@ -21,6 +21,7 @@ class GameCore {
     this.playerImgs = ['assets/image/spaceship1.png', 'assets/image/spaceship2.png', 'assets/image/spaceship3.png', 'assets/image/spaceship4.png'];
     this.drawer = new Drawer(WINDOW_WIDTH, WINDOW_HEIGHT, this);
     this.client = new Client();
+    this.gameStarted = false;
 
     gameCoreInstance = this;
     return gameCoreInstance;
@@ -55,16 +56,20 @@ class GameCore {
 
   initPlayers() {
     this.createPlayer(1, '0', '77');
-    this.addSpaceship(1, 265, 220);
+    this.addFirstSpaceships(0, 1, 265, 220);
 
     this.createPlayer(2, '1', '88');
-    this.addSpaceship(2, 825, 160);
+    this.addFirstSpaceships(1, 2, 825, 160);
 
     this.createPlayer(3, '2', '99');
-    this.addSpaceship(3, 545, 850);
+    this.addFirstSpaceships(2, 3, 545, 850);
 
     this.createPlayer(4, '3', '7A');
-    this.addSpaceship(4, 1270, 250);
+    this.addFirstSpaceships(3, 4, 1270, 250);
+  }
+
+  createPlayer(id, tagId1, tagId2) {
+    this.players.push(new Player(id, this.playerColors[id - 1], tagId1, tagId2));
   }
 
   initFirstPlanets() {
@@ -92,14 +97,18 @@ class GameCore {
     this.addPlanet(16, -1, 1744, 82, 60);
   }
 
-  createPlayer(id, tagId1, tagId2) {
-    this.players.push(new Player(id, this.playerColors[id - 1], tagId1, tagId2));
-  }
-
-  addSpaceship(playerId, x, y) {
-    const newSpaceship = new SpaceshipWidget(playerId, x, y, 45, 45, 0, this.playerColors[playerId - 1], this.playerImgs[playerId - 1], this.drawer);
+  addFirstSpaceships(id, playerId, x, y) {
+    const newSpaceship = new SpaceshipWidget(id, playerId, x, y, 45, 45, 0, this.playerColors[playerId - 1], this.playerImgs[playerId - 1], this.drawer);
     this.players[playerId - 1].addSpaceship(newSpaceship);
     newSpaceship.addTo('#example-container');
+  }
+
+  addSpaceship(id, playerId, planetId) {
+    if (this.gameStarted) {
+      const newSpaceship = new SpaceshipWidget(id, playerId, this.planets[planetId].x, this.planets[planetId].y, 45, 45, 0, this.playerColors[playerId - 1], this.playerImgs[playerId - 1], this.drawer);
+      this.players[playerId - 1].addSpaceship(newSpaceship);
+      newSpaceship.addTo('#example-container');
+    }
   }
 
   addPlanet(planetId, playerId, x, y, size) {
@@ -115,15 +124,15 @@ class GameCore {
     newPlanet.addTo('#example-container');
   }
 
+  startGame() {
+    setTimeout(() => {
+      this.gameStarted = true;
+    }, 5000);
+  }
+
   conquerFirstPlanet(id) {
     this.planets[id - 1].stackDiv.css('border', `solid 10px ${this.playerColors[id - 1]}`);
     this.planets[id - 1].playerId = id;
-  }
-
-  addFleet() { // id, playerId, planetId) {
-    if (this.player !== undefined) {
-      // console.log(id, playerId, planetId);
-    }
   }
 }
 

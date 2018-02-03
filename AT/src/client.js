@@ -1,4 +1,5 @@
 import io from 'socket.io-client';
+import GameCore from './gameCore';
 
 // let amountPlayers = 1;
 let amountPlanets = 0;
@@ -24,9 +25,9 @@ class Client {
       // amountPlayers += 1;
     });
 
-    // this.socket.on('create_fleet', (data) => {
-    //   GameCore.getInstance().addFleet(data.id, data.id_player, data.id_planet);
-    // });
+    this.socket.on('create_fleet', (data) => {
+      GameCore.getInstance().addSpaceship(data.id, data.id_player, data.id_planet);
+    });
 
     SIOClient = this;
     return SIOClient;
