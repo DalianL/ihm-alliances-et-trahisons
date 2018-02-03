@@ -54,16 +54,16 @@ class GameCore {
   }
 
   initPlayers() {
-    this.createPlayer(1);
+    this.createPlayer(1, '0', '77');
     this.addSpaceship(1, 265, 220);
 
-    this.createPlayer(2);
+    this.createPlayer(2, '1', '88');
     this.addSpaceship(2, 825, 160);
 
-    this.createPlayer(3);
+    this.createPlayer(3, '2', '99');
     this.addSpaceship(3, 545, 850);
 
-    this.createPlayer(4);
+    this.createPlayer(4, '3', '7A');
     this.addSpaceship(4, 1270, 250);
   }
 
@@ -92,12 +92,13 @@ class GameCore {
     this.addPlanet(16, -1, 1744, 82, 60);
   }
 
-  createPlayer(id) {
-    this.players.push(new Player(id, this.playerColors[id - 1]));
+  createPlayer(id, tagId1, tagId2) {
+    this.players.push(new Player(id, this.playerColors[id - 1], tagId1, tagId2));
   }
 
   addSpaceship(playerId, x, y) {
-    const newSpaceship = new SpaceshipWidget(playerId, x, y, 45, 45, 0, this.playerColors[playerId - 1], this.playerImgs[playerId - 1], this.drawer, playerId - 1);
+    const newSpaceship = new SpaceshipWidget(playerId, x, y, 45, 45, 0, this.playerColors[playerId - 1], this.playerImgs[playerId - 1], this.drawer,
+      this.players[playerId - 1].tagId1, this.players[playerId - 1].tagId2);
     this.players[playerId - 1].addSpaceship(newSpaceship);
     newSpaceship.addTo('#example-container');
   }

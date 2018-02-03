@@ -12,7 +12,7 @@ import Utils from './utils';
  * @extends TUIOWidget
  */
 class SpaceshipWidget extends TUIOWidget {
-  constructor(playerId, x, y, width, height, initialRotation, color, src, drawer, tag) {
+  constructor(playerId, x, y, width, height, initialRotation, color, src, drawer, tag1, tag2) {
     super(x, y, width, height, initialRotation);
     this.src = src;
     this.color = color;
@@ -31,7 +31,8 @@ class SpaceshipWidget extends TUIOWidget {
     this.centeredX = x + (this._width / 2);
     this.centeredY = y + (this._height / 2);
     this.drawer = drawer;
-    this.idTagMove = tag;
+    this.idTagMove1 = tag1;
+    this.idTagMove2 = tag2;
     this.canMoveTangible = true;
     this.canDeleteTangible = true;
     this.hasDuplicate = false;
@@ -53,7 +54,7 @@ class SpaceshipWidget extends TUIOWidget {
    * @param {TUIOTag} tuioTag - A TUIOTag instance.
    */
   onTagCreation(tuioTag) {
-    if (!this._isInStack && tuioTag.id === this.playerId - 1) {
+    if (!this._isInStack && (tuioTag.id.toString() === this.idTagMove1 || tuioTag.id.toString() === this.idTagMove2)) {
       if (this.isTouched(tuioTag.x, tuioTag.y)) {
         super.onTagCreation(tuioTag);
         console.log('Creating tag');
@@ -75,23 +76,21 @@ class SpaceshipWidget extends TUIOWidget {
    * @param {TUIOTag} tuioTag - A TUIOTag instance.
    */
   onTagUpdate(tuioTag) {
-    if (typeof (this._lastTagsValues[tuioTag.id]) !== 'undefined' && tuioTag.id === this.playerId - 1) {
-      if (tuioTag.id === this.idTagMove && this.canMoveTangible) {
-        console.log('Updating trajectory');
-        this.drawer.drawLine(this.playerId, this.centeredX, this.centeredY, tuioTag.x, tuioTag.y);
-        const scan = Utils.checkForPlanetBeneath(tuioTag.id);
-        let widget;
-        for (let i = 0; i < scan.length; i += 1) {
-          if (scan[i] !== undefined) {
-            widget = scan[i];
-            break;
-          }
+    if (typeof (this._lastTagsValues[tuioTag.id]) !== 'undefined' && this.canMoveTangible && (tuioTag.id.toString() === this.idTagMove1 || tuioTag.id.toString() === this.idTagMove2)) {
+      console.log('Updating trajectory');
+      this.drawer.drawLine(this.playerId, this.centeredX, this.centeredY, tuioTag.x, tuioTag.y);
+      const scan = Utils.checkForPlanetBeneath(tuioTag.id);
+      let widget;
+      for (let i = 0; i < scan.length; i += 1) {
+        if (scan[i] !== undefined) {
+          widget = scan[i];
+          break;
         }
-        if (widget !== undefined && widget.playerId !== this.playerId) {
-          GameCore.getInstance().menu.domElem.css('display', 'block');
-        } else {
-          GameCore.getInstance().menu.domElem.css('display', 'none');
-        }
+      }
+      if (widget !== undefined && widget.playerId !== this.playerId) {
+        GameCore.getInstance().menu.domElem.css('display', 'block');
+      } else {
+        GameCore.getInstance().menu.domElem.css('display', 'none');
       }
     }
   }
@@ -103,7 +102,7 @@ class SpaceshipWidget extends TUIOWidget {
    * @param {number/string} tuioTagId - TUIOTag's id to delete.
    */
   onTagDeletion(tuioTagId) {
-    if (super.tags[tuioTagId] !== undefined && tuioTagId === this.idTagMove && !this.moving && tuioTagId === this.playerId - 1) {
+    if (super.tags[tuioTagId] !== undefined && !this.moving && (tuioTagId.toString() === this.idTagMove1 || tuioTagId.toString() === this.idTagMove2)) {
       this.arrivalCheck(tuioTagId);
       super.onTagDeletion(tuioTagId);
     }
