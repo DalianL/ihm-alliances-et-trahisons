@@ -97,8 +97,7 @@ class GameCore {
   }
 
   addSpaceship(playerId, x, y) {
-    const newSpaceship = new SpaceshipWidget(playerId, x, y, 45, 45, 0, this.playerColors[playerId - 1], this.playerImgs[playerId - 1], this.drawer,
-      this.players[playerId - 1].tagId1, this.players[playerId - 1].tagId2);
+    const newSpaceship = new SpaceshipWidget(playerId, x, y, 45, 45, 0, this.playerColors[playerId - 1], this.playerImgs[playerId - 1], this.drawer);
     this.players[playerId - 1].addSpaceship(newSpaceship);
     newSpaceship.addTo('#example-container');
   }

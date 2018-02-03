@@ -12,7 +12,7 @@ import Utils from './utils';
  * @extends TUIOWidget
  */
 class SpaceshipWidget extends TUIOWidget {
-  constructor(playerId, x, y, width, height, initialRotation, color, src, drawer, tag1, tag2) {
+  constructor(playerId, x, y, width, height, initialRotation, color, src, drawer) {
     super(x, y, width, height, initialRotation);
     this.src = src;
     this.color = color;
@@ -31,8 +31,8 @@ class SpaceshipWidget extends TUIOWidget {
     this.centeredX = x + (this._width / 2);
     this.centeredY = y + (this._height / 2);
     this.drawer = drawer;
-    this.idTagMove1 = tag1;
-    this.idTagMove2 = tag2;
+    this.idTagMove1 = GameCore.getInstance().players[playerId - 1].tagId1;
+    this.idTagMove2 = GameCore.getInstance().players[playerId - 1].tagId2;
     this.canMoveTangible = true;
     this.canDeleteTangible = true;
     this.hasDuplicate = false;
