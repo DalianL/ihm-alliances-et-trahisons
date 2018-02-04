@@ -17,7 +17,9 @@ class GameCore {
 
     this.players = [];
     this.planets = [];
-    this.playerColors = ['blue', 'red', 'yellow', 'green'];
+    this.playerColors = ['red', 'green', 'blue', 'orange'];
+    this.playerTags1 = ['1', '3', '0', '2'];
+    this.playerTags2 = ['77', '88', '99', '7A'];
     this.playerImgs = ['assets/image/spaceship1.png', 'assets/image/spaceship2.png', 'assets/image/spaceship3.png', 'assets/image/spaceship4.png'];
     this.drawer = new Drawer(WINDOW_WIDTH, WINDOW_HEIGHT, this);
     this.client = new Client();
@@ -55,16 +57,16 @@ class GameCore {
   }
 
   initPlayers() {
-    this.createPlayer(1, '0', '77');
+    this.createPlayer(1, this.playerTags1[0], this.playerTags2[0]);
     this.addFirstSpaceships(0, 1, 265, 185);
 
-    this.createPlayer(2, '1', '88');
+    this.createPlayer(2, this.playerTags1[1], this.playerTags2[1]);
     this.addFirstSpaceships(1, 2, 825, 102);
 
-    this.createPlayer(3, '2', '99');
+    this.createPlayer(3, this.playerTags1[2], this.playerTags2[2]);
     this.addFirstSpaceships(2, 3, 545, 810);
 
-    this.createPlayer(4, '3', '7A');
+    this.createPlayer(4, this.playerTags1[3], this.playerTags2[3]);
     this.addFirstSpaceships(3, 4, 1270, 209);
   }
 
