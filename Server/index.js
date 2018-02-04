@@ -29,7 +29,7 @@ io.on('connection', function(socket) {
     pseudo: userId,
     specie: userId % 4,
     color: userId % 6,
-    resources: [2,2,2,2]
+    resources: [6,6,6,6]
   });
   socket.userId = userId++;
 
@@ -40,7 +40,7 @@ io.on('connection', function(socket) {
     socket.emit('connected', {userId: socket.userId});
   }
 
-  if(userId == 5) {
+  if(userId == 2) {
     console.log("Play");
     play();
   }

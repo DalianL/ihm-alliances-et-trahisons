@@ -56,16 +56,16 @@ class GameCore {
 
   initPlayers() {
     this.createPlayer(1, '0', '77');
-    this.addFirstSpaceships(0, 1, 265, 220);
+    this.addFirstSpaceships(0, 1, 265, 185);
 
     this.createPlayer(2, '1', '88');
-    this.addFirstSpaceships(1, 2, 825, 160);
+    this.addFirstSpaceships(1, 2, 825, 102);
 
     this.createPlayer(3, '2', '99');
-    this.addFirstSpaceships(2, 3, 545, 850);
+    this.addFirstSpaceships(2, 3, 545, 810);
 
     this.createPlayer(4, '3', '7A');
-    this.addFirstSpaceships(3, 4, 1270, 250);
+    this.addFirstSpaceships(3, 4, 1270, 209);
   }
 
   createPlayer(id, tagId1, tagId2) {
@@ -105,7 +105,7 @@ class GameCore {
 
   addSpaceship(id, playerId, planetId) {
     if (this.gameStarted) {
-      const newSpaceship = new SpaceshipWidget(id, playerId, this.planets[planetId].x, this.planets[planetId].y, 45, 45, 0, this.playerColors[playerId - 1], this.playerImgs[playerId - 1], this.drawer);
+      const newSpaceship = new SpaceshipWidget(id, playerId, this.planets[planetId].x, this.planets[planetId].y, 45, 45, 0, this.playerColors[playerId - 1], this.playerImgs[playerId - 1], this.drawer); // eslint-disable-line
       this.players[playerId - 1].addSpaceship(newSpaceship);
       newSpaceship.addTo('#example-container');
     }
