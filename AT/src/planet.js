@@ -1,5 +1,6 @@
 import LibraryStack from 'tuiomanager/widgets/Library/LibraryStack/LibraryStack';
 import Client from './client';
+import Utils from './utils';
 
 class Planet extends LibraryStack {
   constructor(id, pId, x, y, size, stackTitle, color, isFull, allowcontentsArray) {
@@ -19,7 +20,7 @@ class Planet extends LibraryStack {
     // super.addElementWidget(widget);
     this.stackDiv.css('border', `solid 10px ${widget.color}`);
     this.playerId = widget.playerId;
-    this.client.socket.emit('update', 'updating phone public/private data');
+    this.client.socket.emit('conquer_planet', Utils.parser2(this.planetId, this.playerId));
 
     // elementToAdd = widget;
     // elementToAdd._domElem.css('transform', 'rotate(360deg)');
