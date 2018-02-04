@@ -39,6 +39,7 @@ class SpaceshipWidget extends TUIOWidget {
     this.hasDuplicate = false;
     this.movement = 0;
     this.moving = false;
+    this.canvas = this.drawer.affectCanvas(this.playerId, this.shipId);
   }
 
   /**
@@ -79,7 +80,7 @@ class SpaceshipWidget extends TUIOWidget {
   onTagUpdate(tuioTag) {
     if (typeof (this._lastTagsValues[tuioTag.id]) !== 'undefined' && this.canMoveTangible && (tuioTag.id.toString() === this.idTagMove1 || tuioTag.id.toString() === this.idTagMove2)) {
       console.log('Updating trajectory');
-      this.drawer.drawLine(this.playerId, this.centeredX, this.centeredY, tuioTag.x, tuioTag.y);
+      this.drawer.drawLine(this.shipId, this.centeredX, this.centeredY, tuioTag.x, tuioTag.y);
       const scan = Utils.checkForPlanetBeneath(tuioTag.id);
       let widget;
       for (let i = 0; i < scan.length; i += 1) {
@@ -119,14 +120,14 @@ class SpaceshipWidget extends TUIOWidget {
     // Trigger the spaceship movement
     clearInterval(this.movement);
     this.movement = setInterval(() => {
-      this.drawer.drawLine(this.playerId, this.centeredX, this.centeredY, dirX, dirY);
+      this.drawer.drawLine(this.shipId, this.centeredX, this.centeredY, dirX, dirY);
       this.updatePos(dX / (dist * multiplier), dY / (dist * multiplier));
       countdown -= 1;
       if (countdown <= 0) {
         this.moving = false;
         callback();
         clearInterval(this.movement);
-        this.drawer.clearLines(this.playerId);
+        this.drawer.clearLines(this.shipId);
       }
     }, 1000 / 60);
   }
@@ -138,7 +139,7 @@ class SpaceshipWidget extends TUIOWidget {
         if (widget !== undefined) {
           this.startMovement(super.tags[id].x, super.tags[id].y, () => { widget.addElementWidget(this); });
         } else {
-          this.drawer.clearLines(this.playerId);
+          this.drawer.clearLines(this.shipId);
         }
       });
     }
