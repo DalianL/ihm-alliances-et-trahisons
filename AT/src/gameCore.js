@@ -19,7 +19,7 @@ class GameCore {
     this.planets = [];
     this.playerColors = ['red', 'green', 'blue', 'orange'];
     this.playerTags1 = ['1', '3', '0', '2'];
-    this.playerTags2 = ['77', '88', '99', '7A'];
+    this.playerTags2 = ['77', '87', '97', 'A7'];
     this.playerImgs = ['assets/image/spaceship1.png', 'assets/image/spaceship2.png', 'assets/image/spaceship3.png', 'assets/image/spaceship4.png'];
     this.drawer = new Drawer(WINDOW_WIDTH, WINDOW_HEIGHT, this);
     this.client = new Client();
