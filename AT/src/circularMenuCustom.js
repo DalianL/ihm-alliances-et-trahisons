@@ -30,7 +30,7 @@ class CircularMenuCustom extends CircularMenu {
    * @method onTagUpdate
    * @param {TUIOTag} tuioTag - A TUIOTag instance.
    */
-  onTagUpdate(tuioTag) {;
+  onTagUpdate(tuioTag) {
     super.onTagUpdate(tuioTag);
   }
 
