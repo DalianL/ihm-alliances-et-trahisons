@@ -17,6 +17,7 @@ class GameCore {
 
     this.players = [];
     this.planets = [];
+    this.menus = [];
     this.playerColors = ['red', 'green', 'blue', 'orange'];
     this.playerTags1 = ['1', '3', '0', '2'];
     this.playerTags2 = ['77', '87', '97', 'A7'];
@@ -33,41 +34,22 @@ class GameCore {
     return new GameCore();
   }
 
-  addMenu() {
-    const root = new MenuItem('root', '#0F0', '#0FF', false);
-
-    const attack = new MenuItem('Attack', '#FFF', '#000', false);
-    attack.setTouchCallback(() => {
-      // console.log('Created spaceship');
-    });
-    root.addChild(attack);
-
-    // const target = new MenuItem('Target', '#FFF', '#000', false);
-    // target.setTouchCallback(() => {
-    //   // console.log('Target planet now');
-    // });
-    // root.addChild(target);
-
-    this.menu = new CircularMenuCustom(0, root);
-    this.menu.addTo('#example-container');
-  }
-
   initMap() {
     this.drawer.prepareDrawer('assets/image/background.jpg');
   }
 
   initPlayers() {
     this.createPlayer(1, this.playerTags1[0], this.playerTags2[0]);
-    this.addFirstSpaceships(0, 1, 265, 185);
+    this.addFirstSpaceships(0, 1, 1, 230, 185);
 
     this.createPlayer(2, this.playerTags1[1], this.playerTags2[1]);
-    this.addFirstSpaceships(1, 2, 825, 102);
+    this.addFirstSpaceships(1, 2, 2, 770, 102);
 
     this.createPlayer(3, this.playerTags1[2], this.playerTags2[2]);
-    this.addFirstSpaceships(2, 3, 545, 810);
+    this.addFirstSpaceships(2, 3, 3, 500, 810);
 
     this.createPlayer(4, this.playerTags1[3], this.playerTags2[3]);
-    this.addFirstSpaceships(3, 4, 1270, 209);
+    this.addFirstSpaceships(3, 4, 4, 1225, 209);
   }
 
   createPlayer(id, tagId1, tagId2) {
@@ -99,8 +81,8 @@ class GameCore {
     this.addPlanet(16, -1, 1744, 82, 60);
   }
 
-  addFirstSpaceships(id, playerId, x, y) {
-    const newSpaceship = new SpaceshipWidget(id, playerId, x, y, 45, 45, 0, this.playerColors[playerId - 1], this.playerImgs[playerId - 1], this.drawer);
+  addFirstSpaceships(id, playerId, planetId, x, y) {
+    const newSpaceship = new SpaceshipWidget(id, playerId, planetId, x, y, 45, 45, 0, this.playerColors[playerId - 1], this.playerImgs[playerId - 1], this.drawer);
     this.players[playerId - 1].addSpaceship(newSpaceship);
     newSpaceship.addTo('#example-container');
   }
@@ -108,7 +90,7 @@ class GameCore {
   addSpaceship(id, playerId, planetId) {
     if (this.gameStarted) {
       const correctId = planetId > 3 ? planetId - 1 : planetId;
-      const newSpaceship = new SpaceshipWidget(3 + id, playerId, this.planets[correctId].x, this.planets[correctId].y, 45, 45, 0, this.playerColors[playerId - 1], this.playerImgs[playerId - 1], this.drawer); // eslint-disable-line
+      const newSpaceship = new SpaceshipWidget(3 + id, playerId, correctId, this.planets[correctId].x, this.planets[correctId].y, 45, 45, 0, this.playerColors[playerId - 1], this.playerImgs[playerId - 1], this.drawer); // eslint-disable-line
       this.players[playerId - 1].addSpaceship(newSpaceship);
       newSpaceship.addTo('#example-container');
     }
@@ -136,6 +118,109 @@ class GameCore {
   conquerFirstPlanet(id) {
     this.planets[id - 1].stackDiv.css('border', `solid 10px ${this.playerColors[id - 1]}`);
     this.planets[id - 1].playerId = id;
+  }
+
+  addMenus() {
+    const allowedTags = this.playerTags1;
+
+    const root1 = new MenuItem('root1', '#0F0', '#0FF', false);
+
+    const attack1 = new MenuItem('Attack', '#FFF', '#000', false);
+    attack1.setTouchCallback(() => {
+      // console.log('Action taken', this.gameStarted);
+    });
+    root1.addChild(attack1);
+
+    const defend1 = new MenuItem('Defend', '#FFF', '#000', false);
+    defend1.setTouchCallback(() => {
+      // console.log('Action taken', this.gameStarted);
+    });
+    root1.addChild(defend1);
+
+    const move1 = new MenuItem('Move', '#FFF', '#000', false);
+    move1.setTouchCallback(() => {
+      // console.log('Action taken', this.gameStarted);
+    });
+    root1.addChild(move1);
+
+    const menu1 = new CircularMenuCustom(root1, allowedTags[0]);
+    menu1.addTo('#example-container');
+    this.menus.push(menu1);
+
+    // SECOND MENU
+    const root2 = new MenuItem('root2', '#0F0', '#0FF', false);
+
+    const attack2 = new MenuItem('Attack', '#FFF', '#000', false);
+    attack2.setTouchCallback(() => {
+      // console.log('Created spaceship');
+    });
+    root2.addChild(attack2);
+
+    const defend2 = new MenuItem('Defend', '#FFF', '#000', false);
+    defend2.setTouchCallback(() => {
+      // console.log('Action taken', this.gameStarted);
+    });
+    root2.addChild(defend2);
+
+    const move2 = new MenuItem('Move', '#FFF', '#000', false);
+    move2.setTouchCallback(() => {
+      // console.log('Action taken', this.gameStarted);
+    });
+    root2.addChild(move2);
+
+    const menu2 = new CircularMenuCustom(root2, allowedTags[1]);
+    menu2.addTo('#example-container');
+    this.menus.push(menu2);
+
+    // THIRD MENU
+    const root3 = new MenuItem('root3', '#0F0', '#0FF', false);
+
+    const attack3 = new MenuItem('Attack', '#FFF', '#000', false);
+    attack3.setTouchCallback(() => {
+      // console.log('Created spaceship');
+    });
+    root3.addChild(attack3);
+
+    const defend3 = new MenuItem('Defend', '#FFF', '#000', false);
+    defend3.setTouchCallback(() => {
+      // console.log('Action taken', this.gameStarted);
+    });
+    root3.addChild(defend3);
+
+    const move3 = new MenuItem('Move', '#FFF', '#000', false);
+    move3.setTouchCallback(() => {
+      // console.log('Action taken', this.gameStarted);
+    });
+    root3.addChild(move3);
+
+    const menu3 = new CircularMenuCustom(root3, allowedTags[2]);
+    menu3.addTo('#example-container');
+    this.menus.push(menu3);
+
+    // FOURTH MENU
+    const root4 = new MenuItem('root4', '#0F0', '#0FF', false);
+
+    const attack4 = new MenuItem('Attack', '#FFF', '#000', false);
+    attack4.setTouchCallback(() => {
+      // console.log('Created spaceship');
+    });
+    root4.addChild(attack4);
+
+    const defend4 = new MenuItem('Defend', '#FFF', '#000', false);
+    defend4.setTouchCallback(() => {
+      // console.log('Action taken', this.gameStarted);
+    });
+    root4.addChild(defend4);
+
+    const move4 = new MenuItem('Move', '#FFF', '#000', false);
+    move4.setTouchCallback(() => {
+      // console.log('Action taken', this.gameStarted);
+    });
+    root4.addChild(move4);
+
+    const menu4 = new CircularMenuCustom(root4, allowedTags[3]);
+    menu4.addTo('#example-container');
+    this.menus.push(menu4);
   }
 }
 

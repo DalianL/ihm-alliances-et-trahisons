@@ -12,12 +12,13 @@ import Utils from './utils';
  * @extends TUIOWidget
  */
 class SpaceshipWidget extends TUIOWidget {
-  constructor(id, playerId, x, y, width, height, initialRotation, color, src, drawer) {
+  constructor(id, playerId, planetId, x, y, width, height, initialRotation, color, src, drawer) {
     super(x, y, width, height, initialRotation);
     this.src = src;
     this.color = color;
     this.shipId = id;
     this.playerId = playerId;
+    this.planetId = planetId;
     this._domElem = $('<img>');
     this._domElem.attr('src', src);
     this._domElem.css('width', `${this.width}px`);
@@ -59,7 +60,7 @@ class SpaceshipWidget extends TUIOWidget {
     if (!this._isInStack && (tuioTag.id.toString() === this.idTagMove1 || tuioTag.id.toString() === this.idTagMove2)) {
       if (this.isTouched(tuioTag.x, tuioTag.y)) {
         super.onTagCreation(tuioTag);
-        console.log('Creating tag');
+        console.log('Creating tag on planet', this.planetId);
         this._lastTagsValues = {
           ...this._lastTagsValues,
           [tuioTag.id]: {
@@ -89,10 +90,11 @@ class SpaceshipWidget extends TUIOWidget {
           break;
         }
       }
-      if (widget !== undefined && widget.playerId !== this.playerId) {
-        GameCore.getInstance().menu.domElem.css('display', 'block');
+      if (widget !== undefined && this.planetId !== widget.planetId && this.idTagMove1 == GameCore.getInstance().menus[this.playerId - 1].allowedTag1) { // eslint-disable-line
+        GameCore.getInstance().menus[this.playerId - 1].domElem.css('display', 'block');
+        GameCore.getInstance().menus[this.playerId - 1].onTagUpdate(tuioTag);
       } else {
-        GameCore.getInstance().menu.domElem.css('display', 'none');
+        GameCore.getInstance().menus[this.playerId - 1].domElem.css('display', 'none');
       }
     }
   }
@@ -136,8 +138,11 @@ class SpaceshipWidget extends TUIOWidget {
     if (!this.isInStack) {
       const scan = Utils.checkForPlanetBeneath(id);
       scan.forEach((widget) => {
-        if (widget !== undefined) {
-          this.startMovement(super.tags[id].x, super.tags[id].y, () => { widget.addElementWidget(this); });
+        if (widget !== undefined && widget.planetId !== this.planetId) {
+          this.startMovement(super.tags[id].x, super.tags[id].y, () => {
+            widget.addElementWidget(this);
+            this.planetId = widget.planetId;
+          });
         } else {
           this.drawer.clearLines(this.shipId);
         }

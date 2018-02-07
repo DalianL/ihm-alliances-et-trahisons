@@ -30,7 +30,7 @@ function buildGame(core) {
   core.initMap();
   core.initPlayers();
   core.initPlanets();
-  core.addMenu();
+  core.addMenus();
   core.startGame();
 }
 

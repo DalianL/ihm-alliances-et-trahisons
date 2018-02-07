@@ -1,8 +1,10 @@
 import CircularMenu from 'tuiomanager/widgets/CircularMenu/CircularMenu';
 
 class CircularMenuCustom extends CircularMenu {
-  constructor(tagMenu, rootTree) {
-    super(tagMenu, rootTree);
+  constructor(rootTree, tagMenu1, playerId) {
+    super(parseInt(tagMenu1, 16), rootTree);
+    this.playerId = playerId;
+    this.allowedTag1 = tagMenu1;
     this.visibility = 'none';
   }
 
@@ -15,8 +17,11 @@ class CircularMenuCustom extends CircularMenu {
    * @param {TUIOTag} tuioTag - A TUIOTag instance.
    */
   onTagCreation(tuioTag) {
-    // super.onTagCreation(tuioTag);
-    this._domElem.css('display', this.visibility);
+    if (tuioTag.id.toString() === this.allowedTag1) {
+      super.onTagCreation(tuioTag);
+      this._domElem.css('display', this.visibility);
+      this._domElem.attr('class', 'selector');
+    }
   }
 
   /**
@@ -25,8 +30,8 @@ class CircularMenuCustom extends CircularMenu {
    * @method onTagUpdate
    * @param {TUIOTag} tuioTag - A TUIOTag instance.
    */
-  onTagUpdate(tuioTag) {
-    // super.onTagUpdate(tuioTag);
+  onTagUpdate(tuioTag) {;
+    super.onTagUpdate(tuioTag);
   }
 
   /**
@@ -36,7 +41,10 @@ class CircularMenuCustom extends CircularMenu {
    * @param {number/string} tuioTagId - TUIOTag's id to delete.
    */
   onTagDeletion(tuioTagId) {
-    // super.onTagDeletion(tuioTagId);
+    if (tuioTagId.toString() === this.allowedTag1) {
+      // super.onTagDeletion(tuioTagId);
+      this._domElem.css('display', 'none');
+    }
   }
 
   /* eslint-enable */
