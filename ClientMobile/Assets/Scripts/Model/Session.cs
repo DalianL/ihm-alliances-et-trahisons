@@ -66,6 +66,19 @@ namespace AssemblyCSharp
 			}
 			return null;
 		}
+
+		public Player giveWinner() {
+			int max = 0;
+			Player winner = new Player();
+			for(int i = 0; i < players.Count; i++) {
+				if(max < players[i].Planets.Count) {
+					max = players [i].Planets.Count;
+					winner = players [i];
+				}
+			}
+			Debug.Log (winner.Id);
+			return winner;
+		}
 			
 		public Session ()
 		{

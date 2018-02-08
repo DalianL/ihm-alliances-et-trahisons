@@ -7,11 +7,11 @@ namespace AssemblyCSharp
 	public enum ColorEnum
 	{
 		RED,
-		BROWN,
-		BLUE,
 		GREEN,
+		BLUE,
 		ORANGE,
-		VIOLET,
+		BROWN,
+		PINK,
 		NO_COLOR
 	}
 
@@ -22,17 +22,17 @@ namespace AssemblyCSharp
 			switch (color) 
 			{
 			case ColorEnum.RED:
-				return new Color32(255,0,0,255);
+				return new Color32(192,0,0,255);
 			case ColorEnum.BROWN :
 				return new Color32(96,66,42,255);
 			case ColorEnum.BLUE :
-				return new Color32(0,0,255,255);
+				return new Color32(68,114,196,255);
 			case ColorEnum.GREEN:
-				return new Color32(0,255,0,255);
+				return new Color32(112,173,71,255);
 			case ColorEnum.ORANGE :
-				return new Color32(255,130,0,255);
-			case ColorEnum.VIOLET :
-				return new Color32(255,0,255,255);
+				return new Color32(237,125,49,255);
+			case ColorEnum.PINK :
+				return new Color32(255,102,255,255);
 			default :
 				return new Color32(255,255,255,255);
 			}
@@ -52,8 +52,8 @@ namespace AssemblyCSharp
 				return "GREEN";
 			case ColorEnum.ORANGE :
 				return "ORANGE";
-			case ColorEnum.VIOLET :
-				return "VIOLET";
+			case ColorEnum.PINK :
+				return "PINK";
 			case ColorEnum.NO_COLOR :
 				return "NO_COLOR";
 			default :
@@ -75,8 +75,8 @@ namespace AssemblyCSharp
 				return ColorEnum.GREEN;
 			case "ORANGE" :
 				return ColorEnum.ORANGE;
-			case "VIOLET" :
-				return ColorEnum.VIOLET;
+			case "PINK" :
+				return ColorEnum.PINK;
 			case "NO_COLOR" :
 				return ColorEnum.NO_COLOR;
 			default :

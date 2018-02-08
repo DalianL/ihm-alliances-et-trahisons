@@ -11,7 +11,7 @@ public class PanelManager : MonoBehaviour {
 	public PanelView panel_MatchMaking;
 	public PanelView panel_Profil;
 	public PanelView panel_Game;
-	public PanelView panel_Map;
+	public GameOverView panel_End;
 	public PopupView panel_Error;
 
 	public GameObject time;
@@ -27,13 +27,13 @@ public class PanelManager : MonoBehaviour {
 	}
 
 	void Update() {
-		if (Session.IsInitializedCurrentSession && keepTime()) {
+		if (Session.IsInitializedCurrentSession && keepTime ()) {
 			if (Session.CurrentSession.Time != 0) {
-				long timer = (long) ((Session.CurrentSession.Time/1000) - DateTime.UtcNow.Subtract (new DateTime (1970, 1, 1)).TotalSeconds);
-				this.time.GetComponent<Text>().text = "0" + timer / 60 + ":" + ((timer % 60 < 10) ? "0" : "") + timer % 60 + "\n"
+				long timer = (long)((Session.CurrentSession.Time / 1000) - DateTime.UtcNow.Subtract (new DateTime (1970, 1, 1)).TotalSeconds);
+				this.time.GetComponent<Text> ().text = "0" + timer / 60 + ":" + ((timer % 60 < 10) ? "0" : "") + timer % 60 + "\n"
 				+ "Prochaine extraction";
 			} else {
-				this.time.GetComponent<Text>().text = "02:00\nProchaine extraction";
+				this.time.GetComponent<Text> ().text = "02:00\nProchaine extraction";
 			}
 			this.time.SetActive (true);
 		} else {
@@ -46,7 +46,7 @@ public class PanelManager : MonoBehaviour {
 		showMatchMaking (panel == PanelEnum.MATCHMAKING);
 		showProfil (panel == PanelEnum.PROFIL);
 		showGame (panel == PanelEnum.GAME);
-		showMap (panel == PanelEnum.MAP);
+		showEnd (panel == PanelEnum.END);
 
 		this.lastPanel = currentPanel;
 		this.currentPanel = panel;
@@ -75,13 +75,18 @@ public class PanelManager : MonoBehaviour {
 		this.panel_Game.show (show);
 	}	
 
-	private void showMap(bool show) {
-		this.panel_Map.show (show);
+	private void showEnd(bool show) {
+		this.panel_End.show (show);
 	}	
 
 	public void showError(bool show, string str) {
 		this.panel_Error.show (show, str);
 	}
+
+	public void showEnd(bool show, Player winner) {
+		Debug.Log (winner.Id);
+		this.panel_End.show (show, winner);
+	}	
 
 	public void back() {
 		showScreen (lastPanel);

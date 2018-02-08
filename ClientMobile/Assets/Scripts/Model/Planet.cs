@@ -13,6 +13,7 @@ namespace AssemblyCSharp
 		private string name;
 		private int id_player;
 		private Dictionary<ResourcesEnum, int> resources;
+		private Location location;
 
 		public int Id {
 			get {
@@ -41,6 +42,15 @@ namespace AssemblyCSharp
 			}
 		}
 
+		public Location Location {
+			get {
+				return this.location;
+			}
+			set {
+				this.location = value;
+			}
+		}
+
 		public Dictionary<ResourcesEnum, int> Resources {
 			get {
 				return this.resources;
@@ -60,6 +70,8 @@ namespace AssemblyCSharp
 			this.id = id;
 			this.name = name;
 			this.id_player = player;
+			this.location = new Location (this.id);
+
 			this.resources = new Dictionary<ResourcesEnum, int> ();
 		}
 
@@ -68,6 +80,7 @@ namespace AssemblyCSharp
 			this.id = (int) node["id"];
 			this.name = (string) node["name"];
 			this.id_player = (int) node["id_player"];
+			this.location = new Location (this.id);
 
 			this.resources = new Dictionary<ResourcesEnum, int> ();
 			JArray nodeResources = (JArray) node ["resources"];

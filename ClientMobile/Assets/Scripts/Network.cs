@@ -13,7 +13,9 @@ public class Network : MonoBehaviour {
 	public Socket socket = null;
 
 	public PanelManager panelManager;
-	public MatchMakingController controller;
+	public GameManager gameManager;
+	public MatchMakingController matchMakingController;
+	public GameController gameController;
 
 	public InputField inputURL;
 	public InputField inputPseudo;
@@ -68,7 +70,16 @@ public class Network : MonoBehaviour {
 			socket.On ("play", (data) => {
 				Debug.Log("Data play : " + data);
 
-				this.controller.isBegin = true;
+				this.matchMakingController.isBegin = true;
+			});
+
+			socket.On ("end", (data) => {
+				Debug.Log("Data end : " + data);
+				JObject node = JObject.Parse(data.ToString());
+
+				Session.initializeCurrentSession(node);
+				this.gameController.needUpdate = true;
+				this.gameManager.isEnd = true;
 			});
 
 			socket.On ("update_client", (data) => {
@@ -77,9 +88,19 @@ public class Network : MonoBehaviour {
 
 				Session.initializeCurrentSession(node);
 
+				//this.gameController.needUpdate = true;
+
 				if(testInitialize) {
 					testInitialize = false;
 					/*socket.Emit ("add_planet", "{}");
+					socket.Emit ("add_planet", "{}");
+					socket.Emit ("add_planet", "{}");
+					socket.Emit ("add_planet", "{}");
+					socket.Emit ("add_planet", "{}");
+					socket.Emit ("add_planet", "{}");
+					socket.Emit ("add_planet", "{}");
+					socket.Emit ("add_planet", "{}");
+					socket.Emit ("add_planet", "{}");
 					socket.Emit ("add_planet", "{}");
 					socket.Emit ("add_planet", "{}");
 					socket.Emit ("add_planet", "{}");

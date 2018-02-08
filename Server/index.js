@@ -6,8 +6,8 @@ app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
 
-var colors = ["RED", "BROWN", "BLUE", "GREEN", "ORANGE", "VIOLET"];
-var species = ["WOOKIES", "JAWAS", "GUNGANS", "EWOKS"];
+var colors = ["RED", "GREEN", "BLUE", "ORANGE", "BROWN", "PINK"];
+var species = ["JAWAS", "WOOKIES", "EWOKS", "GUNGANS"];
 var resources = ["RED_CRYSTAL_KYBER", "GREEN_CRYSTAL_KYBER", "BLUE_CRYSTAL_KYBER", "VIOLET_CRYSTAL_KYBER"];
 var users = [];
 var players = [];
@@ -29,7 +29,7 @@ io.on('connection', function(socket) {
     pseudo: userId,
     specie: userId % 4,
     color: userId % 6,
-    resources: [1,1,1,1]
+    resources: [2,2,2,2]
   });
   socket.userId = userId++;
 
@@ -100,7 +100,6 @@ io.on('connection', function(socket) {
         players[message.id_player].resources[i]--;
     // Update Client
     update_client();
-    fleetId++;
   });
 
   // "Move_fleet" event
@@ -143,10 +142,10 @@ io.on('connection', function(socket) {
       name: planetId,
       id_player : -1,
       resources: [
-        Math.floor(Math.random() * 3),
-        Math.floor(Math.random() * 3),
-        Math.floor(Math.random() * 3),
-        Math.floor(Math.random() * 3)
+        2,//Math.floor(Math.random() * 3),
+        2,//Math.floor(Math.random() * 3),
+        2,//Math.floor(Math.random() * 3),
+        2//Math.floor(Math.random() * 3)
       ]
     });
     planetId++;
@@ -190,16 +189,46 @@ io.on('connection', function(socket) {
   });
 
   function update_client() {
-      for(var i = 0; i < users.length; i++) {
-          io.to(users[i].id).emit('update_client', {
-              players: players,
-              fleets: fleets,
-              planets: planets,
-              userId: i,
-              time: timeCurrentTurn
-          });
+      if(game_over()) {
+          console.log('Game Over');
+          for(var i = 0; i < users.length; i++) {
+              io.to(users[i].id).emit('end', {
+                  players: players,
+                  fleets: fleets,
+                  planets: planets,
+                  userId: i,
+                  time: timeCurrentTurn
+              });
+          }
+      } else {
+          console.log('Update Client');
+          for(var i = 0; i < users.length; i++) {
+              io.to(users[i].id).emit('update_client', {
+                  players: players,
+                  fleets: fleets,
+                  planets: planets,
+                  userId: i,
+                  time: timeCurrentTurn
+              });
+          }
       }
   };
+
+  function game_over() {
+      console.log('Game Over ?');
+      for(var j = 0; j < players.length; j++) {
+          var k = 0;
+          for(var i = 0; i < planets.length; i++) {
+              if(planets[i].id_player == players[j].id) {
+                 k++;
+              }
+          }
+          if(k > planets.length/2) {
+              return true;
+          }
+      }
+      return false;
+  }
 
   function play() {
       for(var i = 0; i < users.length; i++) {
@@ -217,7 +246,7 @@ io.on('connection', function(socket) {
   };
 
   function update_resources() {
-    console.log('Update resources');
+      console.log('Update resources');
       for(var i = 0; i < planets.length; i++) {
           if(planets[i].id_player != -1) {
              players[planets[i].id_player].resources[0] += planets[i].resources[0];
