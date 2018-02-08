@@ -38,8 +38,8 @@ class SpaceshipWidget extends TUIOWidget {
     this.canDeleteTangible = true;
     this.hasDuplicate = false;
     this.movement = 0;
-    this.moving = false;
     this.canvas = this.drawer.affectCanvas(this.playerId, this.shipId);
+    this.actionStep = 0;
   }
 
   /**
@@ -56,10 +56,11 @@ class SpaceshipWidget extends TUIOWidget {
    * @param {TUIOTag} tuioTag - A TUIOTag instance.
    */
   onTagCreation(tuioTag) {
-    if (!this._isInStack && tuioTag.id.toString() === this.idTagMove) {
+    if (this.actionStep === 0 && !this._isInStack && tuioTag.id.toString() === this.idTagMove) {
       if (this.isTouched(tuioTag.x, tuioTag.y)) {
         super.onTagCreation(tuioTag);
-        console.log('Creating tag on planet', this.planetId);
+        this.startFeedback();
+        console.log('Found departure on planet : ', this.planetId);
         this._lastTagsValues = {
           ...this._lastTagsValues,
           [tuioTag.id]: {
@@ -67,6 +68,30 @@ class SpaceshipWidget extends TUIOWidget {
             y: tuioTag.y,
           },
         };
+      }
+    } else if (this.actionStep === 1 && !this._isInStack && tuioTag.id.toString() === this.idTagMove) {
+      const scan = Utils.checkForPlanetBeneath(tuioTag.id);
+      let widget;
+      for (let i = 0; i < scan.length; i += 1) {
+        if (scan[i] !== undefined) {
+          widget = scan[i];
+          break;
+        }
+      }
+
+      if (widget !== undefined) {
+        if (widget.planetId !== this.planetId) {
+          console.log('Found arrival planet : ', widget.planetId);
+          this.currentWidget = widget;
+          this.drawer.drawLine(this.shipId, this.centeredX, this.centeredY, widget.x + (widget.size / 2), widget.y + (widget.size / 2));
+          this.actionStep = 2;
+        } else {
+          console.log('Nothing to do here');
+          this.stopFeedback();
+        }
+      } else {
+        console.log('No arrival planets found');
+        this.stopFeedback();
       }
     }
   }
@@ -79,8 +104,9 @@ class SpaceshipWidget extends TUIOWidget {
    */
   onTagUpdate(tuioTag) {
     if (typeof (this._lastTagsValues[tuioTag.id]) !== 'undefined' && this.canMoveTangible && tuioTag.id.toString() === this.idTagMove) {
-      console.log('Updating trajectory');
-      this.drawer.drawLine(this.shipId, this.centeredX, this.centeredY, tuioTag.x, tuioTag.y);
+      // console.log('Updating trajectory');
+      // this.drawer.drawLine(this.shipId, this.centeredX, this.centeredY, tuioTag.x, tuioTag.y);
+
       const scan = Utils.checkForPlanetBeneath(tuioTag.id);
       let widget;
       for (let i = 0; i < scan.length; i += 1) {
@@ -105,14 +131,16 @@ class SpaceshipWidget extends TUIOWidget {
    * @param {number/string} tuioTagId - TUIOTag's id to delete.
    */
   onTagDeletion(tuioTagId) {
-    if (super.tags[tuioTagId] !== undefined && !this.moving && tuioTagId.toString() === this.idTagMove) {
-      this.arrivalCheck(tuioTagId);
-      super.onTagDeletion(tuioTagId);
+    if (super.tags[tuioTagId] !== undefined && this.actionStep !== 3 && tuioTagId.toString() === this.idTagMove) {
+      if (this.actionStep === 2) {
+        this.arrivalCheck(tuioTagId);
+        super.onTagDeletion(tuioTagId);
+      }
     }
   }
 
   startMovement(dirX, dirY, callback) {
-    this.moving = true;
+    this.actionStep = 3;
     const dX = dirX - this.centeredX;
     const dY = dirY - this.centeredY;
     const dist = Math.sqrt((dX * dX) + (dY * dY));
@@ -125,7 +153,7 @@ class SpaceshipWidget extends TUIOWidget {
       this.updatePos(dX / (dist * multiplier), dY / (dist * multiplier));
       countdown -= 1;
       if (countdown <= 0) {
-        this.moving = false;
+        this.actionStep = 0;
         callback();
         clearInterval(this.movement);
         this.drawer.clearLines(this.shipId);
@@ -138,15 +166,34 @@ class SpaceshipWidget extends TUIOWidget {
       const scan = Utils.checkForPlanetBeneath(id);
       scan.forEach((widget) => {
         if (widget !== undefined && widget.planetId !== this.planetId) {
-          this.startMovement(super.tags[id].x, super.tags[id].y, () => {
+          this.startMovement(this.currentWidget.x + (this.currentWidget.size / 2), this.currentWidget.y + (this.currentWidget.size / 2), () => {
             widget.addElementWidget(this);
             this.planetId = widget.planetId;
           });
+          this.stopFeedback();
         } else {
+          if (this.actionStep >= 2) this.stopFeedback();
           this.drawer.clearLines(this.shipId);
         }
       });
     }
+  }
+
+  startFeedback() {
+    this.blinking = setInterval(() => {
+      if (this._domElem.css('display') === 'block') {
+        this._domElem.css('display', 'none');
+      } else {
+        this._domElem.css('display', 'block');
+      }
+    }, 200);
+    this.actionStep = 1;
+  }
+
+  stopFeedback() {
+    clearInterval(this.blinking);
+    this._domElem.css('display', 'block');
+    this.actionStep = 0;
   }
 
   updatePos(dX, dY) {

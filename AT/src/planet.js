@@ -8,6 +8,7 @@ class Planet extends LibraryStack {
     this.planetId = id;
     this.playerId = pId;
     this.name = id;
+    this.size = size;
     this.domElem.css('z-index', 150);
     this.stackDiv.css('border-radius', '300px');
     this.client = new Client();
