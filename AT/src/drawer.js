@@ -21,56 +21,30 @@ class Drawer {
 
   constructor(w, h, core) {
     this.background = new DrawingCanvas(w, h, 100);
-    this.canvas1 = new DrawingCanvas(w, h, 101, core.playerColors[0]);
-    this.canvas2 = new DrawingCanvas(w, h, 101, core.playerColors[1]);
-    this.canvas3 = new DrawingCanvas(w, h, 101, core.playerColors[2]);
-    this.canvas4 = new DrawingCanvas(w, h, 101, core.playerColors[3]);
+    this.core = core;
+    this.w = w;
+    this.h = h;
+    this.canvases = [];
   }
 
   prepareDrawer(imgSrc) {
     $('#example-container').append(this.background._domElem); // eslint-disable-line
-    $('#example-container').append(this.canvas1._domElem); // eslint-disable-line
-    $('#example-container').append(this.canvas2._domElem); // eslint-disable-line
-    $('#example-container').append(this.canvas3._domElem); // eslint-disable-line
-    $('#example-container').append(this.canvas4._domElem); // eslint-disable-line
 
     this.background.loadBackground(imgSrc);
   }
 
-  drawLine(playerId, x1, y1, x2, y2) {
-    switch (playerId) {
-      case 1:
-        this.canvas1.drawLine(x1, y1, x2, y2);
-        break;
-      case 2:
-        this.canvas2.drawLine(x1, y1, x2, y2);
-        break;
-      case 3:
-        this.canvas3.drawLine(x1, y1, x2, y2);
-        break;
-      case 4:
-        this.canvas4.drawLine(x1, y1, x2, y2);
-        break;
-      default: break;
-    }
+  affectCanvas(pId, sId) {
+    const newCanvas = new DrawingCanvas(this.w, this.h, 101, this.core.playerColors[pId - 1]);
+    this.canvases[sId] = newCanvas;
+    $('#example-container').append(newCanvas._domElem); // eslint-disable-line
   }
 
-  clearLines(playerId) {
-    switch (playerId) {
-      case 1:
-        this.canvas1.clearLines();
-        break;
-      case 2:
-        this.canvas2.clearLines();
-        break;
-      case 3:
-        this.canvas3.clearLines();
-        break;
-      case 4:
-        this.canvas4.clearLines();
-        break;
-      default: break;
-    }
+  drawLine(sId, x1, y1, x2, y2) {
+    this.canvases[sId].drawLine(x1, y1, x2, y2);
+  }
+
+  clearLines(sId) {
+    this.canvases[sId].clearLines();
   }
 
   get domElem() { return this._domElem; }

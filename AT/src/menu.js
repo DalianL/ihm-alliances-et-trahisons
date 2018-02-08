@@ -28,12 +28,10 @@ function buildGame(core) {
   removeWidgets();
 
   core.initMap();
-
   core.initPlayers();
-
   core.initPlanets();
-
-  core.addMenu();
+  core.addMenus();
+  core.startGame();
 }
 
 function listenForLobbyCompletion(core) {
@@ -44,6 +42,7 @@ function listenForLobbyCompletion(core) {
 
 export default function buildMenu() {
   const core = new GameCore();
+  core.initFirstPlanets();
 
   $('#example-container').append('<h1> Alliances et Trahisons</h1>');
   $('#example-container').append('<div align="center" style="margin:50px;"><canvas id="canvas"></canvas></div>');

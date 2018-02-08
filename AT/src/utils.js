@@ -27,6 +27,14 @@ class Utils {
     }
     return false;
   }
+
+  static parser(amount, data) {
+    return "{ \"id_planet\": " + amount + ", \"id_player\": " + data.id + " }"; // eslint-disable-line
+  }
+
+  static parser2(id1, id2) {
+    return "{ \"id_planet\": " + id1 + ", \"id_player\": " + id2 + " }"; // eslint-disable-line
+  }
 }
 
 export default Utils;

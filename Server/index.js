@@ -41,8 +41,10 @@ io.on('connection', function(socket) {
   }
 
   if(userId == 5) {
-    console.log("Play");
-    play();
+    setTimeout(() => {
+      console.log("Play");
+      play();
+    }, 5000);
   }
 
   // "Connected" event
@@ -162,7 +164,7 @@ io.on('connection', function(socket) {
     for(var i = 0; i < planets.length; i++) {
         if(planets[i].id == message.id_planet) {
             planets[i].id_player = message.id_player;
-                 }
+        }
     }
     // Update
     update_client();

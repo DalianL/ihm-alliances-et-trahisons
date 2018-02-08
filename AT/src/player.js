@@ -1,7 +1,8 @@
 class Player {
-  constructor(id, color) {
+  constructor(id, color, tagId) {
     this.id = id;
     this.color = color;
+    this.tagId = tagId;
     this.spaceships = [];
     this.planets = [];
     this.ressources = [];
