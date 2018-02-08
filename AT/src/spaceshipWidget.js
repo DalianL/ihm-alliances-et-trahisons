@@ -33,8 +33,7 @@ class SpaceshipWidget extends TUIOWidget {
     this.centeredX = x + (this._width / 2);
     this.centeredY = y + (this._height / 2);
     this.drawer = drawer;
-    this.idTagMove1 = GameCore.getInstance().players[playerId - 1].tagId1;
-    this.idTagMove2 = GameCore.getInstance().players[playerId - 1].tagId2;
+    this.idTagMove = GameCore.getInstance().players[playerId - 1].tagId;
     this.canMoveTangible = true;
     this.canDeleteTangible = true;
     this.hasDuplicate = false;
@@ -57,7 +56,7 @@ class SpaceshipWidget extends TUIOWidget {
    * @param {TUIOTag} tuioTag - A TUIOTag instance.
    */
   onTagCreation(tuioTag) {
-    if (!this._isInStack && (tuioTag.id.toString() === this.idTagMove1 || tuioTag.id.toString() === this.idTagMove2)) {
+    if (!this._isInStack && tuioTag.id.toString() === this.idTagMove) {
       if (this.isTouched(tuioTag.x, tuioTag.y)) {
         super.onTagCreation(tuioTag);
         console.log('Creating tag on planet', this.planetId);
@@ -79,7 +78,7 @@ class SpaceshipWidget extends TUIOWidget {
    * @param {TUIOTag} tuioTag - A TUIOTag instance.
    */
   onTagUpdate(tuioTag) {
-    if (typeof (this._lastTagsValues[tuioTag.id]) !== 'undefined' && this.canMoveTangible && (tuioTag.id.toString() === this.idTagMove1 || tuioTag.id.toString() === this.idTagMove2)) {
+    if (typeof (this._lastTagsValues[tuioTag.id]) !== 'undefined' && this.canMoveTangible && tuioTag.id.toString() === this.idTagMove) {
       console.log('Updating trajectory');
       this.drawer.drawLine(this.shipId, this.centeredX, this.centeredY, tuioTag.x, tuioTag.y);
       const scan = Utils.checkForPlanetBeneath(tuioTag.id);
@@ -90,7 +89,7 @@ class SpaceshipWidget extends TUIOWidget {
           break;
         }
       }
-      if (widget !== undefined && this.planetId !== widget.planetId && this.idTagMove1 == GameCore.getInstance().menus[this.playerId - 1].allowedTag1) { // eslint-disable-line
+      if (widget !== undefined && this.planetId !== widget.planetId && this.idTagMove == GameCore.getInstance().menus[this.playerId - 1].allowedTag) { // eslint-disable-line
         GameCore.getInstance().menus[this.playerId - 1].domElem.css('display', 'block');
         GameCore.getInstance().menus[this.playerId - 1].onTagUpdate(tuioTag);
       } else {
@@ -106,7 +105,7 @@ class SpaceshipWidget extends TUIOWidget {
    * @param {number/string} tuioTagId - TUIOTag's id to delete.
    */
   onTagDeletion(tuioTagId) {
-    if (super.tags[tuioTagId] !== undefined && !this.moving && (tuioTagId.toString() === this.idTagMove1 || tuioTagId.toString() === this.idTagMove2)) {
+    if (super.tags[tuioTagId] !== undefined && !this.moving && tuioTagId.toString() === this.idTagMove) {
       this.arrivalCheck(tuioTagId);
       super.onTagDeletion(tuioTagId);
     }

@@ -19,8 +19,7 @@ class GameCore {
     this.planets = [];
     this.menus = [];
     this.playerColors = ['red', 'green', 'blue', 'orange'];
-    this.playerTags1 = ['1', '3', '0', '2'];
-    this.playerTags2 = ['77', '87', '97', 'A7'];
+    this.playerTags = ['77', '87', '97', '51'];
     this.playerImgs = ['assets/image/spaceship1.png', 'assets/image/spaceship2.png', 'assets/image/spaceship3.png', 'assets/image/spaceship4.png'];
     this.drawer = new Drawer(WINDOW_WIDTH, WINDOW_HEIGHT, this);
     this.client = new Client();
@@ -39,21 +38,21 @@ class GameCore {
   }
 
   initPlayers() {
-    this.createPlayer(1, this.playerTags1[0], this.playerTags2[0]);
+    this.createPlayer(1, this.playerTags[0]);
     this.addFirstSpaceships(0, 1, 1, 230, 185);
 
-    this.createPlayer(2, this.playerTags1[1], this.playerTags2[1]);
+    this.createPlayer(2, this.playerTags[1]);
     this.addFirstSpaceships(1, 2, 2, 770, 102);
 
-    this.createPlayer(3, this.playerTags1[2], this.playerTags2[2]);
+    this.createPlayer(3, this.playerTags[2]);
     this.addFirstSpaceships(2, 3, 3, 500, 810);
 
-    this.createPlayer(4, this.playerTags1[3], this.playerTags2[3]);
+    this.createPlayer(4, this.playerTags[3]);
     this.addFirstSpaceships(3, 4, 4, 1225, 209);
   }
 
-  createPlayer(id, tagId1, tagId2) {
-    this.players.push(new Player(id, this.playerColors[id - 1], tagId1, tagId2));
+  createPlayer(id, tagId) {
+    this.players.push(new Player(id, this.playerColors[id - 1], tagId));
   }
 
   initFirstPlanets() {
@@ -121,8 +120,6 @@ class GameCore {
   }
 
   addMenus() {
-    const allowedTags = this.playerTags1;
-
     const root1 = new MenuItem('root1', '#0F0', '#0FF', false);
 
     const attack1 = new MenuItem('Attack', '#FFF', '#000', false);
@@ -143,7 +140,7 @@ class GameCore {
     });
     root1.addChild(move1);
 
-    const menu1 = new CircularMenuCustom(root1, allowedTags[0]);
+    const menu1 = new CircularMenuCustom(root1, this.playerTags[0]);
     menu1.addTo('#example-container');
     this.menus.push(menu1);
 
@@ -168,7 +165,7 @@ class GameCore {
     });
     root2.addChild(move2);
 
-    const menu2 = new CircularMenuCustom(root2, allowedTags[1]);
+    const menu2 = new CircularMenuCustom(root2, this.playerTags[1]);
     menu2.addTo('#example-container');
     this.menus.push(menu2);
 
@@ -193,7 +190,7 @@ class GameCore {
     });
     root3.addChild(move3);
 
-    const menu3 = new CircularMenuCustom(root3, allowedTags[2]);
+    const menu3 = new CircularMenuCustom(root3, this.playerTags[2]);
     menu3.addTo('#example-container');
     this.menus.push(menu3);
 
@@ -218,7 +215,7 @@ class GameCore {
     });
     root4.addChild(move4);
 
-    const menu4 = new CircularMenuCustom(root4, allowedTags[3]);
+    const menu4 = new CircularMenuCustom(root4, this.playerTags[3]);
     menu4.addTo('#example-container');
     this.menus.push(menu4);
   }
