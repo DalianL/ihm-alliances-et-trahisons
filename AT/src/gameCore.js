@@ -62,21 +62,21 @@ class GameCore {
   }
 
   initPlanets() {
-    this.addPlanet(1, 1, 228, 186, 95);
-    this.addPlanet(2, 2, 768, 102, 135);
-    this.addPlanet(3, 3, 498, 812, 110);
-    this.addPlanet(4, 4, 1225, 209, 110);
+    this.addPlanet(1, 1, 228, 188, 95);
+    this.addPlanet(2, 2, 769, 103, 135);
+    this.addPlanet(3, 3, 497, 812, 110);
+    this.addPlanet(4, 4, 1226, 206, 110);
     this.addPlanet(5, -1, 1710, 807, 100);
     this.addPlanet(6, -1, 930, 822, 220);
     this.addPlanet(7, -1, 12, 27, 90);
     this.addPlanet(8, -1, 234, 510, 65);
     this.addPlanet(9, -1, -120, 830, 310);
-    this.addPlanet(10, -1, 1310, 615, 120);
+    this.addPlanet(10, -1, 1310, 613, 120);
     this.addPlanet(11, -1, 658, 385, 95);
     this.addPlanet(12, -1, 1189, -20, 110);
     this.addPlanet(13, -1, 1489, 86, 85);
-    this.addPlanet(14, -1, 1520, 476, 70);
-    this.addPlanet(15, -1, 1634, 228, 135);
+    this.addPlanet(14, -1, 1520, 478, 70);
+    this.addPlanet(15, -1, 1634, 229, 135);
     this.addPlanet(16, -1, 1744, 82, 60);
   }
 
