@@ -21,13 +21,14 @@ class Planet extends LibraryStack {
     this.stackDiv.css('border', `solid 10px ${widget.color}`);
     this.playerId = widget.playerId;
     this.client.socket.emit('conquer_planet', Utils.parser2(this.planetId, this.playerId));
-    const elementToAdd = widget;
-    elementToAdd._domElem.css('transform', 'rotate(360deg)');
-    // Left top
-    //console.log("En déplacement vers la planete " + this._id + " (nord)")
-    let newX = this.x + (this.width / 2) - (32 / 2);
-    let newY = this.y;
-    widget.moveTo(newX,newY);
+
+    // const elementToAdd = widget;
+    // elementToAdd._domElem.css('transform', 'rotate(360deg)');
+    // // Left top
+    // // console.log("En déplacement vers la planete " + this._id + " (nord)")
+    // let newX = this.x + (this.width / 2) - (32 / 2);
+    // let newY = this.y;
+    // widget.moveTo(newX,newY);
   }
 
   /* eslint-disable */
