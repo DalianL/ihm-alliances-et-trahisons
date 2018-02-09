@@ -23,6 +23,12 @@ class DrawingCanvas {
     this.backgr.src = imgSrc;
   }
 
+  drawText(t, posX, posY) {
+    this.ctx.font = '40px Georgia';
+    this.ctx.fillStyle = 'white';
+    this.ctx.fillText(t, posX, posY);
+  }
+
   drawLine(x1, y1, x2, y2) {
     this.ctx.clearRect(0, 0, this.w, this.h);
 

@@ -15,6 +15,7 @@ class GameCore {
       return gameCoreInstance;
     }
 
+    this.spaceShipSize = 36;
     this.players = [];
     this.planets = [];
     this.menus = [];
