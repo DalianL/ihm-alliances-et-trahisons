@@ -13,7 +13,7 @@ public class GameController : PanelController {
 	public Button quitButton;
 	public Button ProfilButton;
 	public Button MessageButton;
-	public bool needUpdate;
+	public bool needUpdate = false;
 	public List<Sprite> images = new List<Sprite>();
 	public Sprite pointSprite;
 	public Sprite planetSprite;

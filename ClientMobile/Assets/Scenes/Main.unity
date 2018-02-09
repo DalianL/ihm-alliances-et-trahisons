@@ -11270,7 +11270,7 @@ MonoBehaviour:
   panelManager: {fileID: 2048069875}
   gameManager: {fileID: 2048069877}
   matchMakingController: {fileID: 864678739}
-  gameController: {fileID: 0}
+  gameController: {fileID: 1847040898}
   inputURL: {fileID: 117072526}
   inputPseudo: {fileID: 321040731}
 --- !u!114 &2048069877
