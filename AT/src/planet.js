@@ -1,6 +1,7 @@
 import LibraryStack from 'tuiomanager/widgets/Library/LibraryStack/LibraryStack';
 import Client from './client';
 import Utils from './utils';
+import GameCore from './gameCore';
 
 class Planet extends LibraryStack {
   constructor(id, pId, x, y, size, stackTitle, color, isFull, allowcontentsArray) {
@@ -19,17 +20,41 @@ class Planet extends LibraryStack {
     // let elementToAdd;
     // Enlever super, override le zoom
     // super.addElementWidget(widget);
+    // var canvasPlayer = GameCore.getInstance().drawer.canvases[widget.playerId -1];
+    const elementToAdd = widget;
     this.stackDiv.css('border', `solid 10px ${widget.color}`);
     this.playerId = widget.playerId;
     this.client.socket.emit('conquer_planet', Utils.parser2(this.planetId - 1, this.playerId));
-
-    // const elementToAdd = widget;
-    // elementToAdd._domElem.css('transform', 'rotate(360deg)');
-    // // Left top
-    // // console.log("En déplacement vers la planete " + this._id + " (nord)")
-    // let newX = this.x + (this.width / 2) - (32 / 2);
-    // let newY = this.y;
-    // widget.moveTo(newX,newY);
+    // Left top
+    let newX;
+    let newY;
+    // let decalX;
+    // let decalY;
+    const spaceShipSize = GameCore.getInstance().spaceShipSize;
+    switch (elementToAdd.color) {
+      case 'red':
+        newX = (this.x + (this.width / 2)) - (spaceShipSize / 2);
+        newY = this.y - (spaceShipSize / 2);
+        break;
+      case 'blue':
+        newX = this.x - (spaceShipSize / 2);
+        newY = (this.y + (this.width / 2)) - (spaceShipSize / 2);
+        break;
+      case 'orange':
+        newX = (this.x + (this.width)) - (spaceShipSize / 2);
+        newY = (this.y + (this.width / 2)) - (spaceShipSize / 2);
+        break;
+      case 'green':
+        newX = (this.x + (this.width / 2)) - (spaceShipSize / 2);
+        newY = (this.y + (this.width)) - (spaceShipSize / 2);
+        break;
+      default:
+        newX = (this.x + (this.width / 2)) - (spaceShipSize / 2);
+        newY = this.y - (spaceShipSize / 2);
+        break;
+    }
+    widget.moveTo(newX, newY);
+    // setTimeout(function(){ canvasPlayer.drawText("1",newX+40,newY-10); }, 2000);
   }
 
   /* eslint-disable */
