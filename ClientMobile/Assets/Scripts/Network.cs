@@ -88,7 +88,7 @@ public class Network : MonoBehaviour {
 
 				Session.initializeCurrentSession(node);
 
-				//this.gameController.needUpdate = true;
+				this.gameController.needUpdate = true;
 
 				if(testInitialize) {
 					testInitialize = false;

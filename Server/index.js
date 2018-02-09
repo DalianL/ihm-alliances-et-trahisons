@@ -7,7 +7,7 @@ app.get('/', function(req, res){
 });
 
 var colors = ["PINK", "RED", "GREEN", "BLUE", "ORANGE", "BROWN"];
-var species = ["JAWAS", "WOOKIES", "EWOKS", "GUNGANS"];
+var species = ["GUNGANS", "JAWAS", "WOOKIES", "EWOKS"];
 var resources = ["RED_CRYSTAL_KYBER", "GREEN_CRYSTAL_KYBER", "BLUE_CRYSTAL_KYBER", "VIOLET_CRYSTAL_KYBER"];
 var users = [];
 var players = [];

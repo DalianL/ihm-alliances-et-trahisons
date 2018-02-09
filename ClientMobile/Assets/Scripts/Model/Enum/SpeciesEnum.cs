@@ -5,10 +5,10 @@ namespace AssemblyCSharp
 	[Serializable]
 	public enum SpeciesEnum
 	{
+		GUNGANS, 
 		JAWAS, 
 		WOOKIES,
 		EWOKS,
-		GUNGANS, 
 		NO_SPECIE
 	}
 
@@ -35,13 +35,13 @@ namespace AssemblyCSharp
 		{
 			switch (specie) 
 			{
-			case SpeciesEnum.JAWAS:
-				return 0;
-			case SpeciesEnum.WOOKIES :
-				return 1;
-			case SpeciesEnum.EWOKS :
-				return 2;
 			case SpeciesEnum.GUNGANS:
+				return 0;
+			case SpeciesEnum.JAWAS:
+				return 1;
+			case SpeciesEnum.WOOKIES :
+				return 2;
+			case SpeciesEnum.EWOKS :
 				return 3;
 			default :
 				return -1;
