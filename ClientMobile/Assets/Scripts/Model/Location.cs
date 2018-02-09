@@ -18,7 +18,7 @@ namespace AssemblyCSharp
 			930,
 			12,
 			234,
-			-120,
+			0,
 			1280,
 			658,
 			1189,
