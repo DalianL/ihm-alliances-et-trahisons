@@ -149,7 +149,7 @@ class GameCore {
 
     const attack2 = new MenuItem('Attack', '#FFF', '#000', false);
     attack2.setTouchCallback(() => {
-      // console.log('Created spaceship');
+      // console.log('Action taken', this.gameStarted);
     });
     root2.addChild(attack2);
 
