@@ -35,6 +35,10 @@ class Utils {
   static parser2(id1, id2) {
     return "{ \"id_planet\": " + id1 + ", \"id_player\": " + id2 + " }"; // eslint-disable-line
   }
+
+  static parser3(id1, id2) {
+    return "{\"id_fleet\": " + id1 + ", \"id_planet\": " + id2 + " }"; // eslint-disable-line
+  }
 }
 
 export default Utils;

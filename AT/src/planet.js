@@ -24,6 +24,7 @@ class Planet extends LibraryStack {
     const elementToAdd = widget;
     this.stackDiv.css('border', `solid 10px ${widget.color}`);
     this.playerId = widget.playerId;
+    this.client.socket.emit('move_fleet', Utils.parser3(widget.shipId, this.planetId - 1));
     this.client.socket.emit('conquer_planet', Utils.parser2(this.planetId - 1, this.playerId));
     // Left top
     let newX;
