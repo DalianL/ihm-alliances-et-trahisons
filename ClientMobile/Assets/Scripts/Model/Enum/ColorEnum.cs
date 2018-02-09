@@ -6,12 +6,12 @@ namespace AssemblyCSharp
 	[Serializable]
 	public enum ColorEnum
 	{
+		PINK,
 		RED,
 		GREEN,
 		BLUE,
 		ORANGE,
 		BROWN,
-		PINK,
 		NO_COLOR
 	}
 

@@ -6,7 +6,7 @@ app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
 
-var colors = ["RED", "GREEN", "BLUE", "ORANGE", "BROWN", "PINK"];
+var colors = ["PINK", "RED", "GREEN", "BLUE", "ORANGE", "BROWN"];
 var species = ["JAWAS", "WOOKIES", "EWOKS", "GUNGANS"];
 var resources = ["RED_CRYSTAL_KYBER", "GREEN_CRYSTAL_KYBER", "BLUE_CRYSTAL_KYBER", "VIOLET_CRYSTAL_KYBER"];
 var users = [];
@@ -81,7 +81,7 @@ io.on('connection', function(socket) {
   // Ex : socket.Emit ("add_fleet", "{\"id_planet\": 0, \"id_player\": 0}");
   socket.on('add_fleet', function(message){
     message = JSON.parse(message);
-    console.log('Add a fleet to Player n°' + message.id_player);
+    console.log('Add a fleet to Player n°' + message.id_player + "on planet n°" + message.id_planet);
     // Update Table
     io.to(users[0].id).emit('create_fleet', {
       id: fleetId,
@@ -159,7 +159,7 @@ io.on('connection', function(socket) {
   // Ex : socket.Emit ("conquer_planet", "{\"id_planet\": 0, \"id_player\": 0}");
   socket.on('conquer_planet', function(message){
     message = JSON.parse(message);
-    console.log('Conquer a planet for Player n°' + message.id_player);
+    console.log('Conquer a planet n°' + message.id_planet + ' for Player n°' + message.id_player);
     // Remove planet
     for(var i = 0; i < planets.length; i++) {
         if(planets[i].id == message.id_planet) {
