@@ -1,12 +1,14 @@
 import $ from 'jquery/dist/jquery.min';
 import CircularMenu from 'tuiomanager/widgets/CircularMenu/CircularMenu';
 import { radToDeg } from 'tuiomanager/core/helpers';
+import Utils from './utils';
 
 class CircularMenuCustom extends CircularMenu {
   constructor(rootTree, tagMenu, playerId) {
     super(parseInt(tagMenu, 16), rootTree);
     this.playerId = playerId;
     this.allowedTag = tagMenu;
+    this.visibility = false;
   }
 
   /* eslint-disable */
@@ -52,6 +54,7 @@ class CircularMenuCustom extends CircularMenu {
           this.menuItemCoord.push({ xmin: x, ymin: y, xmax: x + width, ymax: y + height });
         }
       }
+
       this._domElem.css('display', 'none');
       this._domElem.attr('class', 'selector');
     }
@@ -83,6 +86,20 @@ class CircularMenuCustom extends CircularMenu {
           const width = $(li[i]).find('label').width();
           const height = $(li[i]).find('label').height();
           this.menuItemCoord.push({ xmin: x, ymin: y, xmax: x + width, ymax: y + height });
+        }
+
+        const scan = Utils.checkForPlanetBeneath(tuioTag.id);
+        let widget;
+        for (let i = 0; i < scan.length; i += 1) {
+          if (scan[i] !== undefined) {
+            widget = scan[i];
+            break;
+          }
+        }
+        if (widget !== undefined && this.visibility) { // eslint-disable-line
+          this._domElem.css('display', 'block');
+        } else {
+          this._domElem.css('display', 'none');
         }
 
         this._lastTagsValues = {
