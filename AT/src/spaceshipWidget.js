@@ -82,6 +82,9 @@ class SpaceshipWidget extends TUIOWidget {
       if (widget !== undefined) {
         if (widget.planetId !== this.planetId) {
           console.log('Found arrival planet : ', widget.planetId);
+          if (this.idTagMove == GameCore.getInstance().menus[this.playerId - 1].allowedTag) { // eslint-disable-line
+            GameCore.getInstance().menus[this.playerId - 1].visibility = true;
+          }
           this.currentWidget = widget;
           this.drawer.drawLine(this.shipId, this.centeredX, this.centeredY, widget.x + (widget.size / 2), widget.y + (widget.size / 2));
           this.actionStep = 2;
@@ -104,23 +107,8 @@ class SpaceshipWidget extends TUIOWidget {
    */
   onTagUpdate(tuioTag) {
     if (typeof (this._lastTagsValues[tuioTag.id]) !== 'undefined' && this.canMoveTangible && tuioTag.id.toString() === this.idTagMove) {
-      // console.log('Updating trajectory');
-      // this.drawer.drawLine(this.shipId, this.centeredX, this.centeredY, tuioTag.x, tuioTag.y);
-
-      const scan = Utils.checkForPlanetBeneath(tuioTag.id);
-      let widget;
-      for (let i = 0; i < scan.length; i += 1) {
-        if (scan[i] !== undefined) {
-          widget = scan[i];
-          break;
-        }
-      }
-      if (widget !== undefined && this.planetId !== widget.planetId && this.idTagMove == GameCore.getInstance().menus[this.playerId - 1].allowedTag) { // eslint-disable-line
-        GameCore.getInstance().menus[this.playerId - 1].domElem.css('display', 'block');
-        GameCore.getInstance().menus[this.playerId - 1].onTagUpdate(tuioTag);
-      } else {
-        GameCore.getInstance().menus[this.playerId - 1].domElem.css('display', 'none');
-      }
+      // // console.log('Updating trajectory');
+      // // this.drawer.drawLine(this.shipId, this.centeredX, this.centeredY, tuioTag.x, tuioTag.y);
     }
   }
 
@@ -194,6 +182,7 @@ class SpaceshipWidget extends TUIOWidget {
     clearInterval(this.blinking);
     this._domElem.css('display', 'block');
     this.actionStep = 0;
+    GameCore.getInstance().menus[this.playerId - 1].visibility = false;
   }
 
   updatePos(dX, dY) {

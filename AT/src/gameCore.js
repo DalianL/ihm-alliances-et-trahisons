@@ -88,8 +88,7 @@ class GameCore {
 
   addSpaceship(id, playerId, planetId) {
     if (this.gameStarted) {
-      const correctId = planetId > 3 ? planetId - 1 : planetId;
-      const newSpaceship = new SpaceshipWidget(3 + id, playerId, correctId, this.planets[correctId].x, this.planets[correctId].y, 45, 45, 0, this.playerColors[playerId - 1], this.playerImgs[playerId - 1], this.drawer); // eslint-disable-line
+      const newSpaceship = new SpaceshipWidget(3 + id, playerId, planetId, this.planets[planetId].x, this.planets[planetId].y, 45, 45, 0, this.playerColors[playerId - 1], this.playerImgs[playerId - 1], this.drawer); // eslint-disable-line
       this.players[playerId - 1].addSpaceship(newSpaceship);
       newSpaceship.addTo('#example-container');
     }
