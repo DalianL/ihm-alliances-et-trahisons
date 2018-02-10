@@ -121,10 +121,24 @@ class SpaceshipWidget extends TUIOWidget {
   onTagDeletion(tuioTagId) {
     if (super.tags[tuioTagId] !== undefined && this.actionStep !== 3 && tuioTagId.toString() === this.idTagMove) {
       if (this.actionStep === 2) {
-        this.arrivalCheck(tuioTagId);
+        this.stopFeedback();
+        this.drawer.clearLines(this.shipId);
         super.onTagDeletion(tuioTagId);
       }
     }
+  }
+
+  triggerAction(tuioTagId, action) {
+    this.startMovement(this.currentWidget.x + (this.currentWidget.size / 2), this.currentWidget.y + (this.currentWidget.size / 2), () => {
+      if (action === 'mv') {
+        this.currentWidget.addElementWidget(this);
+        this.planetId = this.currentWidget.planetId;
+      }
+    });
+    this.stopFeedback();
+    super.onTagDeletion(tuioTagId);
+    GameCore.getInstance().menus[this.playerId - 1].visibility = false;
+    GameCore.getInstance().menus[this.playerId - 1].onTagDeletion(tuioTagId);
   }
 
   startMovement(dirX, dirY, callback) {
@@ -149,23 +163,25 @@ class SpaceshipWidget extends TUIOWidget {
     }, 1000 / 60);
   }
 
-  arrivalCheck(id) {
-    if (!this.isInStack) {
-      const scan = Utils.checkForPlanetBeneath(id);
-      scan.forEach((widget) => {
-        if (widget !== undefined && widget.planetId !== this.planetId) {
-          this.startMovement(this.currentWidget.x + (this.currentWidget.size / 2), this.currentWidget.y + (this.currentWidget.size / 2), () => {
-            widget.addElementWidget(this);
-            this.planetId = widget.planetId;
-          });
-          this.stopFeedback();
-        } else {
-          if (this.actionStep >= 2) this.stopFeedback();
-          this.drawer.clearLines(this.shipId);
-        }
-      });
-    }
-  }
+  // arrivalCheck(id, action) {
+  //   if (!this.isInStack) {
+  //     const scan = Utils.checkForPlanetBeneath(id);
+  //     scan.forEach((widget) => {
+  //       if (widget !== undefined && widget.planetId !== this.planetId) {
+  //         this.startMovement(this.currentWidget.x + (this.currentWidget.size / 2), this.currentWidget.y + (this.currentWidget.size / 2), () => {
+  //           if (action === 'mv') {
+  //             widget.addElementWidget(this);
+  //             this.planetId = widget.planetId;
+  //           }
+  //         });
+  //         this.stopFeedback();
+  //       } else {
+  //         if (this.actionStep >= 2) this.stopFeedback();
+  //         this.drawer.clearLines(this.shipId);
+  //       }
+  //     });
+  //   }
+  // }
 
   startFeedback() {
     if (this.blinking === undefined || this.blinking === 0) {

@@ -57,6 +57,7 @@ class CircularMenuCustom extends CircularMenu {
 
       this._domElem.css('display', 'none');
       this._domElem.attr('class', 'selector');
+      this.onTagUpdate(tuioTag);
     }
   }
 

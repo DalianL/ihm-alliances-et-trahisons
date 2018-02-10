@@ -127,19 +127,19 @@ class GameCore {
 
     const attack1 = new MenuItem('Attack', '#FFF', '#000', false);
     attack1.setTouchCallback(() => {
-      // console.log('Action taken', this.gameStarted);
+      this.players[0].lookForReadyShip('mv');
     });
     root1.addChild(attack1);
 
     const defend1 = new MenuItem('Defend', '#FFF', '#000', false);
     defend1.setTouchCallback(() => {
-      // console.log('Action taken', this.gameStarted);
+      this.players[0].lookForReadyShip('mv');
     });
     root1.addChild(defend1);
 
     const move1 = new MenuItem('Move', '#FFF', '#000', false);
     move1.setTouchCallback(() => {
-      // console.log('Action taken', this.gameStarted);
+      this.players[0].lookForReadyShip('mv');
     });
     root1.addChild(move1);
 
@@ -152,19 +152,19 @@ class GameCore {
 
     const attack2 = new MenuItem('Attack', '#FFF', '#000', false);
     attack2.setTouchCallback(() => {
-      // console.log('Action taken', this.gameStarted);
+      this.players[1].lookForReadyShip('mv');
     });
     root2.addChild(attack2);
 
     const defend2 = new MenuItem('Defend', '#FFF', '#000', false);
     defend2.setTouchCallback(() => {
-      // console.log('Action taken', this.gameStarted);
+      this.players[1].lookForReadyShip('mv');
     });
     root2.addChild(defend2);
 
     const move2 = new MenuItem('Move', '#FFF', '#000', false);
     move2.setTouchCallback(() => {
-      // console.log('Action taken', this.gameStarted);
+      this.players[1].lookForReadyShip('mv');
     });
     root2.addChild(move2);
 
@@ -177,19 +177,19 @@ class GameCore {
 
     const attack3 = new MenuItem('Attack', '#FFF', '#000', false);
     attack3.setTouchCallback(() => {
-      // console.log('Created spaceship');
+      this.players[2].lookForReadyShip('mv');
     });
     root3.addChild(attack3);
 
     const defend3 = new MenuItem('Defend', '#FFF', '#000', false);
     defend3.setTouchCallback(() => {
-      // console.log('Action taken', this.gameStarted);
+      this.players[2].lookForReadyShip('mv');
     });
     root3.addChild(defend3);
 
     const move3 = new MenuItem('Move', '#FFF', '#000', false);
     move3.setTouchCallback(() => {
-      // console.log('Action taken', this.gameStarted);
+      this.players[2].lookForReadyShip('mv');
     });
     root3.addChild(move3);
 
@@ -202,19 +202,19 @@ class GameCore {
 
     const attack4 = new MenuItem('Attack', '#FFF', '#000', false);
     attack4.setTouchCallback(() => {
-      // console.log('Created spaceship');
+      this.players[3].lookForReadyShip('mv');
     });
     root4.addChild(attack4);
 
     const defend4 = new MenuItem('Defend', '#FFF', '#000', false);
     defend4.setTouchCallback(() => {
-      // console.log('Action taken', this.gameStarted);
+      this.players[3].lookForReadyShip('mv');
     });
     root4.addChild(defend4);
 
     const move4 = new MenuItem('Move', '#FFF', '#000', false);
     move4.setTouchCallback(() => {
-      // console.log('Action taken', this.gameStarted);
+      this.players[3].lookForReadyShip('mv');
     });
     root4.addChild(move4);
 
