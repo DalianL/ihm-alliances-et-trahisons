@@ -21,6 +21,7 @@ tuioManager.start();
 const buildApp = () => {
   $('#app').css('width', `${1920}px`);
   $('#app').css('height', `${1080}px`);
+  $('#app').css('background-image', 'url(../assets/image/lobby.jpg)');
   $('#app').append('<div id="example-container" style="position: relative;"> </div>');
   buildMenu();
 };
