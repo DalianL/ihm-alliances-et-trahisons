@@ -168,18 +168,21 @@ class SpaceshipWidget extends TUIOWidget {
   }
 
   startFeedback() {
-    this.blinking = setInterval(() => {
-      if (this._domElem.css('display') === 'block') {
-        this._domElem.css('display', 'none');
-      } else {
-        this._domElem.css('display', 'block');
-      }
-    }, 200);
+    if (this.blinking === undefined || this.blinking === 0) {
+      this.blinking = setInterval(() => {
+        if (this._domElem.css('display') === 'block') {
+          this._domElem.css('display', 'none');
+        } else {
+          this._domElem.css('display', 'block');
+        }
+      }, 200);
+    }
     this.actionStep = 1;
   }
 
   stopFeedback() {
     clearInterval(this.blinking);
+    this.blinking = 0;
     this._domElem.css('display', 'block');
     this.actionStep = 0;
     GameCore.getInstance().menus[this.playerId - 1].visibility = false;
