@@ -6,6 +6,7 @@ import Player from './player';
 import Planet from './planet';
 import SpaceshipWidget from './spaceshipWidget';
 import Client from './client';
+import Utils from './utils';
 
 let gameCoreInstance = null;
 
@@ -15,7 +16,6 @@ class GameCore {
       return gameCoreInstance;
     }
 
-    this.spaceShipSize = 36;
     this.players = [];
     this.planets = [];
     this.menus = [];
@@ -25,6 +25,7 @@ class GameCore {
     this.drawer = new Drawer(WINDOW_WIDTH, WINDOW_HEIGHT, this);
     this.client = new Client();
     this.gameStarted = false;
+    this.spaceShipSize = 36;
 
     gameCoreInstance = this;
     return gameCoreInstance;
@@ -40,16 +41,16 @@ class GameCore {
 
   initPlayers() {
     this.createPlayer(1, this.playerTags[0]);
-    this.addFirstSpaceships(0, 1, 1, 230, 185);
+    this.addFirstSpaceships(0, 1, 1, 260, 170);
 
     this.createPlayer(2, this.playerTags[1]);
-    this.addFirstSpaceships(1, 2, 2, 770, 102);
+    this.addFirstSpaceships(1, 2, 2, 825, 225);
 
     this.createPlayer(3, this.playerTags[2]);
-    this.addFirstSpaceships(2, 3, 3, 500, 810);
+    this.addFirstSpaceships(2, 3, 3, 480, 850);
 
     this.createPlayer(4, this.playerTags[3]);
-    this.addFirstSpaceships(3, 4, 4, 1225, 209);
+    this.addFirstSpaceships(3, 4, 4, 1325, 245);
   }
 
   createPlayer(id, tagId) {
@@ -90,6 +91,8 @@ class GameCore {
   addSpaceship(id, playerId, planetId) {
     if (this.gameStarted) {
       const newSpaceship = new SpaceshipWidget(3 + id, playerId, planetId, this.planets[planetId].x, this.planets[planetId].y, 45, 45, 0, this.playerColors[playerId - 1], this.playerImgs[playerId - 1], this.drawer); // eslint-disable-line
+      const newPos = Utils.givePosByColor(newSpaceship.color, newSpaceship.x, newSpaceship.y, this.planets[planetId].size, this.planets[planetId].size, this.spaceShipSize);
+      newSpaceship.moveTo(newPos.x, newPos.y);
       this.players[playerId - 1].addSpaceship(newSpaceship);
       newSpaceship.addTo('#example-container');
     }

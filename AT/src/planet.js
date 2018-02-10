@@ -17,44 +17,17 @@ class Planet extends LibraryStack {
   }
 
   addElementWidget(widget) {
-    // let elementToAdd;
     // Enlever super, override le zoom
     // super.addElementWidget(widget);
     // var canvasPlayer = GameCore.getInstance().drawer.canvases[widget.playerId -1];
-    const elementToAdd = widget;
+
     this.stackDiv.css('border', `solid 10px ${widget.color}`);
     this.playerId = widget.playerId;
     this.client.socket.emit('move_fleet', Utils.parser3(widget.shipId, this.planetId - 1));
     this.client.socket.emit('conquer_planet', Utils.parser2(this.planetId - 1, this.playerId));
-    // Left top
-    let newX;
-    let newY;
-    // let decalX;
-    // let decalY;
-    const spaceShipSize = GameCore.getInstance().spaceShipSize;
-    switch (elementToAdd.color) {
-      case 'red':
-        newX = (this.x + (this.width / 2)) - (spaceShipSize / 2);
-        newY = this.y - (spaceShipSize / 2);
-        break;
-      case 'blue':
-        newX = this.x - (spaceShipSize / 2);
-        newY = (this.y + (this.width / 2)) - (spaceShipSize / 2);
-        break;
-      case 'orange':
-        newX = (this.x + (this.width)) - (spaceShipSize / 2);
-        newY = (this.y + (this.width / 2)) - (spaceShipSize / 2);
-        break;
-      case 'green':
-        newX = (this.x + (this.width / 2)) - (spaceShipSize / 2);
-        newY = (this.y + (this.width)) - (spaceShipSize / 2);
-        break;
-      default:
-        newX = (this.x + (this.width / 2)) - (spaceShipSize / 2);
-        newY = this.y - (spaceShipSize / 2);
-        break;
-    }
-    widget.moveTo(newX, newY);
+
+    const newPos = Utils.givePosByColor(widget.color, this.x, this.y, this.width, this.height, GameCore.getInstance().spaceShipSize);
+    widget.moveTo(newPos.x, newPos.y);
     // setTimeout(function(){ canvasPlayer.drawText("1",newX+40,newY-10); }, 2000);
   }
 
