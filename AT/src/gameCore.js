@@ -102,6 +102,7 @@ class GameCore {
     let newPlanet;
     if (playerId > 0) {
       newPlanet = new Planet(planetId, playerId, x, y, size, '', this.playerColors[playerId - 1], this.playerColors[playerId - 1], false, ['SpaceshipWidget']);
+      newPlanet.addToOrbit(this.players[playerId - 1].spaceships[0]);
       this.players[playerId - 1].addPlanet(newPlanet);
     } else {
       newPlanet = new Planet(planetId, playerId, x, y, size, '', 'white', 'white', false, ['SpaceshipWidget']);
@@ -127,13 +128,13 @@ class GameCore {
 
     const attack1 = new MenuItem('Attack', '#FFF', '#000', false);
     attack1.setTouchCallback(() => {
-      this.players[0].lookForReadyShip('mv');
+      this.players[0].lookForReadyShip('atk');
     });
     root1.addChild(attack1);
 
     const defend1 = new MenuItem('Defend', '#FFF', '#000', false);
     defend1.setTouchCallback(() => {
-      this.players[0].lookForReadyShip('mv');
+      this.players[0].lookForReadyShip('dfd');
     });
     root1.addChild(defend1);
 
@@ -152,13 +153,13 @@ class GameCore {
 
     const attack2 = new MenuItem('Attack', '#FFF', '#000', false);
     attack2.setTouchCallback(() => {
-      this.players[1].lookForReadyShip('mv');
+      this.players[1].lookForReadyShip('atk');
     });
     root2.addChild(attack2);
 
     const defend2 = new MenuItem('Defend', '#FFF', '#000', false);
     defend2.setTouchCallback(() => {
-      this.players[1].lookForReadyShip('mv');
+      this.players[1].lookForReadyShip('dfd');
     });
     root2.addChild(defend2);
 
@@ -177,13 +178,13 @@ class GameCore {
 
     const attack3 = new MenuItem('Attack', '#FFF', '#000', false);
     attack3.setTouchCallback(() => {
-      this.players[2].lookForReadyShip('mv');
+      this.players[2].lookForReadyShip('atk');
     });
     root3.addChild(attack3);
 
     const defend3 = new MenuItem('Defend', '#FFF', '#000', false);
     defend3.setTouchCallback(() => {
-      this.players[2].lookForReadyShip('mv');
+      this.players[2].lookForReadyShip('dfd');
     });
     root3.addChild(defend3);
 
@@ -202,13 +203,13 @@ class GameCore {
 
     const attack4 = new MenuItem('Attack', '#FFF', '#000', false);
     attack4.setTouchCallback(() => {
-      this.players[3].lookForReadyShip('mv');
+      this.players[3].lookForReadyShip('atk');
     });
     root4.addChild(attack4);
 
     const defend4 = new MenuItem('Defend', '#FFF', '#000', false);
     defend4.setTouchCallback(() => {
-      this.players[3].lookForReadyShip('mv');
+      this.players[3].lookForReadyShip('dfd');
     });
     root4.addChild(defend4);
 

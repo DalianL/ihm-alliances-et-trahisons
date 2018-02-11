@@ -135,23 +135,22 @@ class SpaceshipWidget extends TUIOWidget {
 
   triggerAction(tuioTagId, action) {
     this.stopFeedback();
+    const speed = action === 'mv' ? 1 : 2;
     this.startMovement(this.currentWidget.x + (this.currentWidget.size / 2), this.currentWidget.y + (this.currentWidget.size / 2), () => {
-      if (action === 'mv') {
-        this.currentWidget.addElementWidget(this);
-        this.planetId = this.currentWidget.planetId;
-      }
-    });
+      this.currentWidget.addElementWidget(this, action);
+      this.planetId = this.currentWidget.planetId;
+    }, speed);
     super.onTagDeletion(tuioTagId);
     GameCore.getInstance().menus[this.playerId - 1].visibility = false;
     GameCore.getInstance().menus[this.playerId - 1].onTagDeletion(tuioTagId);
   }
 
-  startMovement(dirX, dirY, callback) {
+  startMovement(dirX, dirY, callback, speed) {
     this.actionStep = 3;
     const dX = dirX - this.centeredX;
     const dY = dirY - this.centeredY;
     const dist = Math.sqrt((dX * dX) + (dY * dY));
-    const multiplier = 1;
+    const multiplier = speed;
     let countdown = dist * multiplier;
     // Trigger the spaceship movement
     clearInterval(this.movement);
