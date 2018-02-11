@@ -84,6 +84,9 @@ class SpaceshipWidget extends TUIOWidget {
           console.log('Found arrival planet : ', widget.planetId);
           if (this.idTagMove == GameCore.getInstance().menus[this.playerId - 1].allowedTag) { // eslint-disable-line
             GameCore.getInstance().menus[this.playerId - 1].visibility = true;
+            setTimeout(() => {
+              GameCore.getInstance().menus[this.playerId - 1].onTagUpdate(tuioTag);
+            }, 500);
           }
           if (this.actionStep < 3) this.currentWidget = widget;
           this.drawer.drawLine(this.shipId, this.centeredX, this.centeredY, widget.x + (widget.size / 2), widget.y + (widget.size / 2));
