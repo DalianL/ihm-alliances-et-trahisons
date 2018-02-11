@@ -85,7 +85,7 @@ class SpaceshipWidget extends TUIOWidget {
           if (this.idTagMove == GameCore.getInstance().menus[this.playerId - 1].allowedTag) { // eslint-disable-line
             GameCore.getInstance().menus[this.playerId - 1].visibility = true;
           }
-          this.currentWidget = widget;
+          if (this.actionStep < 3) this.currentWidget = widget;
           this.drawer.drawLine(this.shipId, this.centeredX, this.centeredY, widget.x + (widget.size / 2), widget.y + (widget.size / 2));
           this.actionStep = 2;
         } else {
@@ -96,6 +96,8 @@ class SpaceshipWidget extends TUIOWidget {
         console.log('No arrival planets found');
         this.stopFeedback();
       }
+    } else if (this.actionStep === 3) {
+      // if (this.isTouched(tuioTag.x, tuioTag.y)) console.log('Movement change');
     }
   }
 
@@ -129,13 +131,13 @@ class SpaceshipWidget extends TUIOWidget {
   }
 
   triggerAction(tuioTagId, action) {
+    this.stopFeedback();
     this.startMovement(this.currentWidget.x + (this.currentWidget.size / 2), this.currentWidget.y + (this.currentWidget.size / 2), () => {
       if (action === 'mv') {
         this.currentWidget.addElementWidget(this);
         this.planetId = this.currentWidget.planetId;
       }
     });
-    this.stopFeedback();
     super.onTagDeletion(tuioTagId);
     GameCore.getInstance().menus[this.playerId - 1].visibility = false;
     GameCore.getInstance().menus[this.playerId - 1].onTagDeletion(tuioTagId);
