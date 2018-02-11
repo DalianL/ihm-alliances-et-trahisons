@@ -135,7 +135,7 @@ class SpaceshipWidget extends TUIOWidget {
 
   triggerAction(tuioTagId, action) {
     this.stopFeedback();
-    const speed = action === 'mv' ? 1 : 2;
+    const speed = action === 'mv' ? 2 : 3;
     this.startMovement(this.currentWidget.x + (this.currentWidget.size / 2), this.currentWidget.y + (this.currentWidget.size / 2), () => {
       this.currentWidget.addElementWidget(this, action);
       this.planetId = this.currentWidget.planetId;
