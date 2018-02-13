@@ -19,7 +19,7 @@ class SpaceshipWidget extends TUIOWidget {
     this.shipId = id;
     this.playerId = playerId;
     this.planetId = planetId;
-    this._domElem = $('<img>');
+    this._domElem = $('<img id="img' + id + '">'); // eslint-disable-line
     this._domElem.attr('src', src);
     this._domElem.css('width', `${this.width}px`);
     this._domElem.css('height', `${this.height}px`);
@@ -60,7 +60,7 @@ class SpaceshipWidget extends TUIOWidget {
       if (this.isTouched(tuioTag.x, tuioTag.y)) {
         super.onTagCreation(tuioTag);
         this.startFeedback();
-        console.log('Found departure on planet : ', this.planetId);
+        // console.log('Found departure on planet : ', this.planetId);
         this._lastTagsValues = {
           ...this._lastTagsValues,
           [tuioTag.id]: {
@@ -81,7 +81,7 @@ class SpaceshipWidget extends TUIOWidget {
 
       if (widget !== undefined) {
         if (widget.planetId !== this.planetId) {
-          console.log('Found arrival planet : ', widget.planetId);
+          // console.log('Found arrival planet : ', widget.planetId);
           if (this.idTagMove == GameCore.getInstance().menus[this.playerId - 1].allowedTag) { // eslint-disable-line
             GameCore.getInstance().menus[this.playerId - 1].visibility = true;
             setTimeout(() => {
@@ -135,10 +135,11 @@ class SpaceshipWidget extends TUIOWidget {
 
   triggerAction(tuioTagId, action) {
     this.stopFeedback();
-    const speed = action === 'mv' ? 2 : 3;
+    const speed = action === 'mv' ? 1 : 1;
+    GameCore.getInstance().planets[this.planetId - 1].leaveOrbit(this);
     this.startMovement(this.currentWidget.x + (this.currentWidget.size / 2), this.currentWidget.y + (this.currentWidget.size / 2), () => {
-      this.currentWidget.addElementWidget(this, action);
       this.planetId = this.currentWidget.planetId;
+      this.currentWidget.addElementWidget(this, action);
     }, speed);
     super.onTagDeletion(tuioTagId);
     GameCore.getInstance().menus[this.playerId - 1].visibility = false;

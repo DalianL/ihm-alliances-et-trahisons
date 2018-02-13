@@ -1,3 +1,4 @@
+import $ from 'jquery/dist/jquery.min';
 import { WINDOW_WIDTH, WINDOW_HEIGHT } from 'tuiomanager/core/constants';
 import MenuItem from 'tuiomanager/widgets/CircularMenu/MenuItem';
 import CircularMenuCustom from './circularMenuCustom';
@@ -121,6 +122,29 @@ class GameCore {
   conquerFirstPlanet(id) {
     this.planets[id - 1].stackDiv.css('border', `solid 10px ${this.playerColors[id - 1]}`);
     this.planets[id - 1].playerId = id;
+  }
+
+  destroy(ship) {
+    let index1;
+    let index2;
+    // index to remove the spaceship from player list
+    for (let i = 0; i < this.players[ship.playerId - 1].spaceships.length; i += 1) {
+      if (this.players[ship.playerId - 1].spaceships[i].shipId === ship.shipId) {
+        index1 = i;
+        break;
+      }
+    }
+    // index to remove the spaceship from planet orbit
+    for (let i = 0; i < this.planets[ship.planetId - 1].inOrbit.length; i += 1) {
+      if (this.planets[ship.planetId - 1].inOrbit[i].shipId === ship.shipId) {
+        index2 = i;
+        break;
+      }
+    }
+
+    this.players[ship.playerId - 1].spaceships.splice(index1, 1);
+    if (index2 !== undefined) this.planets[ship.planetId - 1].inOrbit.splice(index2, 1);
+    $('img[id=img' + ship.shipId + ']').remove(); // eslint-disable-line
   }
 
   addMenus() {
