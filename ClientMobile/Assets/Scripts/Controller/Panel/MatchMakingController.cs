@@ -11,6 +11,7 @@ public class MatchMakingController : PanelController {
 	public GameObject title;
 	public GameObject text;
 	public bool isBegin = false;
+	public bool isBeginned = false;
 
 	void Start() {
 		initialize ();
@@ -19,10 +20,11 @@ public class MatchMakingController : PanelController {
 	public virtual void initialize() {
 		if (!this.initialized) {
 			this.initialized = true;
+			this.isBeginned = false;
+			this.isBegin = false;
 		}
 		this.title.SetActive (true);
 		this.text.SetActive (false);
-		this.isBegin = false;
 		initPlayers();
 	}
 
@@ -31,6 +33,7 @@ public class MatchMakingController : PanelController {
 
 		if(this.isBegin) {
 			this.isBegin = false;
+			this.isBeginned = true;
 			play ();
 		}
 	}

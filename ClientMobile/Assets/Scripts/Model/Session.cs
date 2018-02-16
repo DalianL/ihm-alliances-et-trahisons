@@ -84,7 +84,6 @@ namespace AssemblyCSharp
 					}
 				}
 			}
-			Debug.Log (winner.Id);
 			return winner;
 		}
 
@@ -105,20 +104,34 @@ namespace AssemblyCSharp
 					}
 				}
 			}
-			Debug.Log (winner.Id);
 			return winner;
 		}
 
 		public List<Player> orderPlayer() {
-			List<Player> copyList = players;
+			List<Player> copyList = copyPlayers(players);
 			List<Player> finalList = new List<Player> ();
 			while (copyList.Count != 0) {
-				Debug.Log (copyList.Count);
 				Player winner = giveWinner (copyList);
-				copyList.Remove (winner);
+				removePlayer(copyList,winner);
 				finalList.Add (winner);
 			}
 			return finalList;
+		}
+
+		public void removePlayer(List<Player> list, Player p) {
+			for(int i = 0; i < list.Count; i++) {
+				if (list[i].Id == p.Id) {
+					list.RemoveAt (i);
+				}
+			}
+		}
+
+		public List<Player> copyPlayers(List<Player> list) {
+			List<Player> dest = new List<Player> ();
+			for(int i = 0; i < list.Count; i++) {
+				dest.Add (list[i]);
+			}
+			return dest;
 		}
 			
 		public Session ()

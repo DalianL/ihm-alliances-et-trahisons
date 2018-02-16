@@ -10,20 +10,22 @@ public class PlayerObject : MonoBehaviour {
 	public Text pseudo;
 	public Text planets;
 	public Text fleets;
-
-	void Awake() {
-		this.pseudo.text = this.player.Pseudo;
-		this.planets.text = this.player.Planets.Count.ToString();
-		this.fleets.text = this.player.Fleets.Count.ToString();
-	}
+	public bool isSet = false;
 
 	void Update() {
-		this.pseudo.text = this.player.Pseudo;
-		this.planets.text = this.player.Planets.Count.ToString();
-		this.fleets.text = this.player.Fleets.Count.ToString();
+		if (isSet) {
+			this.pseudo.text = this.player.Pseudo;
+			this.planets.text = this.player.Planets.Count.ToString ();
+			this.fleets.text = this.player.Fleets.Count.ToString ();
+		} else {
+			this.pseudo.text = "";
+			this.planets.text = "";
+			this.fleets.text = "";
+		}
 	}
 
 	public void setPlayer(Player p) {
+		this.isSet = true;
 		this.player = p;
 		this.pseudo.text = this.player.Pseudo;
 		this.planets.text = this.player.Planets.Count.ToString();

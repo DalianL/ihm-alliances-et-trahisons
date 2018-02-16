@@ -27,7 +27,8 @@ public class GameOverController : PanelController {
 		List<Player> list = Session.CurrentSession.orderPlayer ();
 		int i = 0;
 		while (i < list.Count && i < players.Count) {
-			players [i].setPlayer (list[i]);
+			players [i].setPlayer (list [i]);
+			i++;
 		}
 	}
 
