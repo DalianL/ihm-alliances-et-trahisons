@@ -59,7 +59,7 @@ class GameCore {
   }
 
   initFirstPlanets() {
-    for (let i = 0; i < 16; i += 1) {
+    for (let i = 0; i < 15; i += 1) {
       this.client.socket.emit('add_planet', '{}');
     }
   }
@@ -73,14 +73,13 @@ class GameCore {
     this.addPlanet(6, -1, 930, 822, 220);
     this.addPlanet(7, -1, 12, 27, 90);
     this.addPlanet(8, -1, 234, 510, 65);
-    this.addPlanet(9, -1, -120, 830, 310);
-    this.addPlanet(10, -1, 1310, 613, 120);
-    this.addPlanet(11, -1, 658, 385, 95);
-    this.addPlanet(12, -1, 1189, -20, 110);
-    this.addPlanet(13, -1, 1489, 86, 85);
-    this.addPlanet(14, -1, 1520, 478, 70);
-    this.addPlanet(15, -1, 1634, 229, 135);
-    this.addPlanet(16, -1, 1744, 82, 60);
+    this.addPlanet(9, -1, 1310, 613, 120);
+    this.addPlanet(10, -1, 658, 385, 95);
+    this.addPlanet(11, -1, 1189, -20, 110);
+    this.addPlanet(12, -1, 1489, 86, 85);
+    this.addPlanet(13, -1, 1520, 478, 70);
+    this.addPlanet(14, -1, 1634, 229, 135);
+    this.addPlanet(15, -1, 1744, 82, 60);
   }
 
   addFirstSpaceships(id, playerId, planetId, x, y) {
