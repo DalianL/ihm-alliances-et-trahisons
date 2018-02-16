@@ -115,7 +115,6 @@ public class Network : MonoBehaviour {
 					socket.Emit ("add_planet", "{}");
 					socket.Emit ("add_planet", "{}");
 					socket.Emit ("add_planet", "{}");
-					socket.Emit ("add_planet", "{}");
 					socket.Emit ("conquer_planet", "{\"id_planet\": "+ Player.CurrentPlayer.Id +", \"id_player\": "+ Player.CurrentPlayer.Id +"}");
 					socket.Emit ("add_fleet", "{\"id_planet\": "+ Player.CurrentPlayer.Id +", \"id_player\": "+ Player.CurrentPlayer.Id +"}");*/
 				}

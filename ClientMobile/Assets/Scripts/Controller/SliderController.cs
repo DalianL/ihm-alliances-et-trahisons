@@ -24,6 +24,13 @@ public class SliderController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+		if(this.pointor >= lengthOfObjectsList ()) {
+			this.pointor = lengthOfObjectsList () - 1;
+			if (this.pointor < 0)
+				this.pointor = 0;
+		}
+
 		// RIGHT
 		if (this.pointor < lengthOfObjectsList () - 1) {
 			if (objectType == SlideObjectEnum.FLEET) {
