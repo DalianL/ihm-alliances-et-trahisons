@@ -144,10 +144,10 @@ io.on('connection', function(socket) {
       name: planetId,
       id_player : -1,
       resources: [
-        2,//Math.floor(Math.random() * 3),
-        2,//Math.floor(Math.random() * 3),
-        2,//Math.floor(Math.random() * 3),
-        2//Math.floor(Math.random() * 3)
+        Math.floor(Math.random() * 3),
+        Math.floor(Math.random() * 3),
+        Math.floor(Math.random() * 3),
+        Math.floor(Math.random() * 3)
       ]
     });
     planetId++;
@@ -233,12 +233,15 @@ io.on('connection', function(socket) {
   }
 
   function play() {
-      for(var i = 0; i < users.length; i++) {
-          io.to(users[i].id).emit('play', {});
-      }
-
       var date = new Date();
       timeCurrentTurn = date.getTime() + ((120 + 11 )* 1000);
+
+      for(var i = 0; i < users.length; i++) {
+          io.to(users[i].id).emit('play', {
+            time: timeCurrentTurn
+          });
+      }
+
       setTimeout(function() {
         timeCurrentTurn = date.getTime() + (120 * 1000);
         update_resources();
@@ -251,10 +254,8 @@ io.on('connection', function(socket) {
       console.log('Update resources');
       for(var i = 0; i < planets.length; i++) {
           if(planets[i].id_player != -1) {
-             players[planets[i].id_player].resources[0] += planets[i].resources[0];
-             players[planets[i].id_player].resources[1] += planets[i].resources[1];
-             players[planets[i].id_player].resources[2] += planets[i].resources[2];
-             players[planets[i].id_player].resources[3] += planets[i].resources[3];
+             players[planets[i].id_player].resources[(planets[i].id_player) % 4] += planets[i].resources[(planets[i].id_player) % 4];
+             players[planets[i].id_player].resources[(planets[i].id_player + 1) % 4] += planets[i].resources[(planets[i].id_player + 1) % 4];
           }
       }
       var date = new Date();

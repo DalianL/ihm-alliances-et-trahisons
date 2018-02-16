@@ -68,16 +68,57 @@ namespace AssemblyCSharp
 		}
 
 		public Player giveWinner() {
-			int max = 0;
+			int maxPlanet = 0;
+			int maxFleet = 0;
 			Player winner = new Player();
-			for(int i = 0; i < players.Count; i++) {
-				if(max < players[i].Planets.Count) {
-					max = players [i].Planets.Count;
-					winner = players [i];
+			for(int i = 0; i < this.players.Count; i++) {
+				if(maxPlanet < this.players[i].Planets.Count) {
+					maxPlanet = this.players [i].Planets.Count;
+					winner = this.players [i];
+					maxFleet = this.players [i].Fleets.Count;
+				} else if (maxPlanet  == this.players[i].Planets.Count) {
+					if(maxFleet < this.players[i].Fleets.Count) {
+						maxPlanet = this.players [i].Planets.Count;
+						winner = this.players [i];
+						maxFleet = this.players [i].Fleets.Count;
+					}
 				}
 			}
 			Debug.Log (winner.Id);
 			return winner;
+		}
+
+		public Player giveWinner(List<Player> list) {
+			int maxPlanet = 0;
+			int maxFleet = 0;
+			Player winner = new Player();
+			for(int i = 0; i < list.Count; i++) {
+				if(maxPlanet < list[i].Planets.Count) {
+					maxPlanet = list [i].Planets.Count;
+					winner = list [i];
+					maxFleet = list [i].Fleets.Count;
+				} else if (maxPlanet  == list[i].Planets.Count) {
+					if(maxFleet < list[i].Fleets.Count) {
+						maxPlanet = list [i].Planets.Count;
+						winner = list [i];
+						maxFleet = list [i].Fleets.Count;
+					}
+				}
+			}
+			Debug.Log (winner.Id);
+			return winner;
+		}
+
+		public List<Player> orderPlayer() {
+			List<Player> copyList = players;
+			List<Player> finalList = new List<Player> ();
+			while (copyList.Count != 0) {
+				Debug.Log (copyList.Count);
+				Player winner = giveWinner (copyList);
+				copyList.Remove (winner);
+				finalList.Add (winner);
+			}
+			return finalList;
 		}
 			
 		public Session ()

@@ -6,14 +6,15 @@ using Quobject.SocketIoClientDotNet.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using AssemblyCSharp;
+using System;
 
 public class Network : MonoBehaviour {
 	private string serverURL = "http://localhost:8000/";
 	//private string serverURL = "http://172.20.10.5:8000/";
 	public Socket socket = null;
 
-	public PanelManager panelManager;
 	public GameManager gameManager;
+	public PanelManager panelManager;
 	public MatchMakingController matchMakingController;
 	public GameController gameController;
 
@@ -69,7 +70,10 @@ public class Network : MonoBehaviour {
 
 			socket.On ("play", (data) => {
 				Debug.Log("Data play : " + data);
+				JObject node = JObject.Parse(data.ToString());
 
+				Session.CurrentSession.Time = (long) node ["time"];
+					
 				this.matchMakingController.isBegin = true;
 			});
 
@@ -88,7 +92,11 @@ public class Network : MonoBehaviour {
 
 				Session.initializeCurrentSession(node);
 
-				this.gameController.needUpdate = true;
+				//this.gameController.needUpdate = true;
+
+				/*if(Player.CurrentPlayer.Planets.Count == 0 && Player.CurrentPlayer.Fleets.Count == 0) {
+					this.gameManager.isEnd = true;
+				}*/
 
 				if(testInitialize) {
 					testInitialize = false;
@@ -109,10 +117,8 @@ public class Network : MonoBehaviour {
 					socket.Emit ("add_planet", "{}");
 					socket.Emit ("add_planet", "{}");
 					socket.Emit ("conquer_planet", "{\"id_planet\": 0, \"id_player\": 0}");
-					socket.Emit ("conquer_planet", "{\"id_planet\": 1, \"id_player\": 0}");
-					socket.Emit ("conquer_planet", "{\"id_planet\": 2, \"id_player\": 0}");
-					socket.Emit ("conquer_planet", "{\"id_planet\": 3, \"id_player\": 0}");
-					socket.Emit ("conquer_planet", "{\"id_planet\": 4, \"id_player\": 0}");*/
+					socket.Emit ("conquer_planet", "{\"id_planet\": 4, \"id_player\": 0}");
+					socket.Emit ("add_fleet", "{\"id_planet\": 0, \"id_player\": 0}");*/
 				}
 			});
 
@@ -125,7 +131,7 @@ public class Network : MonoBehaviour {
 				Debug.Log("Data interact : " + data);
 			});
 
-			socket.On (Socket.EVENT_CONNECT_ERROR, () => {
+			/*socket.On (Socket.EVENT_CONNECT_ERROR, () => {
 				Debug.Log("EVENT_CONNECT_ERROR");
 				this.panelManager.showError (true, "EVENT_CONNECT_ERROR");
 			});
@@ -173,7 +179,7 @@ public class Network : MonoBehaviour {
 			socket.On (Socket.EVENT_RECONNECT_FAILED, () => {
 				Debug.Log("EVENT_RECONNECT_FAILED");
 				this.panelManager.showError (true, "EVENT_RECONNECT_FAILED");
-			});
+			});*/
 
 		}
 		return allGood;

@@ -6,40 +6,45 @@ using AssemblyCSharp;
 
 public class GameOverController : PanelController {
 
-	// Win 
-	public GameObject panelWin;
-	public Image avatarWin;
-	public Image colorWin;
-	public Text pseudoWin;
+	public Image titleWin;
+	public Image titleLoose;
 
-	// Loose
-	public GameObject panelLoose;
-	public Image avatarLoose;
-	public Image colorLoose;
-	public Text pseudoLoose;
-	public Text TextLoose;
+	public List<PlayerObject> players;
 
-	public List<Sprite> images = new List<Sprite>();
-
-	public override void initialize(Player winner) {
+	public override void initialize() {
 		if (!this.initialized) {
 			this.initialized = true;
 		}
-		Debug.Log (winner.Id);
-		if (winner.Equals(Player.CurrentPlayer)) {
-			this.colorWin.color = winner.getColor ();
-			this.avatarWin.sprite = images [SpeciesEnumHelper.ToInt (winner.Specie)];
-			this.pseudoWin.text = winner.Pseudo;
-			this.panelWin.SetActive (true);
-			this.panelLoose.SetActive (false);
+
+		if (Player.CurrentPlayer.Id == Session.CurrentSession.giveWinner().Id) {
+			this.titleWin.gameObject.SetActive (true);
+			this.titleLoose.gameObject.SetActive (false);
 		} else {
-			this.colorLoose.color = winner.getColor ();
-			this.avatarLoose.sprite = images [SpeciesEnumHelper.ToInt (winner.Specie)];
-			this.pseudoLoose.text = winner.Pseudo;
-			this.TextLoose.text = winner.Pseudo + " a conquis la majorité des planètes du système.";
-			this.panelWin.SetActive (false);
-			this.panelLoose.SetActive (true);
+			this.titleWin.gameObject.SetActive (false);
+			this.titleLoose.gameObject.SetActive (true);
 		}
 
+		List<Player> list = Session.CurrentSession.orderPlayer ();
+		int i = 0;
+		while (i < list.Count && i < players.Count) {
+			players [i].setPlayer (list[i]);
+		}
+	}
+
+	void Update() {
+		if (Player.CurrentPlayer.Id == Session.CurrentSession.giveWinner().Id) {
+			this.titleWin.gameObject.SetActive (true);
+			this.titleLoose.gameObject.SetActive (false);
+		} else {
+			this.titleWin.gameObject.SetActive (false);
+			this.titleLoose.gameObject.SetActive (true);
+		}
+
+		List<Player> list = Session.CurrentSession.orderPlayer ();
+		int i = 0;
+		while (i < list.Count && i < players.Count) {
+			players [i].setPlayer (list[i]);
+			i++;
+		}
 	}
 }

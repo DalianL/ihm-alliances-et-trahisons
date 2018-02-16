@@ -57,6 +57,7 @@
      <Compile Include="Assets\Scripts\Controller\Panel\LoginController.cs" />
      <Compile Include="Assets\Scripts\Controller\Panel\MatchMakingController.cs" />
      <Compile Include="Assets\Scripts\Controller\Panel\PanelController.cs" />
+     <Compile Include="Assets\Scripts\Controller\Panel\PlayerObject.cs" />
      <Compile Include="Assets\Scripts\Controller\Panel\PopupController.cs" />
      <Compile Include="Assets\Scripts\Controller\Panel\ProfilController.cs" />
      <Compile Include="Assets\Scripts\Controller\PlayerController.cs" />

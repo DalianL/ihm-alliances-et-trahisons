@@ -2,17 +2,18 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Network.cs">
     <Files>
-      <File FileName="Assets\Scripts\Network.cs" Line="86" Column="13" />
-      <File FileName="Assets\Scripts\Model\Session.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Network.cs" Line="121" Column="74" />
+      <File FileName="Assets\Scripts\Model\Session.cs" Line="146" Column="17" />
       <File FileName="Assets\Scripts\PanelManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Controller\SliderController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Controller\Panel\GameController.cs" Line="69" Column="17" />
-      <File FileName="Assets\Scripts\Controller\MapController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Model\Enum\SpeciesEnum.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Model\Location.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Model\Enum\ColorEnum.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Controller\Panel\GameOverController.cs" Line="47" Column="8" />
       <File FileName="Assets\Scripts\Controller\Panel\LoginController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Controller\Panel\GameOverController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Controller\Panel\PlayerObject.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\View\GameOverView.cs" Line="24" Column="3" />
+      <File FileName="Assets\Scripts\GameManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Controller\Panel\GameController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Model\Enum\SlideObjectEnum.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Controller\Panel\PopupController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Controller\Panel\MatchMakingController.cs" Line="13" Column="21" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour {
 	void Update() {
 		if (this.isEnd) {
 			this.isEnd = false;
-			this.panelManager.showEnd (true, Session.CurrentSession.giveWinner ());
+			this.panelManager.showEnd (true);
 		}
 	}
 

@@ -11,7 +11,8 @@ public class PanelManager : MonoBehaviour {
 	public PanelView panel_MatchMaking;
 	public PanelView panel_Profil;
 	public PanelView panel_Game;
-	public GameOverView panel_End;
+	public PopupView panel_Help;
+	public PanelView panel_End;
 	public PopupView panel_Error;
 
 	public GameObject time;
@@ -22,7 +23,6 @@ public class PanelManager : MonoBehaviour {
 	void Start() {
 		this.currentPanel = PanelEnum.LOGIN;
 		this.lastPanel = PanelEnum.LOGIN;
-
 		showScreen (PanelEnum.LOGIN);
 	}
 
@@ -46,7 +46,6 @@ public class PanelManager : MonoBehaviour {
 		showMatchMaking (panel == PanelEnum.MATCHMAKING);
 		showProfil (panel == PanelEnum.PROFIL);
 		showGame (panel == PanelEnum.GAME);
-		showEnd (panel == PanelEnum.END);
 
 		this.lastPanel = currentPanel;
 		this.currentPanel = panel;
@@ -75,7 +74,7 @@ public class PanelManager : MonoBehaviour {
 		this.panel_Game.show (show);
 	}	
 
-	private void showEnd(bool show) {
+	public void showEnd(bool show) {
 		this.panel_End.show (show);
 	}	
 
@@ -83,10 +82,9 @@ public class PanelManager : MonoBehaviour {
 		this.panel_Error.show (show, str);
 	}
 
-	public void showEnd(bool show, Player winner) {
-		Debug.Log (winner.Id);
-		this.panel_End.show (show, winner);
-	}	
+	public void showHelp(bool show, string str) {
+		this.panel_Help.show (show, str);
+	}
 
 	public void back() {
 		showScreen (lastPanel);

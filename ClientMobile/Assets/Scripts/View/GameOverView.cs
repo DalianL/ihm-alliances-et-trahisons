@@ -5,10 +5,17 @@ using AssemblyCSharp;
 
 public class GameOverView : PanelView {
 
-	public void show(bool b, Player winner) {
-		Debug.Log ("show");
+	public override void show(bool b) {
 		if (b) {
-			Debug.Log (winner.Id);
+			this.panelController.initialize (Session.CurrentSession.giveWinner ());
+			gameObject.SetActive (true);
+		} else {
+			hide ();
+		}
+	}
+
+	public void show(bool b, Player winner) {
+		if (b) {
 			this.panelController.initialize (winner);
 			gameObject.SetActive (true);
 		} else {

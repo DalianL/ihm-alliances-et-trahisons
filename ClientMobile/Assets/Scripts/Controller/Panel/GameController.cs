@@ -10,9 +10,9 @@ public class GameController : PanelController {
 	public GameObject prefabPlanetLocation;
 	public GameObject planet;
 
-	public Button quitButton;
-	public Button ProfilButton;
-	public Button MessageButton;
+	public GameObject quitButton;
+	public GameObject ProfilButton;
+	public GameObject MessageButton;
 	public bool needUpdate = false;
 	public List<Sprite> images = new List<Sprite>();
 	public Sprite pointSprite;
@@ -64,6 +64,7 @@ public class GameController : PanelController {
 					planet.GetComponent<Image> ().color = new Color32 (255, 255, 255, 255);
 			}
 		}
+		this.ProfilButton.transform.Find("Color").GetComponent<Image> ().color = Player.CurrentPlayer.getColor ();
 	}
 
 	void Update() {
@@ -95,10 +96,19 @@ public class GameController : PanelController {
 		planet.transform.Find ("Resources/KyberG/Text").GetComponent<Text>().text = Session.CurrentSession.getPlanetById(id).Resources[ResourcesEnum.GREEN_CRYSTAL_KYBER].ToString();
 		planet.transform.Find ("Resources/KyberB/Text").GetComponent<Text>().text = Session.CurrentSession.getPlanetById(id).Resources[ResourcesEnum.BLUE_CRYSTAL_KYBER].ToString();
 		planet.transform.Find ("Resources/KyberV/Text").GetComponent<Text>().text = Session.CurrentSession.getPlanetById(id).Resources[ResourcesEnum.VIOLET_CRYSTAL_KYBER].ToString();
+		hideResourcesNotAvailable ();
 
 		listPlanets[this.currentId].GetComponent<Image>().sprite = pointSprite;
 		listPlanets[id].GetComponent<Image>().sprite = planetSprite;
 		this.currentId = id;
+	}
+
+	public void hideResourcesNotAvailable() {
+		Debug.Log (Player.CurrentPlayer.Id);
+		planet.transform.Find ("Resources/KyberR/Kyber/Cancel").gameObject.SetActive (Player.CurrentPlayer.Id % 4 == 2 || Player.CurrentPlayer.Id % 4 == 1);
+		planet.transform.Find ("Resources/KyberG/Kyber/Cancel").gameObject.SetActive (Player.CurrentPlayer.Id % 4 == 3 || Player.CurrentPlayer.Id % 4 == 2);
+		planet.transform.Find ("Resources/KyberB/Kyber/Cancel").gameObject.SetActive (Player.CurrentPlayer.Id % 4 == 0 || Player.CurrentPlayer.Id % 4 == 3);
+		planet.transform.Find ("Resources/KyberV/Kyber/Cancel").gameObject.SetActive (Player.CurrentPlayer.Id % 4 == 1 || Player.CurrentPlayer.Id % 4 == 0);
 	}
 
 	public void back() {
@@ -111,5 +121,9 @@ public class GameController : PanelController {
 
 	public void goToMessage() {
 		//this.panelManager.showScreen (PanelEnum.MESSAGE);
+	}
+
+	public void  showTutoResourcesPlanet() {
+		this.panelManager.showHelp (true, "Ressources que le conquérant de cette planète récupère à chaque extraction.");
 	}
 }

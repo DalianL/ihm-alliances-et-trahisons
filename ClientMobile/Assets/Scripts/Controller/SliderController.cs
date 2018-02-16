@@ -59,6 +59,7 @@ public class SliderController : MonoBehaviour {
 				objectMid.transform.Find ("Resources/KyberG/Text").GetComponent<Text>().text = Player.CurrentPlayer.Planets[this.pointor].Resources[ResourcesEnum.GREEN_CRYSTAL_KYBER].ToString();
 				objectMid.transform.Find ("Resources/KyberB/Text").GetComponent<Text>().text = Player.CurrentPlayer.Planets[this.pointor].Resources[ResourcesEnum.BLUE_CRYSTAL_KYBER].ToString();
 				objectMid.transform.Find ("Resources/KyberV/Text").GetComponent<Text>().text = Player.CurrentPlayer.Planets[this.pointor].Resources[ResourcesEnum.VIOLET_CRYSTAL_KYBER].ToString();
+				hideResourcesNotAvailable ();
 			} else if(objectType == SlideObjectEnum.FLEET) {
 				objectMid.transform.Find ("Description").GetComponent<Text> ().text = "En orbite autour de la planète\n" + getObjectInfos(this.pointor);
 				objectMid.transform.Find ("Object").GetComponent<Image> ().color = Player.CurrentPlayer.getColor ();
@@ -68,6 +69,13 @@ public class SliderController : MonoBehaviour {
 		} else {
 			objectMid.SetActive (false);
 		}
+	}
+
+	public void hideResourcesNotAvailable() {
+		objectMid.transform.Find ("Resources/KyberR/Kyber/Cancel").gameObject.SetActive (Player.CurrentPlayer.Id % 4 == 2 || Player.CurrentPlayer.Id % 4 == 1);
+		objectMid.transform.Find ("Resources/KyberG/Kyber/Cancel").gameObject.SetActive (Player.CurrentPlayer.Id % 4 == 3 || Player.CurrentPlayer.Id % 4 == 2);
+		objectMid.transform.Find ("Resources/KyberB/Kyber/Cancel").gameObject.SetActive (Player.CurrentPlayer.Id % 4 == 0 || Player.CurrentPlayer.Id % 4 == 3);
+		objectMid.transform.Find ("Resources/KyberV/Kyber/Cancel").gameObject.SetActive (Player.CurrentPlayer.Id % 4 == 1 || Player.CurrentPlayer.Id % 4 == 0);
 	}
 
 	public void goLeft() {
