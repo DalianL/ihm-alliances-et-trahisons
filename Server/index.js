@@ -88,14 +88,14 @@ io.on('connection', function(socket) {
       name: fleetId,
       id_planet : message.id_planet,
       id_player : message.id_player
-    });create_fleet
+    });
 
     // Remove resources of player
     for(var i = 0; i < players[message.id_player].resources.length; i++)
         players[message.id_player].resources[i]--;
 
     // Update Table
-    io.to(users[0].id).emit('', {
+    io.to(users[0].id).emit('create_fleet', {
       id: fleetId,
       name: fleetId,
       id_planet : message.id_planet,

@@ -91,7 +91,7 @@ class GameCore {
 
   addSpaceship(id, playerId, planetId) {
     if (this.gameStarted) {
-      const newSpaceship = new SpaceshipWidget(3 + id, playerId, planetId + 1, this.planets[planetId].x, this.planets[planetId].y, 45, 45, 0, this.playerColors[playerId - 1], this.playerImgs[playerId - 1], this.drawer); // eslint-disable-line
+      const newSpaceship = new SpaceshipWidget(id, playerId, planetId + 1, this.planets[planetId].x, this.planets[planetId].y, 45, 45, 0, this.playerColors[playerId - 1], this.playerImgs[playerId - 1], this.drawer); // eslint-disable-line
       const newPos = Utils.givePosByColor(newSpaceship.color, newSpaceship.x, newSpaceship.y, this.planets[planetId].size, this.planets[planetId].size, this.spaceShipSize);
       newSpaceship.moveTo(newPos.x, newPos.y);
       this.players[playerId - 1].addSpaceship(newSpaceship);
