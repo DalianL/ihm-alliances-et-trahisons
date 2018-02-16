@@ -136,7 +136,6 @@ class SpaceshipWidget extends TUIOWidget {
   triggerAction(tuioTagId, action) {
     this.stopFeedback();
     const speed = action === 'mv' ? 1 : 2;
-    // console.log('action', GameCore.getInstance().planets[this.planetId - 1], this.planetId);
     GameCore.getInstance().planets[this.planetId - 1].leaveOrbit(this);
     this.startMovement(this.currentWidget.x + (this.currentWidget.size / 2), this.currentWidget.y + (this.currentWidget.size / 2), () => {
       this.planetId = this.currentWidget.planetId;
