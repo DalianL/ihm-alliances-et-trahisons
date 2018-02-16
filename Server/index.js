@@ -82,24 +82,27 @@ io.on('connection', function(socket) {
   socket.on('add_fleet', function(message){
     message = JSON.parse(message);
     console.log('Add a fleet to Player n°' + message.id_player + "on planet n°" + message.id_planet);
-    // Update Table
-    io.to(users[0].id).emit('create_fleet', {
-      id: fleetId,
-      name: fleetId,
-      id_planet : message.id_planet,
-      id_player : message.id_player
-    });
     // Add fleet
     fleets.push({
       id: fleetId,
       name: fleetId,
       id_planet : message.id_planet,
       id_player : message.id_player
-    });
-    fleetId++;
+    });create_fleet
+
     // Remove resources of player
     for(var i = 0; i < players[message.id_player].resources.length; i++)
         players[message.id_player].resources[i]--;
+
+    // Update Table
+    io.to(users[0].id).emit('', {
+      id: fleetId,
+      name: fleetId,
+      id_planet : message.id_planet,
+      id_player : message.id_player
+    });
+    fleetId++;
+
     // Update Client
     update_client();
   });

@@ -116,11 +116,8 @@ public class Network : MonoBehaviour {
 					socket.Emit ("add_planet", "{}");
 					socket.Emit ("add_planet", "{}");
 					socket.Emit ("add_planet", "{}");
-					socket.Emit ("conquer_planet", "{\"id_planet\": 0, \"id_player\": 0}");
-					socket.Emit ("conquer_planet", "{\"id_planet\": 1, \"id_player\": 0}");
-
-					socket.Emit ("add_fleet", "{\"id_planet\": 0, \"id_player\": 0}");
-					socket.Emit ("conquer_planet", "{\"id_planet\": 2, \"id_player\": 0}");*/
+					socket.Emit ("conquer_planet", "{\"id_planet\": "+ Player.CurrentPlayer.Id +", \"id_player\": "+ Player.CurrentPlayer.Id +"}");
+					socket.Emit ("add_fleet", "{\"id_planet\": "+ Player.CurrentPlayer.Id +", \"id_player\": "+ Player.CurrentPlayer.Id +"}");*/
 				}
 			});
 

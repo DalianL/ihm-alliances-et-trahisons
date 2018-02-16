@@ -68,8 +68,8 @@ namespace AssemblyCSharp
 		}
 
 		public Player giveWinner() {
-			int maxPlanet = 0;
-			int maxFleet = 0;
+			int maxPlanet = -1;
+			int maxFleet = -1;
 			Player winner = new Player();
 			for(int i = 0; i < this.players.Count; i++) {
 				if(maxPlanet < this.players[i].Planets.Count) {
@@ -88,8 +88,8 @@ namespace AssemblyCSharp
 		}
 
 		public Player giveWinner(List<Player> list) {
-			int maxPlanet = 0;
-			int maxFleet = 0;
+			int maxPlanet = -1;
+			int maxFleet = -1;
 			Player winner = new Player();
 			for(int i = 0; i < list.Count; i++) {
 				if(maxPlanet < list[i].Planets.Count) {
@@ -110,7 +110,7 @@ namespace AssemblyCSharp
 		public List<Player> orderPlayer() {
 			List<Player> copyList = copyPlayers(players);
 			List<Player> finalList = new List<Player> ();
-			while (copyList.Count != 0) {
+			while (copyList.Count > 0) {
 				Player winner = giveWinner (copyList);
 				removePlayer(copyList,winner);
 				finalList.Add (winner);

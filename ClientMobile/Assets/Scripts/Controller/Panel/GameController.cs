@@ -48,7 +48,7 @@ public class GameController : PanelController {
 					});
 					listPlanets.Add (planet);
 				}
-				this.currentId = 0;
+				this.currentId = Player.CurrentPlayer.Planets [0].Id;
 				showPlanetById (this.currentId);
 			}
 		}
