@@ -92,11 +92,11 @@ public class Network : MonoBehaviour {
 
 				Session.initializeCurrentSession(node);
 
-				//this.gameController.needUpdate = true;
+				this.gameController.needUpdate = true;
 
-				/*if(Player.CurrentPlayer.Planets.Count == 0 && Player.CurrentPlayer.Fleets.Count == 0) {
+				if(Player.CurrentPlayer.Planets.Count == 0 && Player.CurrentPlayer.Fleets.Count == 0 && this.matchMakingController.isBeginned) {
 					this.gameManager.isEnd = true;
-				}*/
+				}
 
 				if(testInitialize) {
 					testInitialize = false;
@@ -117,8 +117,10 @@ public class Network : MonoBehaviour {
 					socket.Emit ("add_planet", "{}");
 					socket.Emit ("add_planet", "{}");
 					socket.Emit ("conquer_planet", "{\"id_planet\": 0, \"id_player\": 0}");
-					socket.Emit ("conquer_planet", "{\"id_planet\": 4, \"id_player\": 0}");
-					socket.Emit ("add_fleet", "{\"id_planet\": 0, \"id_player\": 0}");*/
+					socket.Emit ("conquer_planet", "{\"id_planet\": 1, \"id_player\": 0}");
+
+					socket.Emit ("add_fleet", "{\"id_planet\": 0, \"id_player\": 0}");
+					socket.Emit ("conquer_planet", "{\"id_planet\": 2, \"id_player\": 0}");*/
 				}
 			});
 
