@@ -19,6 +19,30 @@ class Utils {
     return res;
   }
 
+  static writeNumberOfFleet(canvasPlayer, numberOfFleet, x, y, color) {
+    switch (color) {
+      case 'red' :
+        canvasPlayer.drawText(numberOfFleet, x + 12, y - 10);
+        break;
+
+      case 'blue' :
+        canvasPlayer.drawText(numberOfFleet, x - 30, y + 22);
+        break;
+
+      case 'green' :
+        canvasPlayer.drawText(numberOfFleet, x + 12, y + 72);
+        break;
+
+      case 'orange' :
+        canvasPlayer.drawText(numberOfFleet, x + 52, y + 22);
+        break;
+
+      default:
+        canvasPlayer.drawText(numberOfFleet, x + 40, y - 10);
+        break;
+    }
+  }
+
   /* eslint-enable no-underscore-dangle, consistent-return */
 
   static isInBounds(libStack, x, y) {

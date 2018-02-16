@@ -18,6 +18,7 @@ class Planet extends LibraryStack {
   }
 
   addElementWidget(widget, action) {
+    // const canvasPlayer = GameCore.getInstance().drawer.canvases[widget.playerId - 1];
     console.log('Attacked planet has in orbit before movement : ', this.inOrbit); // eslint-disable-line
     if (action === 'atk') {
       if (this.inOrbit.length === 1) {
@@ -68,10 +69,13 @@ class Planet extends LibraryStack {
       this.addToOrbit(widget);
     }
     console.log('Attacked planet has in orbit after movement : ', this.inOrbit); // eslint-disable-line
-
     const newPos = Utils.givePosByColor(widget.color, this.x, this.y, this.width, this.height, GameCore.getInstance().spaceShipSize);
     widget.moveTo(newPos.x, newPos.y);
-    // setTimeout(function(){ canvasPlayer.drawText("1",newX+40,newY-10); }, 2000);
+    /*
+    setTimeout(() => {
+      Utils.writeNumberOfFleet(canvasPlayer, '1', newPos.x, newPos.y, widget.color);
+    }, 1000);
+    */
   }
 
   addToOrbit(spaceship) {

@@ -113,7 +113,7 @@ class SpaceshipWidget extends TUIOWidget {
   onTagUpdate(tuioTag) {
     if (typeof (this._lastTagsValues[tuioTag.id]) !== 'undefined' && this.canMoveTangible && tuioTag.id.toString() === this.idTagMove) {
       // // console.log('Updating trajectory');
-      // // this.drawer.drawLine(this.shipId, this.centeredX, this.centeredY, tuioTag.x, tuioTag.y);
+      // this.drawer.drawLine(this.shipId, this.centeredX, this.centeredY, tuioTag.x, tuioTag.y);
     }
   }
 
@@ -135,7 +135,7 @@ class SpaceshipWidget extends TUIOWidget {
 
   triggerAction(tuioTagId, action) {
     this.stopFeedback();
-    const speed = action === 'mv' ? 2 : 3;
+    const speed = action === 'mv' ? 1 : 2;
     GameCore.getInstance().planets[this.planetId - 1].leaveOrbit(this);
     this.startMovement(this.currentWidget.x + (this.currentWidget.size / 2), this.currentWidget.y + (this.currentWidget.size / 2), () => {
       this.planetId = this.currentWidget.planetId;
