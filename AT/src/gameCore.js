@@ -143,6 +143,7 @@ class GameCore {
     }
 
     this.players[ship.playerId - 1].spaceships.splice(index1, 1);
+    this.client.socket.emit('remove_fleet', Utils.parser4(ship.playerId, ship.shipId));
     if (index2 !== undefined) this.planets[ship.planetId - 1].inOrbit.splice(index2, 1);
     $('img[id=img' + ship.shipId + ']').remove(); // eslint-disable-line
   }
