@@ -28,6 +28,40 @@ class Utils {
     return false;
   }
 
+  static givePosByColor(color, x, y, width, height, spaceShipSize) {
+    // Left top
+    let newX;
+    let newY;
+
+    switch (color) {
+      case 'red':
+        newX = (x + (width / 2)) - (spaceShipSize / 3);
+        newY = y - (spaceShipSize / 2);
+        break;
+      case 'blue':
+        newX = x - (spaceShipSize / 2);
+        newY = (y + (height / 2)) - (spaceShipSize / 2);
+        break;
+      case 'orange':
+        newX = (x + (width)) - (spaceShipSize / 3);
+        newY = (y + (height / 2)) - (spaceShipSize / 2);
+        break;
+      case 'green':
+        newX = (x + (width / 2)) - (spaceShipSize / 3);
+        newY = (y + (height)) - (spaceShipSize / 3);
+        break;
+      default:
+        newX = x;
+        newY = y;
+        break;
+    }
+
+    return {
+      x: newX,
+      y: newY,
+    };
+  }
+
   static parser(amount, data) {
     return "{ \"id_planet\": " + amount + ", \"id_player\": " + data.id + " }"; // eslint-disable-line
   }

@@ -44,8 +44,11 @@ export default function buildMenu() {
   const core = new GameCore();
   core.initFirstPlanets();
 
-  $('#example-container').append('<h1> Alliances et Trahisons</h1>');
-  $('#example-container').append('<div align="center" style="margin:50px;"><canvas id="canvas"></canvas></div>');
+  $('#example-container').append('<h1 style="padding-top:250px; color:white;"> Alliances et Trahisons</h1>');
+  $('#example-container').append('<div align="center" style="margin:150px;"><canvas id="canvas"></canvas></div>');
+  $('#example-container').append('<h1 class="reverseTitle" style="color:white;"> Alliances et Trahisons</h1>');
+  $('#example-container').append('<h1 class="leftTitle" style="color:white;"> Alliances et Trahisons</h1>');
+  $('#example-container').append('<h1 class="rightTitle" style="color:white;"> Alliances et Trahisons</h1>');
   QRCode.toCanvas(document.getElementById('canvas'), 'localhost');
 
   $('#example-container').append('<button id="user-test" class="menu-button"> Lancer le jeu </button></br>');

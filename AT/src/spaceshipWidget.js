@@ -19,7 +19,7 @@ class SpaceshipWidget extends TUIOWidget {
     this.shipId = id;
     this.playerId = playerId;
     this.planetId = planetId;
-    this._domElem = $('<img>');
+    this._domElem = $('<img id="img' + id + '">'); // eslint-disable-line
     this._domElem.attr('src', src);
     this._domElem.css('width', `${this.width}px`);
     this._domElem.css('height', `${this.height}px`);
@@ -60,7 +60,7 @@ class SpaceshipWidget extends TUIOWidget {
       if (this.isTouched(tuioTag.x, tuioTag.y)) {
         super.onTagCreation(tuioTag);
         this.startFeedback();
-        console.log('Found departure on planet : ', this.planetId);
+        // console.log('Found departure on planet : ', this.planetId);
         this._lastTagsValues = {
           ...this._lastTagsValues,
           [tuioTag.id]: {
@@ -81,11 +81,14 @@ class SpaceshipWidget extends TUIOWidget {
 
       if (widget !== undefined) {
         if (widget.planetId !== this.planetId) {
-          console.log('Found arrival planet : ', widget.planetId);
+          // console.log('Found arrival planet : ', widget.planetId);
           if (this.idTagMove == GameCore.getInstance().menus[this.playerId - 1].allowedTag) { // eslint-disable-line
             GameCore.getInstance().menus[this.playerId - 1].visibility = true;
+            setTimeout(() => {
+              GameCore.getInstance().menus[this.playerId - 1].onTagUpdate(tuioTag);
+            }, 500);
           }
-          this.currentWidget = widget;
+          if (this.actionStep < 3) this.currentWidget = widget;
           this.drawer.drawLine(this.shipId, this.centeredX, this.centeredY, widget.x + (widget.size / 2), widget.y + (widget.size / 2));
           this.actionStep = 2;
         } else {
@@ -96,6 +99,8 @@ class SpaceshipWidget extends TUIOWidget {
         console.log('No arrival planets found');
         this.stopFeedback();
       }
+    } else if (this.actionStep === 3) {
+      // if (this.isTouched(tuioTag.x, tuioTag.y)) console.log('Movement change');
     }
   }
 
@@ -121,18 +126,32 @@ class SpaceshipWidget extends TUIOWidget {
   onTagDeletion(tuioTagId) {
     if (super.tags[tuioTagId] !== undefined && this.actionStep !== 3 && tuioTagId.toString() === this.idTagMove) {
       if (this.actionStep === 2) {
-        this.arrivalCheck(tuioTagId);
+        this.stopFeedback();
+        this.drawer.clearLines(this.shipId);
         super.onTagDeletion(tuioTagId);
       }
     }
   }
 
-  startMovement(dirX, dirY, callback) {
+  triggerAction(tuioTagId, action) {
+    this.stopFeedback();
+    const speed = action === 'mv' ? 2 : 3;
+    GameCore.getInstance().planets[this.planetId - 1].leaveOrbit(this);
+    this.startMovement(this.currentWidget.x + (this.currentWidget.size / 2), this.currentWidget.y + (this.currentWidget.size / 2), () => {
+      this.planetId = this.currentWidget.planetId;
+      this.currentWidget.addElementWidget(this, action);
+    }, speed);
+    super.onTagDeletion(tuioTagId);
+    GameCore.getInstance().menus[this.playerId - 1].visibility = false;
+    GameCore.getInstance().menus[this.playerId - 1].onTagDeletion(tuioTagId);
+  }
+
+  startMovement(dirX, dirY, callback, speed) {
     this.actionStep = 3;
     const dX = dirX - this.centeredX;
     const dY = dirY - this.centeredY;
     const dist = Math.sqrt((dX * dX) + (dY * dY));
-    const multiplier = 1;
+    const multiplier = speed;
     let countdown = dist * multiplier;
     // Trigger the spaceship movement
     clearInterval(this.movement);
@@ -149,37 +168,42 @@ class SpaceshipWidget extends TUIOWidget {
     }, 1000 / 60);
   }
 
-  arrivalCheck(id) {
-    if (!this.isInStack) {
-      const scan = Utils.checkForPlanetBeneath(id);
-      scan.forEach((widget) => {
-        if (widget !== undefined && widget.planetId !== this.planetId) {
-          this.startMovement(this.currentWidget.x + (this.currentWidget.size / 2), this.currentWidget.y + (this.currentWidget.size / 2), () => {
-            widget.addElementWidget(this);
-            this.planetId = widget.planetId;
-          });
-          this.stopFeedback();
-        } else {
-          if (this.actionStep >= 2) this.stopFeedback();
-          this.drawer.clearLines(this.shipId);
-        }
-      });
-    }
-  }
+  // arrivalCheck(id, action) {
+  //   if (!this.isInStack) {
+  //     const scan = Utils.checkForPlanetBeneath(id);
+  //     scan.forEach((widget) => {
+  //       if (widget !== undefined && widget.planetId !== this.planetId) {
+  //         this.startMovement(this.currentWidget.x + (this.currentWidget.size / 2), this.currentWidget.y + (this.currentWidget.size / 2), () => {
+  //           if (action === 'mv') {
+  //             widget.addElementWidget(this);
+  //             this.planetId = widget.planetId;
+  //           }
+  //         });
+  //         this.stopFeedback();
+  //       } else {
+  //         if (this.actionStep >= 2) this.stopFeedback();
+  //         this.drawer.clearLines(this.shipId);
+  //       }
+  //     });
+  //   }
+  // }
 
   startFeedback() {
-    this.blinking = setInterval(() => {
-      if (this._domElem.css('display') === 'block') {
-        this._domElem.css('display', 'none');
-      } else {
-        this._domElem.css('display', 'block');
-      }
-    }, 200);
+    if (this.blinking === undefined || this.blinking === 0) {
+      this.blinking = setInterval(() => {
+        if (this._domElem.css('display') === 'block') {
+          this._domElem.css('display', 'none');
+        } else {
+          this._domElem.css('display', 'block');
+        }
+      }, 200);
+    }
     this.actionStep = 1;
   }
 
   stopFeedback() {
     clearInterval(this.blinking);
+    this.blinking = 0;
     this._domElem.css('display', 'block');
     this.actionStep = 0;
     GameCore.getInstance().menus[this.playerId - 1].visibility = false;

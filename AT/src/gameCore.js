@@ -1,3 +1,4 @@
+import $ from 'jquery/dist/jquery.min';
 import { WINDOW_WIDTH, WINDOW_HEIGHT } from 'tuiomanager/core/constants';
 import MenuItem from 'tuiomanager/widgets/CircularMenu/MenuItem';
 import CircularMenuCustom from './circularMenuCustom';
@@ -6,6 +7,7 @@ import Player from './player';
 import Planet from './planet';
 import SpaceshipWidget from './spaceshipWidget';
 import Client from './client';
+import Utils from './utils';
 
 let gameCoreInstance = null;
 
@@ -15,7 +17,6 @@ class GameCore {
       return gameCoreInstance;
     }
 
-    this.spaceShipSize = 36;
     this.players = [];
     this.planets = [];
     this.menus = [];
@@ -25,6 +26,7 @@ class GameCore {
     this.drawer = new Drawer(WINDOW_WIDTH, WINDOW_HEIGHT, this);
     this.client = new Client();
     this.gameStarted = false;
+    this.spaceShipSize = 36;
 
     gameCoreInstance = this;
     return gameCoreInstance;
@@ -40,16 +42,16 @@ class GameCore {
 
   initPlayers() {
     this.createPlayer(1, this.playerTags[0]);
-    this.addFirstSpaceships(0, 1, 1, 230, 185);
+    this.addFirstSpaceships(0, 1, 1, 260, 170);
 
     this.createPlayer(2, this.playerTags[1]);
-    this.addFirstSpaceships(1, 2, 2, 770, 102);
+    this.addFirstSpaceships(1, 2, 2, 825, 225);
 
     this.createPlayer(3, this.playerTags[2]);
-    this.addFirstSpaceships(2, 3, 3, 500, 810);
+    this.addFirstSpaceships(2, 3, 3, 480, 850);
 
     this.createPlayer(4, this.playerTags[3]);
-    this.addFirstSpaceships(3, 4, 4, 1225, 209);
+    this.addFirstSpaceships(3, 4, 4, 1325, 245);
   }
 
   createPlayer(id, tagId) {
@@ -90,6 +92,8 @@ class GameCore {
   addSpaceship(id, playerId, planetId) {
     if (this.gameStarted) {
       const newSpaceship = new SpaceshipWidget(3 + id, playerId, planetId, this.planets[planetId].x, this.planets[planetId].y, 45, 45, 0, this.playerColors[playerId - 1], this.playerImgs[playerId - 1], this.drawer); // eslint-disable-line
+      const newPos = Utils.givePosByColor(newSpaceship.color, newSpaceship.x, newSpaceship.y, this.planets[planetId].size, this.planets[planetId].size, this.spaceShipSize);
+      newSpaceship.moveTo(newPos.x, newPos.y);
       this.players[playerId - 1].addSpaceship(newSpaceship);
       newSpaceship.addTo('#example-container');
     }
@@ -99,6 +103,7 @@ class GameCore {
     let newPlanet;
     if (playerId > 0) {
       newPlanet = new Planet(planetId, playerId, x, y, size, '', this.playerColors[playerId - 1], this.playerColors[playerId - 1], false, ['SpaceshipWidget']);
+      newPlanet.addToOrbit(this.players[playerId - 1].spaceships[0]);
       this.players[playerId - 1].addPlanet(newPlanet);
     } else {
       newPlanet = new Planet(planetId, playerId, x, y, size, '', 'white', 'white', false, ['SpaceshipWidget']);
@@ -119,24 +124,47 @@ class GameCore {
     this.planets[id - 1].playerId = id;
   }
 
+  destroy(ship) {
+    let index1;
+    let index2;
+    // index to remove the spaceship from player list
+    for (let i = 0; i < this.players[ship.playerId - 1].spaceships.length; i += 1) {
+      if (this.players[ship.playerId - 1].spaceships[i].shipId === ship.shipId) {
+        index1 = i;
+        break;
+      }
+    }
+    // index to remove the spaceship from planet orbit
+    for (let i = 0; i < this.planets[ship.planetId - 1].inOrbit.length; i += 1) {
+      if (this.planets[ship.planetId - 1].inOrbit[i].shipId === ship.shipId) {
+        index2 = i;
+        break;
+      }
+    }
+
+    this.players[ship.playerId - 1].spaceships.splice(index1, 1);
+    if (index2 !== undefined) this.planets[ship.planetId - 1].inOrbit.splice(index2, 1);
+    $('img[id=img' + ship.shipId + ']').remove(); // eslint-disable-line
+  }
+
   addMenus() {
     const root1 = new MenuItem('root1', '#0F0', '#0FF', false);
 
     const attack1 = new MenuItem('Attack', '#FFF', '#000', false);
     attack1.setTouchCallback(() => {
-      // console.log('Action taken', this.gameStarted);
+      this.players[0].lookForReadyShip('atk');
     });
     root1.addChild(attack1);
 
     const defend1 = new MenuItem('Defend', '#FFF', '#000', false);
     defend1.setTouchCallback(() => {
-      // console.log('Action taken', this.gameStarted);
+      this.players[0].lookForReadyShip('dfd');
     });
     root1.addChild(defend1);
 
     const move1 = new MenuItem('Move', '#FFF', '#000', false);
     move1.setTouchCallback(() => {
-      // console.log('Action taken', this.gameStarted);
+      this.players[0].lookForReadyShip('mv');
     });
     root1.addChild(move1);
 
@@ -149,19 +177,19 @@ class GameCore {
 
     const attack2 = new MenuItem('Attack', '#FFF', '#000', false);
     attack2.setTouchCallback(() => {
-      // console.log('Created spaceship');
+      this.players[1].lookForReadyShip('atk');
     });
     root2.addChild(attack2);
 
     const defend2 = new MenuItem('Defend', '#FFF', '#000', false);
     defend2.setTouchCallback(() => {
-      // console.log('Action taken', this.gameStarted);
+      this.players[1].lookForReadyShip('dfd');
     });
     root2.addChild(defend2);
 
     const move2 = new MenuItem('Move', '#FFF', '#000', false);
     move2.setTouchCallback(() => {
-      // console.log('Action taken', this.gameStarted);
+      this.players[1].lookForReadyShip('mv');
     });
     root2.addChild(move2);
 
@@ -174,19 +202,19 @@ class GameCore {
 
     const attack3 = new MenuItem('Attack', '#FFF', '#000', false);
     attack3.setTouchCallback(() => {
-      // console.log('Created spaceship');
+      this.players[2].lookForReadyShip('atk');
     });
     root3.addChild(attack3);
 
     const defend3 = new MenuItem('Defend', '#FFF', '#000', false);
     defend3.setTouchCallback(() => {
-      // console.log('Action taken', this.gameStarted);
+      this.players[2].lookForReadyShip('dfd');
     });
     root3.addChild(defend3);
 
     const move3 = new MenuItem('Move', '#FFF', '#000', false);
     move3.setTouchCallback(() => {
-      // console.log('Action taken', this.gameStarted);
+      this.players[2].lookForReadyShip('mv');
     });
     root3.addChild(move3);
 
@@ -199,19 +227,19 @@ class GameCore {
 
     const attack4 = new MenuItem('Attack', '#FFF', '#000', false);
     attack4.setTouchCallback(() => {
-      // console.log('Created spaceship');
+      this.players[3].lookForReadyShip('atk');
     });
     root4.addChild(attack4);
 
     const defend4 = new MenuItem('Defend', '#FFF', '#000', false);
     defend4.setTouchCallback(() => {
-      // console.log('Action taken', this.gameStarted);
+      this.players[3].lookForReadyShip('dfd');
     });
     root4.addChild(defend4);
 
     const move4 = new MenuItem('Move', '#FFF', '#000', false);
     move4.setTouchCallback(() => {
-      // console.log('Action taken', this.gameStarted);
+      this.players[3].lookForReadyShip('mv');
     });
     root4.addChild(move4);
 

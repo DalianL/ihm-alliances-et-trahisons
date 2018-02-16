@@ -8,6 +8,7 @@ class Planet extends LibraryStack {
     super(x, y, size, stackTitle, color, !isFull, allowcontentsArray);
     this.planetId = id;
     this.playerId = pId;
+    this.inOrbit = [];
     this.name = id;
     this.size = size;
     this.domElem.css('z-index', 150);
@@ -16,46 +17,76 @@ class Planet extends LibraryStack {
     this.menu = undefined;
   }
 
-  addElementWidget(widget) {
-    // let elementToAdd;
-    // Enlever super, override le zoom
-    // super.addElementWidget(widget);
-    // var canvasPlayer = GameCore.getInstance().drawer.canvases[widget.playerId -1];
-    const elementToAdd = widget;
-    this.stackDiv.css('border', `solid 10px ${widget.color}`);
-    this.playerId = widget.playerId;
-    this.client.socket.emit('move_fleet', Utils.parser3(widget.shipId, this.planetId - 1));
-    this.client.socket.emit('conquer_planet', Utils.parser2(this.planetId - 1, this.playerId));
-    // Left top
-    let newX;
-    let newY;
-    // let decalX;
-    // let decalY;
-    const spaceShipSize = GameCore.getInstance().spaceShipSize;
-    switch (elementToAdd.color) {
-      case 'red':
-        newX = (this.x + (this.width / 2)) - (spaceShipSize / 2);
-        newY = this.y - (spaceShipSize / 2);
-        break;
-      case 'blue':
-        newX = this.x - (spaceShipSize / 2);
-        newY = (this.y + (this.width / 2)) - (spaceShipSize / 2);
-        break;
-      case 'orange':
-        newX = (this.x + (this.width)) - (spaceShipSize / 2);
-        newY = (this.y + (this.width / 2)) - (spaceShipSize / 2);
-        break;
-      case 'green':
-        newX = (this.x + (this.width / 2)) - (spaceShipSize / 2);
-        newY = (this.y + (this.width)) - (spaceShipSize / 2);
-        break;
-      default:
-        newX = (this.x + (this.width / 2)) - (spaceShipSize / 2);
-        newY = this.y - (spaceShipSize / 2);
-        break;
+  addElementWidget(widget, action) {
+    console.log('Attacked planet has in orbit before movement : ', this.inOrbit); // eslint-disable-line
+    if (action === 'atk') {
+      if (this.inOrbit.length === 1) {
+        // If one enemy is present, destroy enemy spaceship and conquer planet
+        GameCore.getInstance().destroy(this.inOrbit[0]);
+        this.stackDiv.css('border', `solid 10px ${widget.color}`);
+        this.playerId = widget.playerId;
+        this.client.socket.emit('move_fleet', Utils.parser3(widget.shipId, this.planetId - 1));
+        this.client.socket.emit('conquer_planet', Utils.parser2(this.planetId - 1, this.playerId));
+        this.addToOrbit(widget);
+      } else if (this.inOrbit.length === 0) {
+        // Move to planet if none is present
+        this.client.socket.emit('move_fleet', Utils.parser3(widget.shipId, this.planetId - 1));
+        if (this.playerId !== widget.playerId) {
+          // If not already owned, conquer planet
+          this.stackDiv.css('border', `solid 10px ${widget.color}`);
+          this.playerId = widget.playerId;
+          this.client.socket.emit('conquer_planet', Utils.parser2(this.planetId - 1, this.playerId));
+        }
+        this.addToOrbit(widget);
+      } else {
+        // If more than one spaceship is present, attack fails
+        GameCore.getInstance().destroy(widget);
+      }
+    } else if (action === 'dfd') {
+      this.behaviour = 'dfd';
+      if (this.inOrbit.length > 0) {
+        // Help the other spaceships if present
+        this.client.socket.emit('move_fleet', Utils.parser3(widget.shipId, this.planetId - 1));
+        this.addToOrbit(widget);
+      } else if (this.inOrbit.length === 0) {
+        // Move to planet if none is present
+        this.client.socket.emit('move_fleet', Utils.parser3(widget.shipId, this.planetId - 1));
+        if (this.playerId !== widget.playerId) {
+          // If not already owned, conquer planet
+          this.stackDiv.css('border', `solid 10px ${widget.color}`);
+          this.playerId = widget.playerId;
+          this.client.socket.emit('conquer_planet', Utils.parser2(this.planetId - 1, this.playerId));
+        }
+        this.addToOrbit(widget);
+      } else {
+        // Only move by default
+        this.client.socket.emit('move_fleet', Utils.parser3(widget.shipId, this.planetId - 1));
+        this.addToOrbit(widget);
+      }
+    } else if (action === 'mv') {
+      this.client.socket.emit('move_fleet', Utils.parser3(widget.shipId, this.planetId - 1));
+      this.addToOrbit(widget);
     }
-    widget.moveTo(newX, newY);
+    console.log('Attacked planet has in orbit after movement : ', this.inOrbit); // eslint-disable-line
+
+    const newPos = Utils.givePosByColor(widget.color, this.x, this.y, this.width, this.height, GameCore.getInstance().spaceShipSize);
+    widget.moveTo(newPos.x, newPos.y);
     // setTimeout(function(){ canvasPlayer.drawText("1",newX+40,newY-10); }, 2000);
+  }
+
+  addToOrbit(spaceship) {
+    this.inOrbit.push(spaceship);
+  }
+
+  leaveOrbit(spaceship) {
+    let index;
+    for (let i = 0; i < this.inOrbit.length; i += 1) {
+      if (this.inOrbit[i].shipId === spaceship.shipId) {
+        index = i;
+        break;
+      }
+    }
+    this.inOrbit.splice(index, 1);
   }
 
   /* eslint-disable */

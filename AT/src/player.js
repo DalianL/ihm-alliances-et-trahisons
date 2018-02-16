@@ -16,6 +16,16 @@ class Player {
     this.planets.push(planet);
   }
 
+  lookForReadyShip(action) {
+    // Action can be 'atk' (attack) / 'dfd' (defend) / 'mv' (move)
+    for (let i = 0; i < this.spaceships.length; i += 1) {
+      if (this.spaceships[i].actionStep === 2) {
+        this.spaceships[i].triggerAction(this.tagId, action);
+        break;
+      }
+    }
+  }
+
 }
 
 export default Player;
