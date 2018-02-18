@@ -168,26 +168,6 @@ class SpaceshipWidget extends TUIOWidget {
     }, 1000 / 60);
   }
 
-  // arrivalCheck(id, action) {
-  //   if (!this.isInStack) {
-  //     const scan = Utils.checkForPlanetBeneath(id);
-  //     scan.forEach((widget) => {
-  //       if (widget !== undefined && widget.planetId !== this.planetId) {
-  //         this.startMovement(this.currentWidget.x + (this.currentWidget.size / 2), this.currentWidget.y + (this.currentWidget.size / 2), () => {
-  //           if (action === 'mv') {
-  //             widget.addElementWidget(this);
-  //             this.planetId = widget.planetId;
-  //           }
-  //         });
-  //         this.stopFeedback();
-  //       } else {
-  //         if (this.actionStep >= 2) this.stopFeedback();
-  //         this.drawer.clearLines(this.shipId);
-  //       }
-  //     });
-  //   }
-  // }
-
   startFeedback() {
     if (this.blinking === undefined || this.blinking === 0) {
       this.blinking = setInterval(() => {
