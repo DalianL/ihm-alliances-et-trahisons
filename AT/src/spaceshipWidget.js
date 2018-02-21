@@ -40,6 +40,7 @@ class SpaceshipWidget extends TUIOWidget {
     this.movement = 0;
     this.canvas = this.drawer.affectCanvas(this.playerId, this.shipId);
     this.actionStep = 0;
+    this.behavior = 'none';
   }
 
   /**
@@ -112,7 +113,7 @@ class SpaceshipWidget extends TUIOWidget {
    */
   onTagUpdate(tuioTag) {
     if (typeof (this._lastTagsValues[tuioTag.id]) !== 'undefined' && this.canMoveTangible && tuioTag.id.toString() === this.idTagMove) {
-      // // console.log('Updating trajectory');
+      // console.log('Updating trajectory');
       // this.drawer.drawLine(this.shipId, this.centeredX, this.centeredY, tuioTag.x, tuioTag.y);
     }
   }
@@ -135,6 +136,8 @@ class SpaceshipWidget extends TUIOWidget {
 
   triggerAction(tuioTagId, action) {
     this.stopFeedback();
+    this.behavior = 'none';
+    this._domElem.attr('src', 'assets/image/spaceship' + this.playerId + '.png'); // eslint-disable-line
     const speed = action === 'mv' ? 1 : 2;
     GameCore.getInstance().planets[this.planetId - 1].leaveOrbit(this);
     this.startMovement(this.currentWidget.x + (this.currentWidget.size / 2), this.currentWidget.y + (this.currentWidget.size / 2), () => {

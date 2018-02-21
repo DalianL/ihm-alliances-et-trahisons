@@ -23,6 +23,7 @@ class GameCore {
     this.playerColors = ['red', 'green', 'blue', 'orange'];
     this.playerTags = ['77', '87', '97', '51'];
     this.playerImgs = ['assets/image/spaceship1.png', 'assets/image/spaceship2.png', 'assets/image/spaceship3.png', 'assets/image/spaceship4.png'];
+    this.playerDefendImgs = ['assets/image/spaceship1dfd.png', 'assets/image/spaceship2dfd.png', 'assets/image/spaceship3dfd.png', 'assets/image/spaceship4dfd.png'];
     this.drawer = new Drawer(WINDOW_WIDTH, WINDOW_HEIGHT, this);
     this.client = new Client();
     this.gameStarted = false;
@@ -145,6 +146,26 @@ class GameCore {
     this.client.socket.emit('remove_fleet', Utils.parser4(ship.playerId, ship.shipId));
     if (index2 !== undefined) this.planets[ship.planetId - 1].inOrbit.splice(index2, 1);
     $('img[id=img' + ship.shipId + ']').remove(); // eslint-disable-line
+  }
+
+  switchToDefence(ship) {
+    // Look for the actual ship to update its status
+    for (let i = 0; i < this.players[ship.playerId - 1].spaceships.length; i += 1) {
+      if (this.players[ship.playerId - 1].spaceships[i].shipId === ship.shipId) {
+        this.players[ship.playerId - 1].spaceships[i].behavior = 'dfd';
+        this.players[ship.playerId - 1].spaceships[i]._domElem.attr('src', this.playerDefendImgs[ship.playerId - 1]); // eslint-disable-line
+      }
+    }
+  }
+
+  switchToNormal(ship) {
+    // Look for the actual ship to update its status
+    for (let i = 0; i < this.players[ship.playerId - 1].spaceships.length; i += 1) {
+      if (this.players[ship.playerId - 1].spaceships[i].shipId === ship.shipId) {
+        this.players[ship.playerId - 1].spaceships[i].behavior = 'none';
+        this.players[ship.playerId - 1].spaceships[i]._domElem.attr('src', this.playerImgs[ship.playerId - 1]); // eslint-disable-line
+      }
+    }
   }
 
   addMenus() {
