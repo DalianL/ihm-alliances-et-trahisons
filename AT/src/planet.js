@@ -22,14 +22,22 @@ class Planet extends LibraryStack {
     console.log('Attacked planet has in orbit before movement : ', this.inOrbit); // eslint-disable-line
     if (action === 'atk') {
       if (this.inOrbit.length === 1) {
-        // If one enemy is present
-        if (this.inOrbit[0].behavior === 'dfd') {
-          // And the enemy has defence status
+        if (this.inOrbit[0].color === widget.color) {
+          // If the present spaceship belongs to the player, just move
+          // and conquer in case the other spaceship only used "Move"
+          this.stackDiv.css('border', `solid 10px ${widget.color}`);
+          this.playerId = widget.playerId;
+          this.client.socket.emit('move_fleet', Utils.parser3(widget.shipId, this.planetId - 1));
+          this.client.socket.emit('conquer_planet', Utils.parser2(this.planetId - 1, this.playerId));
+          this.addToOrbit(widget);
+        } else if (this.inOrbit[0].behavior === 'dfd') {
+          // Else an enemy is present
+          // In this case the enemy has defence status
           // The enemy wins but loses defence status
           GameCore.getInstance().switchToNormal(this.inOrbit[0]);
           GameCore.getInstance().destroy(widget);
         } else {
-          // And the enemy has no defence status
+          // In this case the enemy has no defence status
           // The enemy is destroyed
           GameCore.getInstance().destroy(this.inOrbit[0]);
           this.stackDiv.css('border', `solid 10px ${widget.color}`);
