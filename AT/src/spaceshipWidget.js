@@ -93,11 +93,11 @@ class SpaceshipWidget extends TUIOWidget {
           this.drawer.drawLine(this.shipId, this.centeredX, this.centeredY, widget.x + (widget.size / 2), widget.y + (widget.size / 2));
           this.actionStep = 2;
         } else {
-          console.log('Nothing to do here');
+          // console.log('Nothing to do here');
           this.stopFeedback();
         }
       } else {
-        console.log('No arrival planets found');
+        // console.log('No arrival planets found');
         this.stopFeedback();
       }
     } else if (this.actionStep === 3) {
