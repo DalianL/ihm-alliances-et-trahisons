@@ -15,6 +15,7 @@ public class PlayerObject : MonoBehaviour {
 	void Update() {
 		if (isSet) {
 			this.pseudo.text = this.player.Pseudo;
+			this.pseudo.color = this.player.getColor ();
 			this.planets.text = this.player.Planets.Count.ToString ();
 			this.fleets.text = this.player.Fleets.Count.ToString ();
 		} else {
@@ -28,6 +29,7 @@ public class PlayerObject : MonoBehaviour {
 		this.isSet = true;
 		this.player = p;
 		this.pseudo.text = this.player.Pseudo;
+		this.pseudo.color = this.player.getColor ();
 		this.planets.text = this.player.Planets.Count.ToString();
 		this.fleets.text = this.player.Fleets.Count.ToString();
 	}

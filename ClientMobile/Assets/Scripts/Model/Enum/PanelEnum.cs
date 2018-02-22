@@ -8,7 +8,7 @@ namespace AssemblyCSharp
 		MATCHMAKING,
 		PROFIL,
 		GAME,
-		HELP,
+		MESSAGE,
 		END,
 		ERROR
 	}

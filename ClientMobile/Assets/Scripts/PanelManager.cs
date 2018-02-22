@@ -11,19 +11,29 @@ public class PanelManager : MonoBehaviour {
 	public PanelView panel_MatchMaking;
 	public PanelView panel_Profil;
 	public PanelView panel_Game;
-	public PopupView panel_Help;
+	public PanelView panel_Message;
 	public PanelView panel_End;
 	public PopupView panel_Error;
+	public PopupView panel_Popup;
 
 	public GameObject time;
 
 	private PanelEnum currentPanel;
 	private PanelEnum lastPanel;
 
+	private bool needUpdate;
+	private string text;
+	private string pseudo;
+	private Color32 color;
+
 	void Start() {
 		this.currentPanel = PanelEnum.LOGIN;
 		this.lastPanel = PanelEnum.LOGIN;
 		showScreen (PanelEnum.LOGIN);
+		this.needUpdate = false;
+		this.text = "";
+		this.pseudo = "";
+		this.color = new Color32(255,255,255,255);
 	}
 
 	void Update() {
@@ -39,12 +49,18 @@ public class PanelManager : MonoBehaviour {
 		} else {
 			this.time.SetActive (false);
 		}
+
+		if (needUpdate) {
+			this.needUpdate = false;
+			showPopup (true, this.text, this.pseudo, this.color);
+		}
 	}
 
 	public void showScreen(PanelEnum panel) {
 		showLogin (panel == PanelEnum.LOGIN);
 		showMatchMaking (panel == PanelEnum.MATCHMAKING);
 		showProfil (panel == PanelEnum.PROFIL);
+		showMessage (panel == PanelEnum.MESSAGE);
 		showGame (panel == PanelEnum.GAME);
 
 		this.lastPanel = currentPanel;
@@ -70,6 +86,10 @@ public class PanelManager : MonoBehaviour {
 		this.panel_Profil.show (show);
 	}	
 
+	private void showMessage(bool show) {
+		this.panel_Message.show (show);
+	}	
+
 	private void showGame(bool show) {
 		this.panel_Game.show (show);
 	}	
@@ -82,8 +102,15 @@ public class PanelManager : MonoBehaviour {
 		this.panel_Error.show (show, str);
 	}
 
-	public void showHelp(bool show, string str) {
-		this.panel_Help.show (show, str);
+	public void editPopup(string str, string pseudo, Color32 color) {
+		this.text = str;
+		this.pseudo = pseudo;
+		this.color = color;
+		this.needUpdate = true;
+	}
+
+	public void showPopup(bool show, string str, string pseudo, Color32 color) {
+		this.panel_Popup.show (show, str, pseudo, color);
 	}
 
 	public void back() {

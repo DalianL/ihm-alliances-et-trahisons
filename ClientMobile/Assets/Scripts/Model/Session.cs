@@ -133,7 +133,24 @@ namespace AssemblyCSharp
 			}
 			return dest;
 		}
+
+		public void initMessage() {
+			Session.messages = new List<Message> ();
+			for(int i = 0; i < players.Count; i++) {
+				if(players[i].Id != Player.CurrentPlayer.Id)
+					Session.messages.Add (new Message(players[i].Id));
+			}
+		}
 			
+		public int giveDepencyResources(ResourcesEnum r) {
+			int d = 0;
+			for(int i = 0; i < Session.messages.Count; i++) {
+				if(Session.messages[i].state != MessageEnum.RECIEVE)
+					d = d + Session.messages[i].resourcesOwn[r];
+			}
+			return d;
+		}
+
 		public Session ()
 		{
 			new Session (0);
@@ -160,6 +177,11 @@ namespace AssemblyCSharp
 				Player player = new Player ((JObject)tmpPlayers [i]);
 				this.players.Add (player);
 			}
+
+			//this.players.Add (new Player(7, "u1", ColorEnum.GREEN));
+			//this.players.Add (new Player(8, "u2", ColorEnum.BLUE));
+			//this.players.Add (new Player(9, "u3", ColorEnum.ORANGE));
+
 			JArray tmpPlanets = (JArray) node ["planets"];
 			for(int i = 0; i < tmpPlanets.Count; i++) {
 				Planet planet = new Planet ((JObject)tmpPlanets [i]);
@@ -183,6 +205,7 @@ namespace AssemblyCSharp
 
 		private static Session currentSession;
 		private static bool isInitializedCurrentSession = false;
+		private static List<Message> messages;
 
 		public static Session CurrentSession {
 			get {
@@ -194,6 +217,20 @@ namespace AssemblyCSharp
 			}
 		}
 
+		public static List<Message> Messages {
+			get {
+				return Session.messages;
+			}
+		}
+
+		public static Message giveMessageByIdPlayer(int id) {
+			foreach(Message m in messages) {
+				if (m.idPlayer == id)
+					return m;
+			}
+			return null;
+		}
+
 		public static bool IsInitializedCurrentSession {
 			get {
 				return Session.isInitializedCurrentSession;
@@ -202,11 +239,15 @@ namespace AssemblyCSharp
 
 		public static void initializeCurrentSession(Session s) {
 			Session.currentSession = s;
+			if (!Session.isInitializedCurrentSession)
+				Session.messages = new List<Message> ();
 			Session.isInitializedCurrentSession = true;
 		}
 
 		public static void initializeCurrentSession(JObject node) {
 			Session.currentSession = new Session(node);
+			if (!Session.isInitializedCurrentSession)
+				Session.messages = new List<Message> ();
 			Session.isInitializedCurrentSession = true;
 		}
 	}

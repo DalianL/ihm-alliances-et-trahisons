@@ -55,6 +55,22 @@ namespace AssemblyCSharp
 				return ResourcesEnum.NO_RESOURCE;
 			}
 		}
+
+		public static string ToInitial(ResourcesEnum r) 
+		{
+			switch (r) {
+			case ResourcesEnum.RED_CRYSTAL_KYBER:
+				return "R";
+			case ResourcesEnum.GREEN_CRYSTAL_KYBER:
+				return "G";
+			case ResourcesEnum.BLUE_CRYSTAL_KYBER:
+				return "B";
+			case ResourcesEnum.VIOLET_CRYSTAL_KYBER:
+				return "V";
+			default :
+				return "NO_RESOURCE";
+			}
+		}
 	}
 }
 

@@ -63,6 +63,9 @@ public class MatchMakingController : PanelController {
 	}
 
 	public void play() {
+		#if UNITY_IPHONE || UNITY_ANDROID
+			Handheld.Vibrate ();
+		#endif
 		StartCoroutine ("load");
 	}
 		

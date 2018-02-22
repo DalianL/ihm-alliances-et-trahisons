@@ -87,11 +87,11 @@ public class SocketIOScript : MonoBehaviour {
 			});
 
 			socket.On ("interact", (data) => {
-				JsonMessage msg = JsonConvert.DeserializeObject<JsonMessage> (data.ToString());
+				/*JsonMessage msg = JsonConvert.DeserializeObject<JsonMessage> (data.ToString());
 
 				lock(chatLog) {
 					chatLog.Add("(interact recieve) user #" + msg.sender + " : " + msg.msg);
-				}
+				}*/
 			});
 
 
@@ -139,14 +139,14 @@ public class SocketIOScript : MonoBehaviour {
 			string selected = this.dropdownPlayers.options [this.dropdownPlayers.value].text;
 			foreach(KeyValuePair<int, Player> player in players) {
 				if (player.Value.Pseudo == selected) {
-					JsonMessage jsonMessage = new JsonMessage(str, currentPlayer.Id, player.Value.Id);
+					/*JsonMessage jsonMessage = new JsonMessage(str, currentPlayer.Id, player.Value.Id);
 					socket.Emit ("interact", JsonConvert.SerializeObject(jsonMessage));
 
 					lock(chatLog) {
 						chatLog.Add("(interact send) user #" + currentPlayer.Id + " : " + str);
 					}
 
-					return;
+					return;*/
 				}
 			}
 		}
