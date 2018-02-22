@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	public void initProfil() {
-		this.color.color = new Color32 (255,109,109,255);
+		this.color.color = new Color32 (255,255,255,255);
 		this.pseudo.text = "Inconnu";
 	}
 

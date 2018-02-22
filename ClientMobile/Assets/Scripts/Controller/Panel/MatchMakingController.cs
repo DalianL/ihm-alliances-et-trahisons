@@ -6,7 +6,6 @@ using AssemblyCSharp;
 
 public class MatchMakingController : PanelController {
 
-	public Button quitButton;
 	public List<PlayerController> playerContollers = new List<PlayerController>();
 	public GameObject title;
 	public GameObject text;
