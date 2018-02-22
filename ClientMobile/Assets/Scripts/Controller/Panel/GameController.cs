@@ -48,7 +48,10 @@ public class GameController : PanelController {
 					});
 					listPlanets.Add (planet);
 				}
-				this.currentId = Player.CurrentPlayer.Planets [0].Id;
+				if (Player.CurrentPlayer.Planets.Count > 0)
+					this.currentId = Player.CurrentPlayer.Planets [0].Id;
+				else
+					this.currentId = Session.CurrentSession.Planets [0].Id;
 				showPlanetById (this.currentId);
 			}
 		}
@@ -120,10 +123,6 @@ public class GameController : PanelController {
 	}
 
 	public void goToMessage() {
-		//this.panelManager.showScreen (PanelEnum.MESSAGE);
-	}
-
-	public void  showTutoResourcesPlanet() {
-		this.panelManager.showHelp (true, "Ressources que le conquérant de cette planète récupère à chaque extraction.");
+		this.panelManager.showScreen (PanelEnum.MESSAGE);
 	}
 }

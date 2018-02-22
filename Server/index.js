@@ -77,6 +77,58 @@ io.on('connection', function(socket) {
     });
   });
 
+  // "Edit_change" event
+  socket.on('edit_change', function(message){
+    message = JSON.parse(message);
+    console.log("Edit change");
+    // Send Edit
+    io.to(users[message.id_player].id).emit('edit_change', {
+      id_player: socket.userId,
+      resources_player: message.resources_own,
+      resources_own : message.resources_player
+    });
+  });
+
+  // "Accept_change" event
+  socket.on('accept_change', function(message){
+    message = JSON.parse(message);
+    console.log("Accept change");
+    // Send accept
+    io.to(users[message.id_player].id).emit('accept_change', {
+      id_player: socket.userId
+    });
+    // Update Resources
+    for(var i = 0; i < 4; i++) {
+        players[socket.userId].resources[i] = players[socket.userId].resources[i] + message.resources_player[i] - message.resources_own[i];
+        players[message.id_player].resources[i] = players[message.id_player].resources[i] + message.resources_own[i] - message.resources_player[i];
+    }
+    // Send update
+    io.to(users[message.id_player].id).emit('update_client', {
+        players: players,
+        fleets: fleets,
+        planets: planets,
+        userId: message.id_player,
+        time: timeCurrentTurn
+    });
+    io.to(users[socket.userId].id).emit('update_client', {
+        players: players,
+        fleets: fleets,
+        planets: planets,
+        userId: socket.userId,
+        time: timeCurrentTurn
+    });
+  });
+
+  // "Refuse_change" event
+  socket.on('refuse_change', function(message){
+    message = JSON.parse(message);
+    console.log("Refuse change");
+    // Send Refuse
+    io.to(users[message.id_player].id).emit('refuse_change', {
+      id_player: socket.userId
+    });
+  });
+
   // "Add_fleet" event
   // Ex : socket.Emit ("add_fleet", "{\"id_planet\": 0, \"id_player\": 0}");
   socket.on('add_fleet', function(message){

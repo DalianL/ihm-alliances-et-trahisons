@@ -152,7 +152,7 @@ namespace AssemblyCSharp
 		public bool canPaid () {
 			foreach (ResourcesEnum resource in Enum.GetValues(typeof(ResourcesEnum))) {
 				if(ResourcesEnum.NO_RESOURCE != resource) {
-					if (this.resources [resource] < 1)
+					if (this.resources [resource] - Session.CurrentSession.giveDepencyResources(resource) < 1)
 						return false;
 				}
 			}

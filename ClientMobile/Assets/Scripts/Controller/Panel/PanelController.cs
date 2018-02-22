@@ -21,6 +21,12 @@ public class PanelController : MonoBehaviour {
 		}
 	}
 
+	public virtual void initialize(string text, string pseudo, Color32 color) {
+		if (!this.initialized) {
+			this.initialized = true;
+		}
+	}
+
 	public virtual void initialize(Player winner) {
 		Debug.Log (winner.Pseudo);
 		if (!this.initialized) {

@@ -15,6 +15,7 @@ public class Network : MonoBehaviour {
 
 	public GameManager gameManager;
 	public PanelManager panelManager;
+	public MessageController messageController;
 	public MatchMakingController matchMakingController;
 	public GameController gameController;
 
@@ -73,7 +74,7 @@ public class Network : MonoBehaviour {
 				JObject node = JObject.Parse(data.ToString());
 
 				Session.CurrentSession.Time = (long) node ["time"];
-					
+				Session.CurrentSession.initMessage();
 				this.matchMakingController.isBegin = true;
 			});
 
@@ -127,6 +128,42 @@ public class Network : MonoBehaviour {
 
 			socket.On ("interact", (data) => {
 				Debug.Log("Data interact : " + data);
+			});
+
+			socket.On ("accept_change", (data) => {
+				Debug.Log("Data accept_change : " + data);
+				JObject node = JObject.Parse(data.ToString());
+				int id_player = (int) node ["id_player"];
+				this.panelManager.editPopup ("Le joueur \"" 
+					+ Session.CurrentSession.getPlayerById(id_player).Pseudo 
+					+ "\" a accépté votre proposition d'échange !", 
+					Session.CurrentSession.getPlayerById(id_player).Pseudo, 
+					Session.CurrentSession.getPlayerById(id_player).getColor());
+				Session.giveMessageByIdPlayer(id_player).reset();
+			});
+
+			socket.On ("edit_change", (data) => {
+				Debug.Log("Data edit_change : " + data);
+				JObject node = JObject.Parse(data.ToString());
+				int id_player = (int) node ["id_player"];
+				this.panelManager.editPopup ("Le joueur \"" 
+					+ Session.CurrentSession.getPlayerById(id_player).Pseudo 
+					+ "\" vous a envoyé une proposition d'échange !", 
+					Session.CurrentSession.getPlayerById(id_player).Pseudo, 
+					Session.CurrentSession.getPlayerById(id_player).getColor());
+				Session.giveMessageByIdPlayer(id_player).edit(node);
+			});
+
+			socket.On ("refuse_change", (data) => {
+				Debug.Log("Data refuse_change : " + data);
+				JObject node = JObject.Parse(data.ToString());
+				int id_player = (int) node ["id_player"];
+				this.panelManager.editPopup ("Le joueur \"" 
+					+ Session.CurrentSession.getPlayerById(id_player).Pseudo 
+					+ "\" a refusé votre proposition d'échange !", 
+					Session.CurrentSession.getPlayerById(id_player).Pseudo, 
+					Session.CurrentSession.getPlayerById(id_player).getColor());
+				Session.giveMessageByIdPlayer(id_player).reset();
 			});
 
 			/*socket.On (Socket.EVENT_CONNECT_ERROR, () => {
@@ -192,5 +229,57 @@ public class Network : MonoBehaviour {
 
 	public void addFleet(int id_planet) {
 		socket.Emit ("add_fleet", "{\"id_planet\": " + id_planet + ", \"id_player\": " + Player.CurrentPlayer.Id + "}");
+	}
+
+	public void acceptChange(Message m) {
+		int id_player = m.idPlayer;
+
+		string str = "{"
+			+ "\"id_player\": " + id_player + ","
+				+ "\"resources_player\": {"
+					+ "\"0\" : " + m.resourcesPlayer [ResourcesEnum.RED_CRYSTAL_KYBER] + ","
+					+ "\"1\" : " + m.resourcesPlayer [ResourcesEnum.GREEN_CRYSTAL_KYBER] + ","
+					+ "\"2\" : " + m.resourcesPlayer [ResourcesEnum.BLUE_CRYSTAL_KYBER] + ","
+					+ "\"3\" : " + m.resourcesPlayer [ResourcesEnum.VIOLET_CRYSTAL_KYBER]
+				+ "},"
+				+ "\"resources_own\": {"
+					+ "\"0\" : " + m.resourcesOwn [ResourcesEnum.RED_CRYSTAL_KYBER] + ","
+					+ "\"1\" : " + m.resourcesOwn [ResourcesEnum.GREEN_CRYSTAL_KYBER] + ","
+					+ "\"2\" : " + m.resourcesOwn [ResourcesEnum.BLUE_CRYSTAL_KYBER] + ","
+					+ "\"3\" : " + m.resourcesOwn [ResourcesEnum.VIOLET_CRYSTAL_KYBER]
+				+ "}"
+			+ "}";
+		socket.Emit ("accept_change", str);
+		Debug.Log (str);
+	}
+
+	public void refuseChange(Message m) {
+		int id_player = m.idPlayer;
+
+		string str = "{\"id_player\": " + id_player +  "}";
+		socket.Emit ("refuse_change", str);
+		Debug.Log (str);
+	}
+
+	public void editChange(Message m) {
+		int id_player = m.idPlayer;
+
+		string str = "{"
+			+ "\"id_player\": " + id_player + ","
+				+ "\"resources_player\": {"
+					+ "\"0\" : " + m.resourcesPlayer [ResourcesEnum.RED_CRYSTAL_KYBER] + ","
+					+ "\"1\" : " + m.resourcesPlayer [ResourcesEnum.GREEN_CRYSTAL_KYBER] + ","
+					+ "\"2\" : " + m.resourcesPlayer [ResourcesEnum.BLUE_CRYSTAL_KYBER] + ","
+					+ "\"3\" : " + m.resourcesPlayer [ResourcesEnum.VIOLET_CRYSTAL_KYBER]
+				+ "},"
+				+ "\"resources_own\": {"
+					+ "\"0\" : " + m.resourcesOwn [ResourcesEnum.RED_CRYSTAL_KYBER] + ","
+					+ "\"1\" : " + m.resourcesOwn [ResourcesEnum.GREEN_CRYSTAL_KYBER] + ","
+					+ "\"2\" : " + m.resourcesOwn [ResourcesEnum.BLUE_CRYSTAL_KYBER] + ","
+					+ "\"3\" : " + m.resourcesOwn [ResourcesEnum.VIOLET_CRYSTAL_KYBER]
+				+ "}"
+			+ "}";
+		socket.Emit ("edit_change", str);
+		Debug.Log (str);
 	}
 }

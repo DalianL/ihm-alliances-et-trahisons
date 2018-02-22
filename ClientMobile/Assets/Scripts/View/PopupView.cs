@@ -12,4 +12,13 @@ public class PopupView : PanelView {
 			hide ();
 		}
 	}
+
+	public void show(bool b, string text, string pseudo, Color32 color) {
+		if (b) {
+			this.panelController.initialize (text, pseudo, color);
+			gameObject.SetActive (true);
+		} else {
+			hide ();
+		}
+	}
 }
