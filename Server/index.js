@@ -29,7 +29,7 @@ io.on('connection', function(socket) {
     pseudo: userId,
     specie: userId % 4,
     color: userId % 6,
-    resources: [5,5,5,5]
+    resources: [2,2,2,2]
   });
   socket.userId = userId++;
 
@@ -74,58 +74,6 @@ io.on('connection', function(socket) {
       sender: message.sender,
       recipient: message.recipient,
       msg: message.msg
-    });
-  });
-
-  // "Edit_change" event
-  socket.on('edit_change', function(message){
-    message = JSON.parse(message);
-    console.log("Edit change");
-    // Send Edit
-    io.to(users[message.id_player].id).emit('edit_change', {
-      id_player: socket.userId,
-      resources_player: message.resources_own,
-      resources_own : message.resources_player
-    });
-  });
-
-  // "Accept_change" event
-  socket.on('accept_change', function(message){
-    message = JSON.parse(message);
-    console.log("Accept change");
-    // Send accept
-    io.to(users[message.id_player].id).emit('accept_change', {
-      id_player: socket.userId
-    });
-    // Update Resources
-    for(var i = 0; i < 4; i++) {
-        players[socket.userId].resources[i] = players[socket.userId].resources[i] + message.resources_player[i] - message.resources_own[i];
-        players[message.id_player].resources[i] = players[message.id_player].resources[i] + message.resources_own[i] - message.resources_player[i];
-    }
-    // Send update
-    io.to(users[message.id_player].id).emit('update_client', {
-        players: players,
-        fleets: fleets,
-        planets: planets,
-        userId: message.id_player,
-        time: timeCurrentTurn
-    });
-    io.to(users[socket.userId].id).emit('update_client', {
-        players: players,
-        fleets: fleets,
-        planets: planets,
-        userId: socket.userId,
-        time: timeCurrentTurn
-    });
-  });
-
-  // "Refuse_change" event
-  socket.on('refuse_change', function(message){
-    message = JSON.parse(message);
-    console.log("Refuse change");
-    // Send Refuse
-    io.to(users[message.id_player].id).emit('refuse_change', {
-      id_player: socket.userId
     });
   });
 
