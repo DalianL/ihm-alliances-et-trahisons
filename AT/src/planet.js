@@ -53,8 +53,8 @@ class Planet extends LibraryStack {
         this.addToOrbit(widget);
         console.log('Attacking where no one is present -> win');
       } else {
+        let ownStrength = 1;
         let enemyStength = 0;
-        let ownStrength = 0;
         let firstEnemyId = -1;
         let firstEnemyIndex = -1;
         // Determines the fighting power of owned and enemy units

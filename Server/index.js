@@ -29,7 +29,7 @@ io.on('connection', function(socket) {
     pseudo: userId,
     specie: userId % 4,
     color: userId % 6,
-    resources: [2,2,2,2]
+    resources: [5,5,5,5]
   });
   socket.userId = userId++;
 
