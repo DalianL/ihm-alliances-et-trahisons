@@ -9,6 +9,7 @@ class CircularMenuCustom extends CircularMenu {
     this.playerId = playerId;
     this.allowedTag = tagMenu;
     this.visibility = false;
+    this.icons = ['assets/image/icons/fightIcon.png', 'assets/image/icons/defendIcon.png', 'assets/image/icons/gotoIcon.png'];
   }
 
   /* eslint-disable */
@@ -127,6 +128,53 @@ class CircularMenuCustom extends CircularMenu {
   }
 
   /* eslint-enable */
+
+  addIconItem(iconClass, iconColor, background) {
+    this.domElem.find('ul').append(
+      $('<li>').attr('class', 'limenu').append(
+        $('<input>').attr('id', `c ${this.nbItems}`).attr('type', 'checkbox'),
+        $('<label>')
+          .attr('for', `c ${this.nbItems}`)
+          .append(
+            $('<img>')
+              .attr('class', iconClass)
+              .attr('src', background),
+              )
+          .css('background-color', '#000000')
+          .css('padding-top', '10px')
+          .css('height', '50%'),
+      ),
+    );
+  }
+
+  constructMenu() {
+    if (this.tree.name !== this.rootName) {
+      this.addBackItem();
+    }
+    for (let i = 0; i < this.tree.childs.length; i += 1) {
+      if (this.tree.childs[i].isIcon) {
+        if (this.tree.childs[i]._icon == "Attack") { // eslint-disable-line
+          this.addIconItem(this.tree.childs[i].icon, this.tree.childs[i].color, this.icons[0]);
+        } else if (this.tree.childs[i]._icon == "Defend") { // eslint-disable-line
+          this.addIconItem(this.tree.childs[i].icon, this.tree.childs[i].color, this.icons[1]);
+        } else if (this.tree.childs[i]._icon == "Move") { // eslint-disable-line
+          this.addIconItem(this.tree.childs[i].icon, this.tree.childs[i].color, this.icons[2]);
+        }
+      } else {
+        this.addTextItem(this.tree.childs[i].name, this.tree.childs[i].color, this.tree.childs[i].backgroundcolor);
+      }
+    }
+    this.toggleOptions(this.domElem);
+    const li = this.domElem.find('li');
+    this.menuItemCoord = [];
+    for (let i = 0; i < li.length; i += 1) {
+      const x = $(li[i]).find('label')[0].getBoundingClientRect().left;
+      const y = $(li[i]).find('label')[0].getBoundingClientRect().top;
+      const width = $(li[i]).find('label').width();
+      const height = $(li[i]).find('label').height();
+      this.menuItemCoord.push({ xmin: x, ymin: y, xmax: x + width, ymax: y + height });
+    }
+  }
 
 }
 

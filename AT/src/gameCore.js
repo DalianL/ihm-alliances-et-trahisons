@@ -23,6 +23,7 @@ class GameCore {
     this.playerColors = ['red', 'green', 'blue', 'orange'];
     this.playerTags = ['77', '87', '97', '51'];
     this.playerImgs = ['assets/image/spaceship1.png', 'assets/image/spaceship2.png', 'assets/image/spaceship3.png', 'assets/image/spaceship4.png'];
+    this.playerDefendImgs = ['assets/image/spaceship1dfd.png', 'assets/image/spaceship2dfd.png', 'assets/image/spaceship3dfd.png', 'assets/image/spaceship4dfd.png'];
     this.drawer = new Drawer(WINDOW_WIDTH, WINDOW_HEIGHT, this);
     this.client = new Client();
     this.gameStarted = false;
@@ -147,22 +148,42 @@ class GameCore {
     $('img[id=img' + ship.shipId + ']').remove(); // eslint-disable-line
   }
 
+  switchToDefence(ship) {
+    // Look for the actual ship to update its status
+    for (let i = 0; i < this.players[ship.playerId - 1].spaceships.length; i += 1) {
+      if (this.players[ship.playerId - 1].spaceships[i].shipId === ship.shipId) {
+        this.players[ship.playerId - 1].spaceships[i].behavior = 'dfd';
+        this.players[ship.playerId - 1].spaceships[i]._domElem.attr('src', this.playerDefendImgs[ship.playerId - 1]); // eslint-disable-line
+      }
+    }
+  }
+
+  switchToNormal(ship) {
+    // Look for the actual ship to update its status
+    for (let i = 0; i < this.players[ship.playerId - 1].spaceships.length; i += 1) {
+      if (this.players[ship.playerId - 1].spaceships[i].shipId === ship.shipId) {
+        this.players[ship.playerId - 1].spaceships[i].behavior = 'none';
+        this.players[ship.playerId - 1].spaceships[i]._domElem.attr('src', this.playerImgs[ship.playerId - 1]); // eslint-disable-line
+      }
+    }
+  }
+
   addMenus() {
     const root1 = new MenuItem('root1', '#0F0', '#0FF', false);
 
-    const attack1 = new MenuItem('Attack', '#FFF', '#000', false);
+    const attack1 = new MenuItem('Attack', '#FFF', '#000', true);
     attack1.setTouchCallback(() => {
       this.players[0].lookForReadyShip('atk');
     });
     root1.addChild(attack1);
 
-    const defend1 = new MenuItem('Defend', '#FFF', '#000', false);
+    const defend1 = new MenuItem('Defend', '#FFF', '#000', true);
     defend1.setTouchCallback(() => {
       this.players[0].lookForReadyShip('dfd');
     });
     root1.addChild(defend1);
 
-    const move1 = new MenuItem('Move', '#FFF', '#000', false);
+    const move1 = new MenuItem('Move', '#FFF', '#000', true);
     move1.setTouchCallback(() => {
       this.players[0].lookForReadyShip('mv');
     });
@@ -175,19 +196,19 @@ class GameCore {
     // SECOND MENU
     const root2 = new MenuItem('root2', '#0F0', '#0FF', false);
 
-    const attack2 = new MenuItem('Attack', '#FFF', '#000', false);
+    const attack2 = new MenuItem('Attack', '#FFF', '#000', true);
     attack2.setTouchCallback(() => {
       this.players[1].lookForReadyShip('atk');
     });
     root2.addChild(attack2);
 
-    const defend2 = new MenuItem('Defend', '#FFF', '#000', false);
+    const defend2 = new MenuItem('Defend', '#FFF', '#000', true);
     defend2.setTouchCallback(() => {
       this.players[1].lookForReadyShip('dfd');
     });
     root2.addChild(defend2);
 
-    const move2 = new MenuItem('Move', '#FFF', '#000', false);
+    const move2 = new MenuItem('Move', '#FFF', '#000', true);
     move2.setTouchCallback(() => {
       this.players[1].lookForReadyShip('mv');
     });
@@ -200,19 +221,19 @@ class GameCore {
     // THIRD MENU
     const root3 = new MenuItem('root3', '#0F0', '#0FF', false);
 
-    const attack3 = new MenuItem('Attack', '#FFF', '#000', false);
+    const attack3 = new MenuItem('Attack', '#FFF', '#000', true);
     attack3.setTouchCallback(() => {
       this.players[2].lookForReadyShip('atk');
     });
     root3.addChild(attack3);
 
-    const defend3 = new MenuItem('Defend', '#FFF', '#000', false);
+    const defend3 = new MenuItem('Defend', '#FFF', '#000', true);
     defend3.setTouchCallback(() => {
       this.players[2].lookForReadyShip('dfd');
     });
     root3.addChild(defend3);
 
-    const move3 = new MenuItem('Move', '#FFF', '#000', false);
+    const move3 = new MenuItem('Move', '#FFF', '#000', true);
     move3.setTouchCallback(() => {
       this.players[2].lookForReadyShip('mv');
     });
@@ -225,19 +246,19 @@ class GameCore {
     // FOURTH MENU
     const root4 = new MenuItem('root4', '#0F0', '#0FF', false);
 
-    const attack4 = new MenuItem('Attack', '#FFF', '#000', false);
+    const attack4 = new MenuItem('Attack', '#FFF', '#000', true);
     attack4.setTouchCallback(() => {
       this.players[3].lookForReadyShip('atk');
     });
     root4.addChild(attack4);
 
-    const defend4 = new MenuItem('Defend', '#FFF', '#000', false);
+    const defend4 = new MenuItem('Defend', '#FFF', '#000', true);
     defend4.setTouchCallback(() => {
       this.players[3].lookForReadyShip('dfd');
     });
     root4.addChild(defend4);
 
-    const move4 = new MenuItem('Move', '#FFF', '#000', false);
+    const move4 = new MenuItem('Move', '#FFF', '#000', true);
     move4.setTouchCallback(() => {
       this.players[3].lookForReadyShip('mv');
     });
