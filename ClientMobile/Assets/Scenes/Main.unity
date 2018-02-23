@@ -3325,7 +3325,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.66800004}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -384.00015}
+  m_AnchoredPosition: {x: 0, y: -384.0002}
   m_SizeDelta: {x: 0, y: 258.04}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &343035146
@@ -8118,6 +8118,7 @@ GameObject:
   - component: {fileID: 986230653}
   - component: {fileID: 986230655}
   - component: {fileID: 986230654}
+  - component: {fileID: 986230656}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -8176,6 +8177,45 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 986230652}
+--- !u!114 &986230656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 986230652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1380c812e9d2af747bc94f7ff2be6773, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabs:
+  - {fileID: 1724568936428548, guid: e3a3116a78477bd4e9cb9b53955db47d, type: 2}
+  - {fileID: 1381361601153026, guid: 9adb690dbc74c2249b46b76afcf144ac, type: 2}
+  - {fileID: 1404454470718030, guid: d9510513de7de484abfed6f18f3d81ad, type: 2}
+  - {fileID: 1298473341683606, guid: 1d4b65c49983b3c4bb5eb73d191e488d, type: 2}
+  - {fileID: 1397459159271810, guid: fbaaff6d487102548b532ecd25acc21a, type: 2}
+  sprites:
+  - {fileID: 21300000, guid: fac681354f56f5f46bd6e68f64dd247b, type: 3}
+  - {fileID: 21300000, guid: bf036c2df287d6c4b863507f4aaf7c28, type: 3}
+  - {fileID: 21300000, guid: 8340e18484879ee40899c8c0c21e66b1, type: 3}
+  - {fileID: 21300000, guid: 41d86665480130c4e8f0b304d59b06a9, type: 3}
+  - {fileID: 21300000, guid: b3a4f7a9144364d48a9a6473a48a7e8f, type: 3}
+  - {fileID: 21300000, guid: 2569abc476d1cc343b42ef00386c9dda, type: 3}
+  - {fileID: 21300000, guid: fb3d22e819ea22a4988e9fac07b2de01, type: 3}
+  - {fileID: 21300000, guid: ff9cd73fa6d4bb549ba658835c3d763e, type: 3}
+  - {fileID: 21300000, guid: 96199b6760067b441a4e365e8ee3a214, type: 3}
+  - {fileID: 21300000, guid: f96adf0d991e640488dd1cc40c50789d, type: 3}
+  - {fileID: 21300000, guid: e3ed0cf48a4dd4d4aa808162088d3a7a, type: 3}
+  - {fileID: 21300000, guid: e03b68c550699d3499a51d12e2496cc7, type: 3}
+  - {fileID: 21300000, guid: 6608aa3cbcadb9b42b22fbe7fb3cc56a, type: 3}
+  - {fileID: 21300000, guid: e91a13b679199364ca11724a3dbb8f9f, type: 3}
+  - {fileID: 21300000, guid: 8158b0fef0e96a64492c4bbdfad921ba, type: 3}
+  FleetPrefab: {fileID: 1605070489274366, guid: f454f80d1915ce74dae12a3266965a85,
+    type: 2}
+  CometePrefab: {fileID: 1948197724787220, guid: ecc66fd3e5fd447428a1c6c316696f28,
+    type: 2}
+  PlanetPrefab: {fileID: 1038997296681676, guid: 0e4d6dfb9dbec68438f3e245e821b8b4,
+    type: 2}
 --- !u!1 &995329560
 GameObject:
   m_ObjectHideFlags: 0
@@ -14024,6 +14064,7 @@ GameObject:
   - component: {fileID: 1584337967}
   - component: {fileID: 1584337966}
   - component: {fileID: 1584337965}
+  - component: {fileID: 1584337968}
   m_Layer: 5
   m_Name: Panel_Message
   m_TagString: Untagged
@@ -14085,7 +14126,7 @@ MonoBehaviour:
   resourcesPlayer1: {fileID: 517178595}
   colorPlayer2: {fileID: 1163054904}
   pseudoPlayer2: {fileID: 576063875}
-  resourcesPlayer2: {fileID: 0}
+  resourcesPlayer2: {fileID: 870583159}
 --- !u!114 &1584337966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14104,6 +14145,33 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1584337963}
+--- !u!114 &1584337968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1584337963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.015686275, g: 0, b: 0.16078432, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
 --- !u!1 &1586323296
 GameObject:
   m_ObjectHideFlags: 0
@@ -16218,6 +16286,7 @@ GameObject:
   - component: {fileID: 1847040896}
   - component: {fileID: 1847040897}
   - component: {fileID: 1847040898}
+  - component: {fileID: 1847040899}
   m_Layer: 5
   m_Name: Panel_Game
   m_TagString: Untagged
@@ -16306,6 +16375,33 @@ MonoBehaviour:
   - {fileID: 0}
   pointSprite: {fileID: 21300000, guid: f491cf8dddcc50847aacc7d2b5542a9e, type: 3}
   planetSprite: {fileID: 21300000, guid: a8611966c6146024095961dfa75e0788, type: 3}
+--- !u!114 &1847040899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1847040894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.015686275, g: 0, b: 0.16078432, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
 --- !u!1 &1855731943
 GameObject:
   m_ObjectHideFlags: 0
@@ -16815,6 +16911,7 @@ GameObject:
   - component: {fileID: 1899195189}
   - component: {fileID: 1899195190}
   - component: {fileID: 1899195191}
+  - component: {fileID: 1899195192}
   m_Layer: 5
   m_Name: Panel_Profil
   m_TagString: Untagged
@@ -16879,6 +16976,33 @@ MonoBehaviour:
   planets: {fileID: 1699865973}
   fleets: {fileID: 1159979826}
   resources: {fileID: 190531593}
+--- !u!114 &1899195192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1899195187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.015686275, g: 0, b: 0.16078432, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
 --- !u!1 &1905344772
 GameObject:
   m_ObjectHideFlags: 0
