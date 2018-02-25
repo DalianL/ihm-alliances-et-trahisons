@@ -1,4 +1,5 @@
 Server/.idea/*
+Server/node_modules/*
 ClientMobile/Library/*
 AT/node_modules/*
 AT/package-lock.json

@@ -89,7 +89,7 @@ class SpaceshipWidget extends TUIOWidget {
               GameCore.getInstance().menus[this.playerId - 1].onTagUpdate(tuioTag);
             }, 500);
           }
-          if (this.actionStep < 3) this.currentWidget = widget;
+          if (this.actionStep < 2) this.currentWidget = widget;
           this.drawer.drawLine(this.shipId, this.centeredX, this.centeredY, widget.x + (widget.size / 2), widget.y + (widget.size / 2));
           this.actionStep = 2;
         } else {
@@ -138,7 +138,7 @@ class SpaceshipWidget extends TUIOWidget {
     this.stopFeedback();
     this.behavior = 'none';
     this._domElem.attr('src', 'assets/image/spaceship' + this.playerId + '.png'); // eslint-disable-line
-    const speed = action === 'mv' ? 1 : 2;
+    const speed = action === 'mv' ? 2 : 3;
     GameCore.getInstance().planets[this.planetId - 1].leaveOrbit(this);
     this.startMovement(this.currentWidget.x + (this.currentWidget.size / 2), this.currentWidget.y + (this.currentWidget.size / 2), () => {
       this.planetId = this.currentWidget.planetId;
@@ -150,7 +150,7 @@ class SpaceshipWidget extends TUIOWidget {
   }
 
   startMovement(dirX, dirY, callback, speed) {
-    this.actionStep = 3;
+    // this.actionStep = 3;
     const dX = dirX - this.centeredX;
     const dY = dirY - this.centeredY;
     const dist = Math.sqrt((dX * dX) + (dY * dY));

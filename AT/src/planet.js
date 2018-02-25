@@ -129,6 +129,7 @@ class Planet extends LibraryStack {
     console.log('Attacked planet has in orbit after movement : ', this.inOrbit); // eslint-disable-line
     const newPos = Utils.givePosByColor(widget.color, this.x, this.y, this.width, this.height, GameCore.getInstance().spaceShipSize);
     widget.moveTo(newPos.x, newPos.y);
+    widget.stopFeedback();
 
     // setTimeout(() => {
     //   Utils.writeNumberOfFleet(canvasPlayer, '1', newPos.x, newPos.y, widget.color);
